@@ -1,0 +1,15 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: server-b
+  cloud:
+    nacos:
+      discovery:
+        server-addr: server.xwlin.cn:8848
+        cluster-name: DEFAULT
+        namespace: product
+      config:
+        server-addr: server.xwlin.cn:8848
+        cluster-name: DEFAULT
+        namespace: product

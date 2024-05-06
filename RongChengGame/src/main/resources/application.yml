@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql://server.xwlin.cn:3306/rongchengdata?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: LIAOxiang941229
+mybatis-flex:
+  mapper-locations:
+    - classpath*:/mapping/*.xml
+  type-aliases-package: cn.xwlin.rcgame.entity

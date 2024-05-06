@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.GamePlatEventMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GamePlayEvent">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="event_type" jdbcType="INTEGER" property="eventType" />
+    <result column="player_id" jdbcType="BIGINT" property="playerId" />
+    <result column="enevt_mins" jdbcType="INTEGER" property="enevtMins" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, event_type, player_id, enevt_mins, create_time, operate_time
+  </sql>
+</mapper>

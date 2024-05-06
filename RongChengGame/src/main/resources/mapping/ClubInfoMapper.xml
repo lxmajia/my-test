@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.ClubInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.ClubInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="cn_name" jdbcType="VARCHAR" property="cnName" />
+    <result column="en_name" jdbcType="VARCHAR" property="enName" />
+    <result column="short_name" jdbcType="VARCHAR" property="shortName" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="site_name" jdbcType="VARCHAR" property="siteName" />
+    <result column="born_time" jdbcType="DATE" property="bornTime" />
+    <result column="is_main" jdbcType="BIT" property="isMain" />
+    <result column="jing_du" jdbcType="VARCHAR" property="jingDu" />
+    <result column="wei_du" jdbcType="VARCHAR" property="weiDu" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cn_name, en_name, short_name, logo_url, city_name, site_name, born_time, is_main, 
+    jing_du, wei_du, create_time, operate_time
+  </sql>
+</mapper>

@@ -1,0 +1,23 @@
+server:
+  port: 8088
+dubbo:
+  application:
+    name: dubbo-cunsumer-web
+  consumer:
+    check: false
+    timeout: 60000
+  protocol:
+    name: dubbo
+  registry:
+    address: server.xwlin.cn:2181
+    protocol: zookeeper
+spring:
+  datasource:
+    url: jdbc:mysql://server.xwlin.cn:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: LIAOxiang941229
+mybatis-flex:
+  mapper-locations:
+    - classpath*:/mapping/*.xml
+  type-aliases-package: cn.xwlin.rcgame.entity

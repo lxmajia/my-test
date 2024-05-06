@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.mapper.WxQrCodeMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.entity.WxQrCode">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="scene_code" jdbcType="VARCHAR" property="sceneCode" />
+    <result column="view_url" jdbcType="VARCHAR" property="viewUrl" />
+    <result column="page_url" jdbcType="VARCHAR" property="pageUrl" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_bind_time" jdbcType="TIMESTAMP" property="userBindTime" />
+    <result column="qr_code_status" jdbcType="INTEGER" property="qrCodeStatus" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, scene_code, view_url, page_url, open_id, user_id, user_bind_time, qr_code_status,
+    created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wx_qr_code
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from wx_qr_code
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.entity.WxQrCode">
+    insert into wx_qr_code (id, scene_code, view_url,
+      page_url, open_id, user_id, 
+      user_bind_time, qr_code_status, created
+      )
+    values (#{id,jdbcType=BIGINT}, #{sceneCode,jdbcType=VARCHAR}, #{viewUrl,jdbcType=VARCHAR}, 
+      #{pageUrl,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
+      #{userBindTime,jdbcType=TIMESTAMP}, #{qrCodeStatus,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.entity.WxQrCode">
+    insert into wx_qr_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sceneCode != null">
+        scene_code,
+      </if>
+      <if test="viewUrl != null">
+        view_url,
+      </if>
+      <if test="pageUrl != null">
+        page_url,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userBindTime != null">
+        user_bind_time,
+      </if>
+      <if test="qrCodeStatus != null">
+        qr_code_status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sceneCode != null">
+        #{sceneCode,jdbcType=VARCHAR},
+      </if>
+      <if test="viewUrl != null">
+        #{viewUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pageUrl != null">
+        #{pageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userBindTime != null">
+        #{userBindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qrCodeStatus != null">
+        #{qrCodeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.entity.WxQrCode">
+    update wx_qr_code
+    <set>
+      <if test="sceneCode != null">
+        scene_code = #{sceneCode,jdbcType=VARCHAR},
+      </if>
+      <if test="viewUrl != null">
+        view_url = #{viewUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pageUrl != null">
+        page_url = #{pageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userBindTime != null">
+        user_bind_time = #{userBindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="qrCodeStatus != null">
+        qr_code_status = #{qrCodeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.entity.WxQrCode">
+    update wx_qr_code
+    set scene_code = #{sceneCode,jdbcType=VARCHAR},
+      view_url = #{viewUrl,jdbcType=VARCHAR},
+      page_url = #{pageUrl,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      user_bind_time = #{userBindTime,jdbcType=TIMESTAMP},
+      qr_code_status = #{qrCodeStatus,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

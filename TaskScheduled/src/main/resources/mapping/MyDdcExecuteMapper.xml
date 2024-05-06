@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.dao.MyDdcExecuteMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.entity.MyDdcExecute">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="execute_time" jdbcType="TIMESTAMP" property="executeTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="clazz_path" jdbcType="VARCHAR" property="clazzPath" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="timeout_second" jdbcType="INTEGER" property="timeoutSecond" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, task_id, task_name, execute_time, finish_time, clazz_path, params, timeout_second, 
+    `status`, reason
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from my_ddc_execute
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from my_ddc_execute
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.entity.MyDdcExecute">
+    insert into my_ddc_execute (id, task_id, task_name, 
+      execute_time, finish_time, clazz_path, 
+      params, timeout_second, `status`, 
+      reason)
+    values (#{id,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, #{taskName,jdbcType=VARCHAR}, 
+      #{executeTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, #{clazzPath,jdbcType=VARCHAR}, 
+      #{params,jdbcType=VARCHAR}, #{timeoutSecond,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{reason,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.entity.MyDdcExecute">
+    insert into my_ddc_execute
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="taskName != null">
+        task_name,
+      </if>
+      <if test="executeTime != null">
+        execute_time,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+      <if test="clazzPath != null">
+        clazz_path,
+      </if>
+      <if test="params != null">
+        params,
+      </if>
+      <if test="timeoutSecond != null">
+        timeout_second,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null">
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="executeTime != null">
+        #{executeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clazzPath != null">
+        #{clazzPath,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="timeoutSecond != null">
+        #{timeoutSecond,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.entity.MyDdcExecute">
+    update my_ddc_execute
+    <set>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="executeTime != null">
+        execute_time = #{executeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clazzPath != null">
+        clazz_path = #{clazzPath,jdbcType=VARCHAR},
+      </if>
+      <if test="params != null">
+        params = #{params,jdbcType=VARCHAR},
+      </if>
+      <if test="timeoutSecond != null">
+        timeout_second = #{timeoutSecond,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.entity.MyDdcExecute">
+    update my_ddc_execute
+    set task_id = #{taskId,jdbcType=INTEGER},
+      task_name = #{taskName,jdbcType=VARCHAR},
+      execute_time = #{executeTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      clazz_path = #{clazzPath,jdbcType=VARCHAR},
+      params = #{params,jdbcType=VARCHAR},
+      timeout_second = #{timeoutSecond,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      reason = #{reason,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

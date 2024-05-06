@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.entity.UserInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="open_id" jdbcType="VARCHAR" property="openId" />
+    <result column="qr_code_id" jdbcType="INTEGER" property="qrCodeId" />
+    <result column="scene_code" jdbcType="VARCHAR" property="sceneCode" />
+    <result column="wx_name" jdbcType="VARCHAR" property="wxName" />
+    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
+    <result column="wx_notice_flag" jdbcType="INTEGER" property="wxNoticeFlag" />
+    <result column="sms_notice_flag" jdbcType="INTEGER" property="smsNoticeFlag" />
+    <result column="tel_notice_flag" jdbcType="INTEGER" property="telNoticeFlag" />
+    <result column="car_num" jdbcType="VARCHAR" property="carNum" />
+    <result column="new_energy_flag" jdbcType="INTEGER" property="newEnergyFlag" />
+    <result column="scan_notice" jdbcType="VARCHAR" property="scanNotice" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, open_id, qr_code_id, scene_code, wx_name, mobile_phone, wx_notice_flag, sms_notice_flag,
+    tel_notice_flag, car_num, new_energy_flag, scan_notice, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.entity.UserInfo">
+    insert into user_info (id, open_id, qr_code_id,
+      scene_code, wx_name, mobile_phone, 
+      wx_notice_flag, sms_notice_flag, tel_notice_flag, 
+      car_num, new_energy_flag, scan_notice, 
+      created)
+    values (#{id,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{qrCodeId,jdbcType=INTEGER}, 
+      #{sceneCode,jdbcType=VARCHAR}, #{wxName,jdbcType=VARCHAR}, #{mobilePhone,jdbcType=VARCHAR}, 
+      #{wxNoticeFlag,jdbcType=INTEGER}, #{smsNoticeFlag,jdbcType=INTEGER}, #{telNoticeFlag,jdbcType=INTEGER}, 
+      #{carNum,jdbcType=VARCHAR}, #{newEnergyFlag,jdbcType=INTEGER}, #{scanNotice,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.entity.UserInfo">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="openId != null">
+        open_id,
+      </if>
+      <if test="qrCodeId != null">
+        qr_code_id,
+      </if>
+      <if test="sceneCode != null">
+        scene_code,
+      </if>
+      <if test="wxName != null">
+        wx_name,
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone,
+      </if>
+      <if test="wxNoticeFlag != null">
+        wx_notice_flag,
+      </if>
+      <if test="smsNoticeFlag != null">
+        sms_notice_flag,
+      </if>
+      <if test="telNoticeFlag != null">
+        tel_notice_flag,
+      </if>
+      <if test="carNum != null">
+        car_num,
+      </if>
+      <if test="newEnergyFlag != null">
+        new_energy_flag,
+      </if>
+      <if test="scanNotice != null">
+        scan_notice,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeId != null">
+        #{qrCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="sceneCode != null">
+        #{sceneCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wxName != null">
+        #{wxName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="wxNoticeFlag != null">
+        #{wxNoticeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="smsNoticeFlag != null">
+        #{smsNoticeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="telNoticeFlag != null">
+        #{telNoticeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="carNum != null">
+        #{carNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newEnergyFlag != null">
+        #{newEnergyFlag,jdbcType=INTEGER},
+      </if>
+      <if test="scanNotice != null">
+        #{scanNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.entity.UserInfo">
+    update user_info
+    <set>
+      <if test="openId != null">
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="qrCodeId != null">
+        qr_code_id = #{qrCodeId,jdbcType=INTEGER},
+      </if>
+      <if test="sceneCode != null">
+        scene_code = #{sceneCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wxName != null">
+        wx_name = #{wxName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilePhone != null">
+        mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="wxNoticeFlag != null">
+        wx_notice_flag = #{wxNoticeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="smsNoticeFlag != null">
+        sms_notice_flag = #{smsNoticeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="telNoticeFlag != null">
+        tel_notice_flag = #{telNoticeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="carNum != null">
+        car_num = #{carNum,jdbcType=VARCHAR},
+      </if>
+      <if test="newEnergyFlag != null">
+        new_energy_flag = #{newEnergyFlag,jdbcType=INTEGER},
+      </if>
+      <if test="scanNotice != null">
+        scan_notice = #{scanNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.entity.UserInfo">
+    update user_info
+    set open_id = #{openId,jdbcType=VARCHAR},
+      qr_code_id = #{qrCodeId,jdbcType=INTEGER},
+      scene_code = #{sceneCode,jdbcType=VARCHAR},
+      wx_name = #{wxName,jdbcType=VARCHAR},
+      mobile_phone = #{mobilePhone,jdbcType=VARCHAR},
+      wx_notice_flag = #{wxNoticeFlag,jdbcType=INTEGER},
+      sms_notice_flag = #{smsNoticeFlag,jdbcType=INTEGER},
+      tel_notice_flag = #{telNoticeFlag,jdbcType=INTEGER},
+      car_num = #{carNum,jdbcType=VARCHAR},
+      new_energy_flag = #{newEnergyFlag,jdbcType=INTEGER},
+      scan_notice = #{scanNotice,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findBySceneCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where scene_code = #{sceneCode}
+    limit 1
+  </select>
+
+  <select id="findByOpenId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where open_id = #{openId}
+    limit 1
+  </select>
+</mapper>

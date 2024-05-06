@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.PlayerInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.PlayerInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="cn_name" jdbcType="VARCHAR" property="cnName" />
+    <result column="en_name" jdbcType="VARCHAR" property="enName" />
+    <result column="t_num" jdbcType="INTEGER" property="tNum" />
+    <result column="t_position" jdbcType="VARCHAR" property="tPosition" />
+    <result column="photo_url" jdbcType="VARCHAR" property="photoUrl" />
+    <result column="better_foot" jdbcType="VARCHAR" property="betterFoot" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="join_time" jdbcType="TIMESTAMP" property="joinTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="contact_time" jdbcType="TIMESTAMP" property="contactTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cn_name, en_name, t_num, t_position, photo_url, better_foot, birthday, join_time, 
+    end_time, nation, `status`, contact_time, create_time, operate_time
+  </sql>
+</mapper>

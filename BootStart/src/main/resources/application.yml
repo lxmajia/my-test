@@ -1,0 +1,79 @@
+server:
+  port: 8080
+info:
+  author: majiaxueyuan
+logging:
+  level:
+    per.lx.controller: debug
+xwlin:
+  datasource:
+    config:
+      MASTER:
+        primary: true
+        url: jdbc:mysql://47.109.56.234:3306/order_info?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: LIAOxiang941229
+        init-size: 2
+        min-idle: 2
+        max-active: 2
+        max-wait: 60000
+        validation-query: SELECT 1 FROM dual
+        validation-query-time-out: 2000
+      SLAVE:
+        url: jdbc:mysql://47.109.56.234:3306/order_info?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: LIAOxiang941229
+        init-size: 2
+        min-idle: 2
+        max-active: 2
+        max-wait: 60000
+        validation-query: SELECT 1 FROM dual
+        validation-query-time-out: 2000
+      ORDER:
+        url: jdbc:mysql://47.109.56.234:3306/order_info?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: LIAOxiang941229
+        init-size: 2
+        min-idle: 2
+        max-active: 2
+        max-wait: 60000
+        validation-query: SELECT 1 FROM dual
+        validation-query-time-out: 2000
+mybatis-plus:
+  type-handlers-package: cn.xwlin.dao.typehandler
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: cn.xwlin.entity
+
+elasticsearch:
+  # es集群名称
+  clusterName: my-es
+  # es host ip 地址(集群)：本次使用的是单机模式
+  hosts: 6dfdbb255cea.c.methodot.com:30179
+  # es 连接超时时间
+  connectTimeOut: 1000
+  # es socket 连接超时时间
+  connectionRequestTimeOut: 500
+  # es 最大连接数
+  maxConnectNum: 10
+  # es 每个路由的最大连接数
+  maxConnectNumPerRoute: 10
+  # es 请求方式
+  scheme: http
+  # es socket 连接超时时间
+  socketTimeOut: 30000
+  #es用户名
+  #userName: elastic
+  #es密码
+  #password: elastic
+
+spring:
+  redis:
+    host: 703ec8c00926.c.methodot.com
+    port: 31169
+    database: 0
+    #password: LIAOxiang941229
+    lettuce:
+      pool:
+        max-active: 5
+        max-wait: 30000
+        min-idle: 2

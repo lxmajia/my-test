@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.dao.MyDdcExecuteRecordMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.entity.MyDdcExecuteRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="execute_id" jdbcType="INTEGER" property="executeId" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="report_type" jdbcType="INTEGER" property="reportType" />
+    <result column="param_name" jdbcType="VARCHAR" property="paramName" />
+    <result column="param_value" jdbcType="VARCHAR" property="paramValue" />
+    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, execute_id, task_id, report_type, param_name, param_value, report_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from my_ddc_execute_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from my_ddc_execute_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.entity.MyDdcExecuteRecord">
+    insert into my_ddc_execute_record (id, execute_id, task_id, 
+      report_type, param_name, param_value, 
+      report_time)
+    values (#{id,jdbcType=INTEGER}, #{executeId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
+      #{reportType,jdbcType=INTEGER}, #{paramName,jdbcType=VARCHAR}, #{paramValue,jdbcType=VARCHAR}, 
+      #{reportTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.entity.MyDdcExecuteRecord">
+    insert into my_ddc_execute_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="executeId != null">
+        execute_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="reportType != null">
+        report_type,
+      </if>
+      <if test="paramName != null">
+        param_name,
+      </if>
+      <if test="paramValue != null">
+        param_value,
+      </if>
+      <if test="reportTime != null">
+        report_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="executeId != null">
+        #{executeId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="reportType != null">
+        #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="paramName != null">
+        #{paramName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramValue != null">
+        #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTime != null">
+        #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.entity.MyDdcExecuteRecord">
+    update my_ddc_execute_record
+    <set>
+      <if test="executeId != null">
+        execute_id = #{executeId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="reportType != null">
+        report_type = #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="paramName != null">
+        param_name = #{paramName,jdbcType=VARCHAR},
+      </if>
+      <if test="paramValue != null">
+        param_value = #{paramValue,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTime != null">
+        report_time = #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.entity.MyDdcExecuteRecord">
+    update my_ddc_execute_record
+    set execute_id = #{executeId,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      report_type = #{reportType,jdbcType=INTEGER},
+      param_name = #{paramName,jdbcType=VARCHAR},
+      param_value = #{paramValue,jdbcType=VARCHAR},
+      report_time = #{reportTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

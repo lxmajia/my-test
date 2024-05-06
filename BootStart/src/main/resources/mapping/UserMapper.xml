@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.dao.UserMapper">
+
+    <resultMap id="userFullInfoResultMap"
+               type="cn.xwlin.vo.UserFullInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="open_id" property="openId" jdbcType="VARCHAR"/>
+        <result column="qr_code_id" property="qrCodeId" jdbcType="INTEGER"/>
+        <result column="scene_code" property="sceneCode" jdbcType="VARCHAR"/>
+        <result column="wxName" property="wxName" jdbcType="VARCHAR"/>
+        <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR"/>
+        <result column="wx_notice_flag" property="wxNoticeFlag" jdbcType="INTEGER"/>
+        <result column="sms_notice_flag" property="smsNoticeFlag" jdbcType="INTEGER"/>
+        <result column="tel_notice_flag" property="telNoticeFlag" jdbcType="INTEGER"/>
+        <result column="scan_notice" property="scanNotice" jdbcType="VARCHAR"/>
+        <result column="role_id_list" property="roleIdList" jdbcType="VARCHAR"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+
+        <association property="userCarInfo"
+                     javaType="cn.xwlin.vo.UserCarInfo">
+            <result column="car_num" property="carNum" jdbcType="VARCHAR"/>
+            <result column="new_energy_flag" property="newEnergyFlag" jdbcType="INTEGER"/>
+        </association>
+    </resultMap>
+
+    <select id="findById" resultMap="userFullInfoResultMap">
+        select id,
+               open_id,
+               qr_code_id,
+               scene_code,
+               wx_name,
+               mobile_phone,
+               wx_notice_flag,
+               sms_notice_flag,
+               tel_notice_flag,
+               car_num,
+               new_energy_flag,
+               scan_notice,
+               created,
+               role_id_list
+        from user_info
+        where id = #{id}
+    </select>
+
+    <select id="findOneName" resultType="java.lang.String">
+        select wx_name
+        from user_info limit 1
+    </select>
+
+</mapper>

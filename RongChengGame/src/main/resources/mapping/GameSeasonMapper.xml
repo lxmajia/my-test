@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.GameSeasonMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GameSeason">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="game_type_id" jdbcType="BIGINT" property="gameTypeId" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="season_name" jdbcType="VARCHAR" property="seasonName" />
+    <result column="season_short_name" jdbcType="VARCHAR" property="seasonShortName" />
+    <result column="start_year" jdbcType="VARCHAR" property="startYear" />
+    <result column="end_year" jdbcType="VARCHAR" property="endYear" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, game_type_id, start_time, end_time, season_name, season_short_name, start_year, 
+    end_year, create_time, operate_time
+  </sql>
+
+</mapper>

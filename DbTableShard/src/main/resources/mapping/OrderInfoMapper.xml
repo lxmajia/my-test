@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.mapper.OrderInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.xwlin.entity.OrderInfo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="good_name" jdbcType="VARCHAR" property="goodName"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , good_name, user_id, status, crt_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from orderinfo
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="findList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from orderinfo
+        where id in
+        <foreach item="item" collection="idList" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
+    <insert id="insert" parameterType="cn.xwlin.entity.OrderInfo"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into orderinfo (id, good_name, user_id,
+                                status, crt_time)
+        values (#{id,jdbcType=BIGINT}, #{goodName,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
+                #{status,jdbcType=INTEGER}, #{crtTime,jdbcType=TIMESTAMP})
+    </insert>
+    <select id="listOrder" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from orderinfo
+        where user_id = #{userId}
+        ORDER BY id ASC
+    </select>
+
+    <select id="findTestAll" resultType="java.lang.Integer">
+        SELECT * FROM `test`
+    </select>
+</mapper>

@@ -1,0 +1,73 @@
+PUT order_info
+{
+    "settings":{
+        "number_of_shards":2,
+        "number_of_replicas":0
+    },
+    "mappings":{
+        "properties":{
+            "orderId":{
+                "type":"long"
+            },
+            "orderType":{
+                "type":"integer"
+            },
+            "orderFrom":{
+                "type":"integer"
+            },
+            "shopId":{
+                "type":"long"
+            },
+            "receiveName":{
+                "type":"keyword"
+            },
+            "receiveMobile":{
+                "type":"keyword"
+            },
+            "orderStatus":{
+                "type":"integer"
+            },
+            "create_time":{
+                "type":"date",
+                "format":"yyyy-MM-dd HH:mm:ss"
+            },
+            "orderGoods":{
+                "properties":{
+                    "orderId":{
+                        "type":"long"
+                    },
+                    "goods_id":{
+                        "type":"long"
+                    },
+                    "goods_name":{
+                        "type":"keyword"
+                    },
+                    "goods_type":{
+                        "type":"integer"
+                    },
+                    "sale_amount":{
+                        "type":"double"
+                    },
+                    "cost_amount":{
+                        "type":"double"
+                    },
+                    "create_time":{
+                        "type":"date",
+                        "format":"yyyy-MM-dd HH:mm:ss"
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+新增字段
+PUT order_info/_mapping
+{
+        "properties":{
+            "transNo":{
+                "type":"keyword"
+            }
+        }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.GameTypeMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GameKind">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="game_type" jdbcType="INTEGER" property="gameType" />
+    <result column="game_name" jdbcType="VARCHAR" property="gameName" />
+    <result column="game_logo" jdbcType="VARCHAR" property="gameLogo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, game_type, game_name, game_logo, create_time, operate_time
+  </sql>
+</mapper>

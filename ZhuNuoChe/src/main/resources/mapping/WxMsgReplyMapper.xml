@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.mapper.WxMsgReplyMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.entity.WxMsgReply">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="wx_msg_id" jdbcType="BIGINT" property="wxMsgId" />
+    <result column="scene_code" jdbcType="VARCHAR" property="sceneCode" />
+    <result column="from_user_id" jdbcType="BIGINT" property="fromUserId" />
+    <result column="from_user_open_id" jdbcType="VARCHAR" property="fromUserOpenId" />
+    <result column="to_user_id" jdbcType="BIGINT" property="toUserId" />
+    <result column="to_user_open_id" jdbcType="VARCHAR" property="toUserOpenId" />
+    <result column="template_id" jdbcType="VARCHAR" property="templateId" />
+    <result column="template_data" jdbcType="VARCHAR" property="templateData" />
+    <result column="send_status" jdbcType="INTEGER" property="sendStatus" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, wx_msg_id, scene_code, from_user_id, from_user_open_id, to_user_id, to_user_open_id,
+    template_id, template_data, send_status, created
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wx_msg_reply
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from wx_msg_reply
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.entity.WxMsgReply">
+    insert into wx_msg_reply (id, wx_msg_id, scene_code,
+      from_user_id, from_user_open_id, to_user_id, 
+      to_user_open_id, template_id, template_data, 
+      send_status, created)
+    values (#{id,jdbcType=BIGINT}, #{wxMsgId,jdbcType=BIGINT}, #{sceneCode,jdbcType=VARCHAR}, 
+      #{fromUserId,jdbcType=BIGINT}, #{fromUserOpenId,jdbcType=VARCHAR}, #{toUserId,jdbcType=BIGINT}, 
+      #{toUserOpenId,jdbcType=VARCHAR}, #{templateId,jdbcType=VARCHAR}, #{templateData,jdbcType=VARCHAR}, 
+      #{sendStatus,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.entity.WxMsgReply">
+    insert into wx_msg_reply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="wxMsgId != null">
+        wx_msg_id,
+      </if>
+      <if test="sceneCode != null">
+        scene_code,
+      </if>
+      <if test="fromUserId != null">
+        from_user_id,
+      </if>
+      <if test="fromUserOpenId != null">
+        from_user_open_id,
+      </if>
+      <if test="toUserId != null">
+        to_user_id,
+      </if>
+      <if test="toUserOpenId != null">
+        to_user_open_id,
+      </if>
+      <if test="templateId != null">
+        template_id,
+      </if>
+      <if test="templateData != null">
+        template_data,
+      </if>
+      <if test="sendStatus != null">
+        send_status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="wxMsgId != null">
+        #{wxMsgId,jdbcType=BIGINT},
+      </if>
+      <if test="sceneCode != null">
+        #{sceneCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserId != null">
+        #{fromUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fromUserOpenId != null">
+        #{fromUserOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null">
+        #{toUserId,jdbcType=BIGINT},
+      </if>
+      <if test="toUserOpenId != null">
+        #{toUserOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null">
+        #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateData != null">
+        #{templateData,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null">
+        #{sendStatus,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.entity.WxMsgReply">
+    update wx_msg_reply
+    <set>
+      <if test="wxMsgId != null">
+        wx_msg_id = #{wxMsgId,jdbcType=BIGINT},
+      </if>
+      <if test="sceneCode != null">
+        scene_code = #{sceneCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserId != null">
+        from_user_id = #{fromUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fromUserOpenId != null">
+        from_user_open_id = #{fromUserOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null">
+        to_user_id = #{toUserId,jdbcType=BIGINT},
+      </if>
+      <if test="toUserOpenId != null">
+        to_user_open_id = #{toUserOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateId != null">
+        template_id = #{templateId,jdbcType=VARCHAR},
+      </if>
+      <if test="templateData != null">
+        template_data = #{templateData,jdbcType=VARCHAR},
+      </if>
+      <if test="sendStatus != null">
+        send_status = #{sendStatus,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.entity.WxMsgReply">
+    update wx_msg_reply
+    set wx_msg_id = #{wxMsgId,jdbcType=BIGINT},
+      scene_code = #{sceneCode,jdbcType=VARCHAR},
+      from_user_id = #{fromUserId,jdbcType=BIGINT},
+      from_user_open_id = #{fromUserOpenId,jdbcType=VARCHAR},
+      to_user_id = #{toUserId,jdbcType=BIGINT},
+      to_user_open_id = #{toUserOpenId,jdbcType=VARCHAR},
+      template_id = #{templateId,jdbcType=VARCHAR},
+      template_data = #{templateData,jdbcType=VARCHAR},
+      send_status = #{sendStatus,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
