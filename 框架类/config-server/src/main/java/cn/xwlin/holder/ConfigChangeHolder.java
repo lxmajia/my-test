@@ -35,11 +35,11 @@ public class ConfigChangeHolder {
     System.out.println("初始化成功，设置为true");
   }
 
-  public boolean serviceOk(){
+  public boolean serviceOk() {
     return initSuccess;
   }
 
-  //@Scheduled(cron = "0/15 * * * * ?")
+  @Scheduled(cron = "0/15 * * * * ?")
   public void schedule() {
     if (!this.initSuccess) {
       return;
@@ -82,16 +82,13 @@ public class ConfigChangeHolder {
     }
 
     if (version > oldVersion) {
-      if (myConfig != null) {
-        myConfig = myConfigDao.selectByPrimaryKey(myConfig.getId());
-      }
-      if (myConfig == null) {
-        checkVO.setConfigExist(false);
-        return checkVO;
-      }
+      checkVO.setConfigExist(true);
       checkVO.setChange(true);
       checkVO.setNewConfigValue(myConfig.getConfigValue());
       checkVO.setModified(myConfig.getModified());
+    } else {
+      checkVO.setConfigExist(true);
+      checkVO.setChange(false);
     }
     checkVO.setNewVersion(version);
     return checkVO;

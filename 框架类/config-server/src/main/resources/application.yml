@@ -18,3 +18,10 @@ logging:
       apache:
         tomcat: DEBUG
         catalina: DEBUG
+wx:
+  miniapp:
+    aesKey: '@aesKey'
+    appid: wx69c193871872abd7
+    msgDataFormat: JSON
+    secret: 5571f65dcdb28dc1853ce01d26a6ac39
+    token: '@token'

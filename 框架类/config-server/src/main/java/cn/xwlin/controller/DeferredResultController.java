@@ -1,6 +1,7 @@
 package cn.xwlin.controller;
 
 import cn.xwlin.holder.ConfigChangeRequestHolder;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,4 +28,17 @@ public class DeferredResultController {
     return result;
   }
 
+  @SneakyThrows
+  @RequestMapping("/testDeferredResult")
+  public DeferredResult<String> test() {
+    DeferredResult<String> result = new DeferredResult<>(5000L);
+    Thread.sleep(2000L);
+    result.setResult("123456");
+    return result;
+  }
+
+  @RequestMapping("/hello")
+  public String hello() {
+    return "hello world;";
+  }
 }
