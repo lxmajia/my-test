@@ -13,6 +13,7 @@
         <module>iogame-broker</module>
         <module>iogame-socket</module>
         <module>iogame-common</module>
+        <module>client-test</module>
     </modules>
 
     <properties>
@@ -24,9 +25,9 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.4</version>
+        <version>3.2.5</version>
     </parent>
-
+s
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,16 +36,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.2.10</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.10</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

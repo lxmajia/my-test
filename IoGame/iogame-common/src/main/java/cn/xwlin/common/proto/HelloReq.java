@@ -2,12 +2,18 @@ package cn.xwlin.common.proto;
 
 import lombok.Data;
 
-@Data
-public class HelloReq {
-    private String name;
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
+import lombok.AccessLevel;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 
-    @Override
-    public String toString() {
-        return "HelloReq{name='"+ name  + "'}";
-    }
+/**
+ * @author 渔民小镇
+ * @date 2022-12-04
+ */
+@ToString
+@ProtobufClass
+@FieldDefaults(level = AccessLevel.PUBLIC)
+public class HelloReq {
+     String name;
 }

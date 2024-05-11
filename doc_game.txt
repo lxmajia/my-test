@@ -1,0 +1,26 @@
+==================== 游戏文档格式说明 ====================
+https://www.yuque.com/iohao/game/irth38#cJLdC
+
+==================== DemoAction  ====================
+路由: 1 - 0  --- 【示例 here 方法】 --- 【DemoAction:24】【here】
+    方法参数: HelloReq helloReq helloReq
+    方法返回值: HelloReq HelloReq
+ 
+路由: 1 - 1  --- 【示例 异常机制演示】 --- 【DemoAction:39】【jackson】
+    方法参数: HelloReq MsgException e
+    方法返回值: HelloReq HelloReq
+ 
+路由: 1 - 2  --- 【示例 返回 List 数据】 --- 【DemoAction:54】【list】
+    方法返回值: ByteValueList<HelloReq> list
+ 
+
+==================== 错误码 ====================
+ -1008 : 绑定的游戏逻辑服不存在 
+ -1007 : 强制玩家下线 
+ -1006 : 数据不存在 
+ -1005 : class 不存在 
+ -1004 : 请先登录 
+ -1003 : 心跳超时相关 
+ -1002 : 路由错误 
+ -1001 : 参数验错误 
+ -1000 : 系统其它错误 

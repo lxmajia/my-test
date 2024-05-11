@@ -23,7 +23,8 @@ public class DemoAction {
   @ActionMethod(DemoCmd.here)
   public HelloReq here(HelloReq helloReq) {
     HelloReq newHelloReq = new HelloReq();
-    newHelloReq.setName(helloReq.getName() + ", I'm here ");
+    System.out.println("hello : " + helloReq.name);
+    newHelloReq.name = helloReq.name + "，hello json";
     return newHelloReq;
   }
 
@@ -37,12 +38,10 @@ public class DemoAction {
   @ActionMethod(DemoCmd.jackson)
   public HelloReq jackson(HelloReq helloReq) {
     String jacksonName = "jackson";
-    if (!jacksonName.equals(helloReq.getName())) {
+    if (!jacksonName.equals(helloReq.name)) {
       throw new MsgException(100, "异常机制测试，name 必须是 jackson !");
     }
-
-    helloReq.setName(helloReq.getName() + ", hello, jackson !");
-
+    helloReq.name = helloReq.name + "，hello jackson";
     return helloReq;
   }
 
@@ -57,7 +56,7 @@ public class DemoAction {
     List<HelloReq> result = Lists.list();
     for (int i = 0; i < 5; i++) {
       HelloReq helloReq = new HelloReq();
-      helloReq.setName("data:" + i);
+      helloReq.name = i+"";
       result.add(helloReq);
     }
     return result;
