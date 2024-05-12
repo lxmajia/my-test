@@ -9,6 +9,7 @@ import com.iohao.game.external.core.ExternalServer;
 import com.iohao.game.external.core.config.ExternalJoinEnum;
 import com.iohao.game.external.core.netty.DefaultExternalCoreSetting;
 import com.iohao.game.external.core.netty.DefaultExternalServer;
+import com.iohao.game.external.core.netty.DefaultExternalServerBuilder;
 import com.iohao.game.external.core.netty.handler.ws.WebSocketVerifyHandler;
 import com.iohao.game.external.core.netty.kit.ExternalServerCreateKit;
 import com.iohao.game.external.core.netty.micro.WebSocketMicroBootstrapFlow;
@@ -18,17 +19,15 @@ import static com.iohao.game.external.core.config.ExternalGlobalConfig.externalP
 public class ExternalJoinApplication {
 
   public void start() {
-    // 设置 json 编解码。如果不做设置，默认使用 jprotobuf
-    IoGameGlobalSetting.setDataCodec(new JsonDataCodec());
     int externalCorePort = 10100;
     // 创建游戏对外服构建器
-    var builder = DefaultExternalServer
+    DefaultExternalServerBuilder builder = DefaultExternalServer
             // 游戏对外服端口；与真实玩家建立连接的端口
             .newBuilder(externalCorePort)
             // 连接方式 WebSocket；默认不填写也是这个值
             .externalJoinEnum(ExternalJoinEnum.WEBSOCKET)
             // 与 Broker （游戏网关）的连接地址 ；默认不填写也是这个值
-            .brokerAddress(new BrokerAddress("127.0.0.1", IoGameGlobalConfig.brokerPort));
+            .brokerAddress(new BrokerAddress("127.0.0.1", 10200));
 
     // 得到 setting 对象（开发者可根据自身业务做扩展）
     DefaultExternalCoreSetting setting = builder.setting();
@@ -45,6 +44,9 @@ public class ExternalJoinApplication {
   }
 
   public static void main(String[] args) {
+    // 设置 json 编解码。如果不做设置，默认使用 jprotobuf
+    IoGameGlobalConfig.openTraceId = true;
+    IoGameGlobalSetting.setDataCodec(new JsonDataCodec());
     new ExternalJoinApplication().start();
   }
 }

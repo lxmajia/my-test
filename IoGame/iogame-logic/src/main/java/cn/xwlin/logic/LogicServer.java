@@ -12,6 +12,7 @@ import com.iohao.game.bolt.broker.client.BrokerClientApplication;
 import com.iohao.game.bolt.broker.core.client.BrokerAddress;
 import com.iohao.game.bolt.broker.core.client.BrokerClient;
 import com.iohao.game.bolt.broker.core.client.BrokerClientBuilder;
+import com.iohao.game.bolt.broker.core.common.IoGameGlobalConfig;
 
 public class LogicServer extends AbstractBrokerClientStartup {
   @Override
@@ -44,6 +45,7 @@ public class LogicServer extends AbstractBrokerClientStartup {
   }
 
   public static void main(String[] args) {
+    IoGameGlobalConfig.openTraceId = true;
     IoGameGlobalSetting.setDataCodec(new JsonDataCodec());
     BrokerClientApplication.start(new LogicServer());
   }
