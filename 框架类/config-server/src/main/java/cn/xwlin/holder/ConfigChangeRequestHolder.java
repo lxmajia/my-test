@@ -1,11 +1,7 @@
 package cn.xwlin.holder;
 
 import cn.xwlin.vo.MyConfigCheckVO;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multimaps;
-import lombok.SneakyThrows;
+import com.google.common.collect.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -13,9 +9,6 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author xiang.liao
@@ -26,10 +19,8 @@ public class ConfigChangeRequestHolder {
 
   @Autowired
   private ConfigChangeHolder configChangeHolder;
-  private static Multimap<String, DeferredResult<String>> myWatchRequests =
+  private static ListMultimap<String, DeferredResult<String>> myWatchRequests =
           Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
-
-
 
   public void addCheck(String key, DeferredResult<String> result) {
     myWatchRequests.put(key, result);
@@ -54,7 +45,6 @@ public class ConfigChangeRequestHolder {
             }
             continue;
           }
-
           Iterator<Map.Entry<String, Collection<DeferredResult<String>>>> iterator =
                   myWatchRequests.asMap().entrySet().iterator();
           while (iterator.hasNext()) {
@@ -92,7 +82,7 @@ public class ConfigChangeRequestHolder {
             }
 
             if (!CollectionUtils.isEmpty(validDefered)) {
-              next.setValue(validDefered);
+              myWatchRequests.replaceValues(key, validDefered);
             }
           }
         }

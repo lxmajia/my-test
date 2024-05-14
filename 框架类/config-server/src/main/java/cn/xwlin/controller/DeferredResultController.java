@@ -25,6 +25,10 @@ public class DeferredResultController {
     DeferredResult<String> result = new DeferredResult<>(requestTimeout - 5000);
     String key = configKey + "###" + oldVersion;
     configChangeRequestHolder.addCheck(key, result);
+
+    result.onTimeout(() -> {
+      result.setResult("未获取到更新，超时");
+    });
     return result;
   }
 
