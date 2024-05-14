@@ -13,6 +13,7 @@ public class BrokerServerApp {
         // Broker Server （游戏网关服） 构建器
         BrokerServerBuilder brokerServerBuilder = BrokerServer.newBuilder()
                 // broker （游戏网关）默认端口 10200
+                .brokerId("127.0.0.1")
                 .port(IoGameGlobalConfig.brokerPort)
                 ;
         // 构建游戏网关

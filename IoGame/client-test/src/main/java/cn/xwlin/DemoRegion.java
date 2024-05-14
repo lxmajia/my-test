@@ -15,7 +15,7 @@ public class DemoRegion extends AbstractInputCommandRegion {
         inputCommandCreate.cmd = DemoCmd.cmd;
 
         // ---------------- 模拟请求 1-0 ----------------
-        ofCommand(DemoCmd.here).setTitle("here").setRequestData(() -> {
+        ofCommand(DemoCmd.hello).setTitle("here").setRequestData(() -> {
             HelloReq helloReq = new HelloReq();
             helloReq.name = "1";
             return helloReq;

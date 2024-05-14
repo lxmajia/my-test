@@ -1,0 +1,18 @@
+server:
+  port: 8080
+spring:
+  data:
+    redis:
+      database: 0
+      host: 703ec8c00926.c.methodot.com
+      port: 31169
+  datasource:
+    url: jdbc:mysql://xwlin.cn:3306/iogame?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: LIAOxiang941229
+mybatis:
+  ## mybatis映射文件路径
+  mapper-locations: classpath:mapping/*.xml
+  ## 别名包（xml中可以不需要全路径）
+  type-aliases-package: cn.xwlin.entity
