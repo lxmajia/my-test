@@ -47,7 +47,6 @@ public class ExternalJoinApplication {
          * 添加上后，即使是通过 nginx 转发，也可以得到玩家真实的 ip
          */
         context.addLast("HttpRealIpHandler", new HttpRealIpHandler());
-        context.addLast("SimpleLogHandler", new SimpleLogHandler());
       }
     });
 
