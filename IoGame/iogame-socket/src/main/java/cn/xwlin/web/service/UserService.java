@@ -2,6 +2,7 @@ package cn.xwlin.web.service;
 
 import cn.xwlin.web.entity.GameUser;
 import cn.xwlin.web.mapper.GameUserMapper;
+import cn.xwlin.web.vo.LoginInfo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,12 +18,15 @@ public class UserService {
     @Autowired
     private GameUserMapper gameUserMapper;
 
-    public String login(String accountName, String password) {
+    public LoginInfo login(String accountName, String password) {
         GameUser gameUser = gameUserMapper.selectAccountName(accountName);
         if (gameUser.getPassword().equals(password)) {
             String token = UUID.randomUUID().toString();
             stringRedisTemplate.opsForValue().set(token, String.valueOf(gameUser.getId()));
-            return token;
+            LoginInfo loginInfo = new LoginInfo();
+            loginInfo.setToken(token);
+            loginInfo.setUserId(gameUser.getId());
+            return loginInfo;
         }
         return null;
     }

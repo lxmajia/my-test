@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>websocket.js</title>
+</head>
+<body>
+<form id="from">
+    账号:<input type="text" name="accountName"> <br>
+    密码:<input type="text" name="password"> <br>
+    <input type="button" value="登录" id="btn">
+</form>
+
+
+<div id="app">ioGamewebsocket.js</div>
+<div id="output" style="margin-top:20px;border: 1px #ddd solid; height: 260px; overflow-y: auto;">
+</div>
+
+<script type="text/javascript" th:src="@{/static/jquery-1.11.3.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/websocket.js}"></script>
+<script>
+    $("#btn").click(function () {
+        $.ajax({
+            async: false,  //异步
+            url: "/auth/loginAjax", //地址
+            type: "post",  //请求方式
+            dataType: "json",  // 返回类型
+            data: $("#from").serialize(),//直接序列化form表单
+            success: function (data) {
+                console.log(data) //后台返回结果
+                if (data.code === 0) {
+                    loginSuccess(data.body.token, data.body.userId);
+                } else {
+                    alert(data.message);
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>
