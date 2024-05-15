@@ -1,17 +1,13 @@
 function formatDate(now) {
-    var year = now.getFullYear();
-    var month = now.getMonth() + 1;
-    var date = now.getDate();
-    var hour = now.getHours();
-    var minute = now.getMinutes();
-    var second = now.getSeconds();
-    return year + "-" + (month = month < 10 ? ("0" + month) : month) + "-" + (date = date < 10 ? ("0" + date) : date) + " " + (hour = hour < 10 ? ("0" + hour) : hour) + ":" + (minute = minute < 10 ? ("0" + minute) : minute) + ":" + (second = second < 10 ? ("0" + second) : second);
+    const nowTime = dayjs();
+    return nowTime.format('YYYY-MM-DD HH:mm:ss.SSS');
 }
 
 var websocket;
 
 function loginSuccess(token, userId) {
     writeToScreen('<span style="color:green">登录成功,userId=' + userId + ',token=' + token + '</span><br/>');
+    addsocket(token, userId);
 }
 
 function addsocket(token, userId) {
@@ -39,10 +35,10 @@ function StartWebSocket(wsUri) {
 }
 
 function onOpen(evt, wsUri) {
+    let data = '{"name":"LiaoXiang Link Success"}';
     writeToScreen("<span style='color:red'>连接成功，现在你可以发送信息进行测试了！</span>");
     writeToScreen(wsUri);
-
-    SendMessage();
+    sendMsgByInput(1, 1, data);
 }
 
 function onClose(evt) {
@@ -71,40 +67,25 @@ function onError(evt) {
     writeToScreen('<span style="color: red;">发生错误:</span> ' + evt.data);
 }
 
-function SendMessage() {
-    var data = {
-        name: "英雄无敌-3"
-        // value : "英雄无敌"
-    }
-
-    var externalMessageBytes = createExternalMessage(data);
-
-    websocket.send(externalMessageBytes);
-}
-
-function createExternalMessage(data) {
-
+function sendMsgByInput(cmd, subCmd, data) {
+    var dataJson = JSON.parse(data)
     var message = {
         cmdCode: 1,
-        cmdMerge: merge(19, 1),
-        data: data
+        cmdMerge: merge(cmd, subCmd),
+        data: dataJson
     }
-
     var json = JSON.stringify(message);
     writeToScreen('<span style="color:green">你发送的信息&nbsp;' + formatDate(new Date()) + '</span><br/>' + json);
-
     var textEncoder = new TextEncoder();
-    var dataArray = textEncoder.encode(JSON.stringify(data));
-
+    var dataArray = textEncoder.encode(JSON.stringify(dataJson));
     message.data = Array.from(dataArray);
-
     json = JSON.stringify(message);
-
-    return textEncoder.encode(json);
+    let uint8Array = textEncoder.encode(json);
+    websocket.send(uint8Array);
 }
 
 function merge(cmd, subCmd) {
-    return (cmd << 16) + subCmd;
+    return Number((cmd << 16)) + Number(subCmd);
 }
 
 function writeToScreen(message) {

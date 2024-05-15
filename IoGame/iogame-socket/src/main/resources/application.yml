@@ -32,4 +32,4 @@ mybatis:
   ## mybatis映射文件路径
   mapper-locations: classpath:mapping/*.xml
   ## 别名包（xml中可以不需要全路径）
-  type-aliases-package: cn.xwlin.entity
+  type-aliases-package: cn.xwlin.web.entity

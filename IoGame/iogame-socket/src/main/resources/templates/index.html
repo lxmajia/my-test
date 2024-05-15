@@ -7,18 +7,29 @@
 </head>
 <body>
 <form id="from">
-    账号:<input type="text" name="accountName"> <br>
-    密码:<input type="text" name="password"> <br>
+    账号:<input type="text" name="accountName" value="liaoxiang"> <br>
+    密码:<input type="text" name="password" value="123456"> <br>
     <input type="button" value="登录" id="btn">
 </form>
 
 
 <div id="app">ioGamewebsocket.js</div>
+<div id="input">
+    <h2>Input</h2>
+    Cmd:<input type="number" id="cmdCode" name="cmdCode" value="1"> <br>
+    SubCmd:<input type="number" id="subCmdCode" name="subCmdCode" value="1"> <br>
+    <textarea id="inputText" style="margin-top:20px;border: 1px #ddd solid;
+   height: 150px;width: 830px; overflow-y: auto;"></textarea>
+    <input type="button" value="发送" id="sendBtn">
+</div>
+
+<h2>Output</h2>
 <div id="output" style="margin-top:20px;border: 1px #ddd solid; height: 260px; overflow-y: auto;">
 </div>
 
-<script type="text/javascript" th:src="@{/static/jquery-1.11.3.min.js}"></script>
-<script type="text/javascript" th:src="@{/static/websocket.js}"></script>
+<script type="text/javascript" th:src="@{/jquery-1.11.3.min.js}"></script>
+<script type="text/javascript" th:src="@{/day.min.js}"></script>
+<script type="text/javascript" th:src="@{/websocket.js}"></script>
 <script>
     $("#btn").click(function () {
         $.ajax({
@@ -36,6 +47,19 @@
                 }
             }
         })
+    })
+
+    $("#sendBtn").click(function () {
+        var cmdCode = document.getElementById("cmdCode").value;
+        var subCmdCode = document.getElementById("subCmdCode").value;
+        var inputText = document.getElementById("inputText").value;
+
+        console.log("cmd:" + cmdCode + "  sunCmd:" + subCmdCode + "   data:" + inputText)
+        if (inputText === undefined || inputText === "") {
+            alert("内容为空");
+        } else {
+            sendMsgByInput(cmdCode,subCmdCode,inputText);
+        }
     })
 </script>
 </body>

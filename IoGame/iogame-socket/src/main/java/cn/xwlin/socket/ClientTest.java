@@ -41,7 +41,7 @@ public class ClientTest {
             // 配置一些模拟请求
             ofCommand(DemoCmd.hello).setTitle("hello").setRequestData(() -> {
                 HelloReq helloReq = new HelloReq();
-                helloReq.name = "塔姆";
+                helloReq.setName("LiaoXiang");
                 return helloReq;
             }).callback(result -> {
                 HelloReq value = result.getValue(HelloReq.class);

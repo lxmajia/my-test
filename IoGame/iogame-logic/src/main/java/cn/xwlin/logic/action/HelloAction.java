@@ -16,8 +16,8 @@ public class HelloAction {
   @ActionMethod(DemoCmd.hello)
   public HelloReq hello(HelloReq helloReq) {
     HelloReq newHelloReq = new HelloReq();
-    System.out.println("hello : " + helloReq.name);
-    newHelloReq.name = helloReq.name + "，hello json";
+    System.out.println("hello : " + helloReq.getName());
+    newHelloReq.setName("hello : " + helloReq.getName());
     return newHelloReq;
   }
 }

@@ -21,7 +21,7 @@ public class SocketServer {
     public void start() {
         AccessAuthenticationHook accessAuthenticationHook = ExternalGlobalConfig.accessAuthenticationHook;
         // 表示登录才能访问业务方法
-        accessAuthenticationHook.setVerifyIdentity(false);
+        accessAuthenticationHook.setVerifyIdentity(true);
 
         int externalCorePort = 10100;
         // 创建游戏对外服构建器

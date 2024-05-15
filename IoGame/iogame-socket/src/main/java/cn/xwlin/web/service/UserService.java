@@ -20,6 +20,9 @@ public class UserService {
 
     public LoginInfo login(String accountName, String password) {
         GameUser gameUser = gameUserMapper.selectAccountName(accountName);
+        if(gameUser == null){
+            return null;
+        }
         if (gameUser.getPassword().equals(password)) {
             String token = UUID.randomUUID().toString();
             stringRedisTemplate.opsForValue().set(token, String.valueOf(gameUser.getId()));

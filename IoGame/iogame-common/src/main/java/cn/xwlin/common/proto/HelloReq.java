@@ -9,7 +9,14 @@ import lombok.experimental.FieldDefaults;
  * @date 2022-12-04
  */
 @ToString
-@FieldDefaults(level = AccessLevel.PUBLIC)
 public class HelloReq {
-     String name;
+     private String name;
+
+     public String getName() {
+          return name;
+     }
+
+     public void setName(String name) {
+          this.name = name;
+     }
 }
