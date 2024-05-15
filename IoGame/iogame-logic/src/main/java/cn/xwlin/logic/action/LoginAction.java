@@ -6,15 +6,15 @@ import com.iohao.game.action.skeleton.annotation.ActionController;
 import com.iohao.game.action.skeleton.annotation.ActionMethod;
 import com.iohao.game.action.skeleton.core.flow.FlowContext;
 
-@ActionController(CmdConst.HelloCmd.cmd)
-public class HelloAction {
+@ActionController(CmdConst.LoginCmd.cmd)
+public class LoginAction {
   /**
    * 示例 here 方法
    *
    * @param helloReq helloReq
    * @return HelloReq
    */
-  @ActionMethod(CmdConst.HelloCmd.SubCmd.hello)
+  @ActionMethod(CmdConst.LoginCmd.SubCmd.login)
   public HelloReq hello(HelloReq helloReq, FlowContext flowContext) {
     HelloReq newHelloReq = new HelloReq();
     System.out.println("hello : " + helloReq.getName());
