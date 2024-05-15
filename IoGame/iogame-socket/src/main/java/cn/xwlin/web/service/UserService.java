@@ -3,6 +3,7 @@ package cn.xwlin.web.service;
 import cn.xwlin.web.entity.GameUser;
 import cn.xwlin.web.mapper.GameUserMapper;
 import cn.xwlin.web.vo.LoginInfo;
+import com.iohao.game.bolt.broker.client.kit.ExternalCommunicationKit;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -29,6 +30,7 @@ public class UserService {
             LoginInfo loginInfo = new LoginInfo();
             loginInfo.setToken(token);
             loginInfo.setUserId(gameUser.getId());
+
             return loginInfo;
         }
         return null;
