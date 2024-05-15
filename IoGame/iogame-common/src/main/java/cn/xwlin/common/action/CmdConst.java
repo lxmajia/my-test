@@ -5,16 +5,9 @@ package cn.xwlin.common.action;
  * cmd和subCmd都只支持1-127
  */
 public interface CmdConst {
-  interface LoginCmd {
-    int cmd = 1;
-
-    interface SubCmd {
-      int login = 1;
-    }
-  }
 
   interface HelloCmd {
-    int cmd = 2;
+    int cmd = 1;
 
     interface SubCmd {
       int hello = 1;
