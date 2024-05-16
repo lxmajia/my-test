@@ -1,5 +1,6 @@
 package cn.xwlin.socket;
 
+import cn.xwlin.socket.handler.UserStatusHook;
 import cn.xwlin.socket.handler.WsTokenVerifyHandler;
 import com.iohao.game.bolt.broker.core.client.BrokerAddress;
 import com.iohao.game.external.core.ExternalServer;
@@ -7,6 +8,7 @@ import com.iohao.game.external.core.config.ExternalGlobalConfig;
 import com.iohao.game.external.core.config.ExternalJoinEnum;
 import com.iohao.game.external.core.hook.AccessAuthenticationHook;
 import com.iohao.game.external.core.micro.PipelineContext;
+import com.iohao.game.external.core.netty.DefaultExternalCoreSetting;
 import com.iohao.game.external.core.netty.DefaultExternalServer;
 import com.iohao.game.external.core.netty.DefaultExternalServerBuilder;
 import com.iohao.game.external.core.netty.handler.ws.HttpRealIpHandler;
@@ -33,8 +35,9 @@ public class SocketServer {
                 // 与 Broker （游戏网关）的连接地址 ；默认不填写也是这个值
                 .brokerAddress(new BrokerAddress("127.0.0.1", 10200));
 
+        DefaultExternalCoreSetting setting = builder.setting();
         // 设置 MicroBootstrapFlow 类，并重写 createVerifyHandler 方法
-        builder.setting().setMicroBootstrapFlow(new WebSocketMicroBootstrapFlow() {
+        setting.setMicroBootstrapFlow(new WebSocketMicroBootstrapFlow() {
             @Override
             protected WebSocketVerifyHandler createVerifyHandler() {
                 return new WsTokenVerifyHandler();
@@ -50,6 +53,10 @@ public class SocketServer {
                 context.addLast("HttpRealIpHandler", new HttpRealIpHandler());
             }
         });
+
+        // 用户上下线钩子
+        setting.setUserHook(new UserStatusHook());
+
 
         // 构建、启动
         ExternalServer externalServer = builder.build();

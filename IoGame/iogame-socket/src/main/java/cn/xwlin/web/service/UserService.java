@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
@@ -19,6 +20,8 @@ public class UserService {
     @Autowired
     private GameUserMapper gameUserMapper;
 
+    private static final Long TOKEN_VALID_MINUTE = 60L;
+
     public LoginInfo login(String accountName, String password) {
         GameUser gameUser = gameUserMapper.selectAccountName(accountName);
         if(gameUser == null){
@@ -26,7 +29,7 @@ public class UserService {
         }
         if (gameUser.getPassword().equals(password)) {
             String token = UUID.randomUUID().toString();
-            stringRedisTemplate.opsForValue().set(token, String.valueOf(gameUser.getId()));
+            stringRedisTemplate.opsForValue().set(token, String.valueOf(gameUser.getId()),TOKEN_VALID_MINUTE, TimeUnit.MINUTES);
             LoginInfo loginInfo = new LoginInfo();
             loginInfo.setToken(token);
             loginInfo.setUserId(gameUser.getId());
@@ -51,4 +54,9 @@ public class UserService {
             return null;
         }
     }
+
+    public void logout(String token) {
+        stringRedisTemplate.opsForValue().getOperations().delete(token);
+    }
+
 }
