@@ -13,4 +13,11 @@ public interface CmdConst {
       int hello = 1;
     }
   }
+  interface NearbyCmd {
+    int cmd = 2;
+
+    interface SubCmd {
+      int nearPlayer = 1;
+    }
+  }
 }

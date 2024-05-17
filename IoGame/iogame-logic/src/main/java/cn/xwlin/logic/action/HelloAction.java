@@ -1,7 +1,7 @@
 package cn.xwlin.logic.action;
 
 import cn.xwlin.common.action.CmdConst;
-import cn.xwlin.common.proto.HelloReq;
+import cn.xwlin.logic.req.HelloReq;
 import com.iohao.game.action.skeleton.annotation.ActionController;
 import com.iohao.game.action.skeleton.annotation.ActionMethod;
 import com.iohao.game.action.skeleton.core.flow.FlowContext;

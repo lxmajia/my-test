@@ -1,4 +1,4 @@
-package cn.xwlin.common.proto;
+package cn.xwlin.logic.req;
 
 import lombok.AccessLevel;
 import lombok.ToString;

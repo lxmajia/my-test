@@ -14,6 +14,7 @@
         <module>iogame-socket</module>
         <module>iogame-common</module>
         <module>client-test</module>
+        <module>iogame-logic-nearby</module>
     </modules>
 
     <properties>

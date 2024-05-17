@@ -1,0 +1,8 @@
+server:
+  port: 9080
+spring:
+  data:
+    redis:
+      database: 0
+      host: 703ec8c00926.c.methodot.com
+      port: 31169
