@@ -9,24 +9,18 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>client-test</artifactId>
+    <artifactId>client</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
         <dependency>
-            <groupId>com.iohao.game</groupId>
-            <artifactId>light-client</artifactId>
-            <version>21.2</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.xwlin</groupId>
-            <artifactId>iogame-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.github.almasb</groupId>
+            <artifactId>fxgl</artifactId>
+            <version>21.1</version>
         </dependency>
     </dependencies>
 </project>

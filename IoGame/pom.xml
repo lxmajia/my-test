@@ -13,8 +13,8 @@
         <module>iogame-broker</module>
         <module>iogame-socket</module>
         <module>iogame-common</module>
-        <module>client-test</module>
         <module>iogame-logic-nearby</module>
+        <module>client</module>
     </modules>
 
     <properties>
