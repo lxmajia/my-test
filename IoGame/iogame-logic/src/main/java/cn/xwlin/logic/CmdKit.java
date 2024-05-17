@@ -42,7 +42,7 @@ public class CmdKit {
     }
 
     public static void main(String[] args) {
-        int merge = new CmdKit().merge(1, 1);
+        int merge = new CmdKit().merge(2, 1);
         System.out.println(merge);
     }
 }
