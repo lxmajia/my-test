@@ -13,11 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class PageController {
 
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private UserService userService;
 
-  @RequestMapping("/index")
-  public String login() {
-    return "index";
-  }
+    @RequestMapping("/index")
+    public String login() {
+        return "index";
+    }
+
+    @RequestMapping("/near")
+    public String nearby() {
+        return "near";
+    }
+
+
 }
