@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>websocket.js</title>
 </head>
-<body>
+<body id="box">
+<div id="myPosition" draggable="true"
+     style="width:10px;height:10px;border:solid 2px #F00;position: absolute;top: 0;left: 0;background-color: red;cursor: pointer;z-index: 99999;"></div>
+
 <form id="from">
     账号:<input type="text" name="accountName" value="liaoxiang"> <br>
     密码:<input type="text" name="password" value="123456"> <br>
     <input type="button" value="登录" id="btn">
 </form>
-
 
 <div id="app">ioGamewebsocket.js</div>
 <div id="input">
@@ -27,10 +29,35 @@
 <div id="output" style="margin-top:20px;border: 1px #ddd solid; height: 260px; overflow-y: auto;">
 </div>
 
+
+
+
 <script type="text/javascript" th:src="@{/jquery-1.11.3.min.js}"></script>
 <script type="text/javascript" th:src="@{/day.min.js}"></script>
 <script type="text/javascript" th:src="@{/websocket.js}"></script>
 <script>
+    $(document).keydown(function (event) {
+        var keyNum = event.which;  //获取键值
+        var Item = $('#myPosition');  //要移动的元素
+        switch (keyNum) { //判断按键
+            case 37:
+                Item.animate({left: '-=5px'}, 0);
+                break;
+            case 38:
+                Item.animate({top: '-=5px'}, 0);
+                break;
+            case 39:
+                Item.animate({left: '+=5px'}, 0);
+                break;
+            case 40:
+                Item.animate({top: '+=5px'}, 0);
+                break;
+            default:
+                break;
+        }
+    });
+
+
     $("#btn").click(function () {
         $.ajax({
             async: false,  //异步
@@ -58,9 +85,57 @@
         if (inputText === undefined || inputText === "") {
             alert("内容为空");
         } else {
-            sendMsgByInput(cmdCode,subCmdCode,inputText);
+            sendMsgByInput(cmdCode, subCmdCode, inputText);
         }
     })
+
+    function startAsyncSendPosition() {
+        setInterval(() => {
+            var divOffset = $('#myPosition').offset();
+            var longitude = divOffset.top;
+            var latitude = divOffset.left;
+
+            var positionJson = {};
+            positionJson.longitude = longitude;
+            positionJson.latitude = latitude;
+
+            let inputText = JSON.stringify(positionJson);
+            console.log("MyPosition:" + inputText)
+            sendMsgByInput(2, 1, inputText);
+        }, 100);
+    }
+
+    function nearUserRefresh(bizDataJson) {
+        console.log(JSON.stringify(bizDataJson))
+        if (bizDataJson.code !== 0) {
+            console.log("获取附近用户信息code!=0")
+            return;
+        }
+
+        let nearPlayerInfoList = bizDataJson.body.nearPlayerInfoList;
+        for (let i = 0; i < nearPlayerInfoList.length; i++) {
+            let nearPlayer = nearPlayerInfoList[i];
+            let userId = nearPlayer.userId;
+            let longitude = nearPlayer.longitude;
+            let latitude = nearPlayer.latitude;
+            refreshUser(userId, latitude, longitude);
+        }
+    }
+
+    function refreshUser(userId, x, y) {
+        if ($('#userItem_' + userId).length) {
+            // 元素存在，刷新
+            $('#userItem_' + userId).css("transform", "translate(" + x + "px, " + y + "px)");
+        } else {
+            // 元素不存在，添加
+            addNewUserPlayer(userId, x, y);
+        }
+    }
+
+    function addNewUserPlayer(userId, x, y) {
+        $('#box').append('<div id="userItem_' + userId +
+            '" style="width:10px;height:10px;border:solid 2px #0F0;position: absolute;top:0;left:0"></div>');
+    }
 </script>
 </body>
 </html>

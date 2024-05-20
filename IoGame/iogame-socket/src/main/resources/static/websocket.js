@@ -39,6 +39,8 @@ function onOpen(evt, wsUri) {
     writeToScreen("<span style='color:red'>连接成功，现在你可以发送信息进行测试了！</span>");
     writeToScreen(wsUri);
     sendMsgByInput(1, 1, data);
+
+    startAsyncSendPosition();
 }
 
 function onClose(evt) {
@@ -51,16 +53,20 @@ function binaryData(data) {
 }
 
 function onMessage(evt) {
+    debugger
     let externalMessage = binaryData(evt.data);
     let bizData = externalMessage.data;
     let bizDataJson = binaryData(bizData);
     externalMessage.data = bizDataJson;
-
     console.log(bizDataJson);
-
     let json = JSON.stringify(externalMessage);
-
-    writeToScreen('<span style="color:blue">服务端回应&nbsp;' + formatDate(new Date()) + '</span><br/><span>' + json + '</span>');
+    if(externalMessage.cmdMerge === 65537){
+        // hello
+        writeToScreen('<span style="color:blue">服务端回应&nbsp;' + formatDate(new Date()) + '</span><br/><span>' + json + '</span>');
+    }else if(externalMessage.cmdMerge === 131073){
+        // near
+        nearUserRefresh(bizDataJson);
+    }
 }
 
 function onError(evt) {
@@ -75,7 +81,9 @@ function sendMsgByInput(cmd, subCmd, data) {
         data: dataJson
     }
     var json = JSON.stringify(message);
-    writeToScreen('<span style="color:green">你发送的信息&nbsp;' + formatDate(new Date()) + '</span><br/>' + json);
+    if(cmd !== 2){
+        writeToScreen('<span style="color:green">你发送的信息&nbsp;' + formatDate(new Date()) + '</span><br/>' + json);
+    }
     var textEncoder = new TextEncoder();
     var dataArray = textEncoder.encode(JSON.stringify(dataJson));
     message.data = Array.from(dataArray);

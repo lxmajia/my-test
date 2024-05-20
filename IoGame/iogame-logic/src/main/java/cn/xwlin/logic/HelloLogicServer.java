@@ -14,7 +14,7 @@ import com.iohao.game.bolt.broker.core.client.BrokerClient;
 import com.iohao.game.bolt.broker.core.client.BrokerClientBuilder;
 import com.iohao.game.bolt.broker.core.common.IoGameGlobalConfig;
 
-public class LogicServer extends AbstractBrokerClientStartup {
+public class HelloLogicServer extends AbstractBrokerClientStartup {
     @Override
     public BarSkeleton createBarSkeleton() {
         // 业务框架构建器 配置
@@ -47,6 +47,6 @@ public class LogicServer extends AbstractBrokerClientStartup {
     public static void main(String[] args) {
         IoGameGlobalConfig.openTraceId = true;
         IoGameGlobalSetting.setDataCodec(new JsonDataCodec());
-        BrokerClientApplication.start(new LogicServer());
+        BrokerClientApplication.start(new HelloLogicServer());
     }
 }
