@@ -1,5 +1,6 @@
 package cn.xwlin.web.service;
 
+import cn.xwlin.common.action.CacheKeyConst;
 import cn.xwlin.web.entity.GameUser;
 import cn.xwlin.web.mapper.GameUserMapper;
 import cn.xwlin.web.vo.LoginInfo;
@@ -24,12 +25,12 @@ public class UserService {
 
     public LoginInfo login(String accountName, String password) {
         GameUser gameUser = gameUserMapper.selectAccountName(accountName);
-        if(gameUser == null){
+        if (gameUser == null) {
             return null;
         }
         if (gameUser.getPassword().equals(password)) {
             String token = UUID.randomUUID().toString();
-            stringRedisTemplate.opsForValue().set(token, String.valueOf(gameUser.getId()),TOKEN_VALID_MINUTE, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(token, String.valueOf(gameUser.getId()), TOKEN_VALID_MINUTE, TimeUnit.MINUTES);
             LoginInfo loginInfo = new LoginInfo();
             loginInfo.setToken(token);
             loginInfo.setUserId(gameUser.getId());
@@ -55,8 +56,10 @@ public class UserService {
         }
     }
 
-    public void logout(String token) {
-        stringRedisTemplate.opsForValue().getOperations().delete(token);
+    public void logout(String token, Long userId) {
+        stringRedisTemplate.opsForValue().getAndDelete(token);
+        String positionCacheKey = CacheKeyConst.playPositionCacheKey(1L, 1L, 1L);
+        stringRedisTemplate.opsForHash().delete(positionCacheKey, String.valueOf(userId));
     }
 
 }

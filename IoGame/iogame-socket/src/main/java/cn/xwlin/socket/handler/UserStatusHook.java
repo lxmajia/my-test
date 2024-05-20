@@ -1,6 +1,7 @@
 package cn.xwlin.socket.handler;
 
 import cn.xwlin.web.util.SocketConnectUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.iohao.game.external.core.hook.UserHook;
 import com.iohao.game.external.core.session.UserSession;
 import com.iohao.game.external.core.session.UserSessionOption;
@@ -24,11 +25,12 @@ public class UserStatusHook implements UserHook {
     public void quit(UserSession userSession) {
         long userId = userSession.getUserId();
         byte[] tokenBytes = userSession.getOptions().option(UserSessionOption.attachment);
-        String token = new String(tokenBytes, StandardCharsets.UTF_8);
+        String tokenKv = new String(tokenBytes, StandardCharsets.UTF_8);
+        String token = JSONObject.parse(tokenKv).getString("value");
         log.info("玩家退出 userId: {} -- {}", userId, token);
 
-        if(StringUtils.isNotBlank(token)){
-            SocketConnectUtil.getUserService().logout(token);
+        if (StringUtils.isNotBlank(token)) {
+            SocketConnectUtil.getUserService().logout(token, userId);
         }
     }
 }

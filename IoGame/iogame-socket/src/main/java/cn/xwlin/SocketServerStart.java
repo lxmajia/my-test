@@ -12,11 +12,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class ExternalServerStart {
+public class SocketServerStart {
 
     public static void main(String[] args) {
         // 启动 spring boot
-        ConfigurableApplicationContext run = SpringApplication.run(ExternalServerStart.class, args);
+        ConfigurableApplicationContext run = SpringApplication.run(SocketServerStart.class, args);
 
         // 设置 json 编解码。如果不做设置，默认使用 jprotobuf
         IoGameGlobalConfig.openTraceId = true;
