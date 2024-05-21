@@ -25,8 +25,8 @@ public class PropertiesUtils {
     Map<String, String> map = new HashMap<>();
     for (Object key : properties.keySet()) {
       Object value = properties.getProperty((String) key);
-      if (value != null && !"".equals(value)) {
-        map.put((String) key, (String) value);
+      if (value != null) {
+        map.put(String.valueOf(key), String.valueOf(value));
       }
     }
     return map;
