@@ -1,11 +1,13 @@
 package cn.xwlin.configBeanFactory;
 
+import redis.clients.jedis.JedisPoolConfig;
+
 /**
  * @author yao.wang2 2023/9/18
  */
 public class HotSwitchJedisConfig {
 
-//  private JedisPoolConfig jedisPoolConfig;
+  private JedisPoolConfig jedisPoolConfig;
 
   private String host;
 
@@ -14,6 +16,14 @@ public class HotSwitchJedisConfig {
   private String password;
 
   private int timeOut;
+
+  public JedisPoolConfig getJedisPoolConfig() {
+    return jedisPoolConfig;
+  }
+
+  public void setJedisPoolConfig(JedisPoolConfig jedisPoolConfig) {
+    this.jedisPoolConfig = jedisPoolConfig;
+  }
 
   public String getHost() {
     return host;
