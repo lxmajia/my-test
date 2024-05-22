@@ -1,4 +1,4 @@
-package cn.xwlin;
+package cn.xwlin.configcenter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

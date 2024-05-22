@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.configcenter.mapper.ConfigInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.xwlin.configcenter.entity.ConfigInfo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="app_module_id" jdbcType="BIGINT" property="appModuleId"/>
+        <result column="app_code" jdbcType="VARCHAR" property="appCode"/>
+        <result column="module_code" jdbcType="VARCHAR" property="moduleCode"/>
+        <result column="config_key" jdbcType="VARCHAR" property="configKey"/>
+        <result column="unique_key" jdbcType="VARCHAR" property="uniqueKey"/>
+        <result column="config_type" jdbcType="VARCHAR" property="configType"/>
+        <result column="version" jdbcType="BIGINT" property="version"/>
+        <result column="modified" jdbcType="TIMESTAMP" property="modified"/>
+        <result column="modifier" jdbcType="VARCHAR" property="modifier"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+               type="cn.xwlin.configcenter.entity.ConfigInfo">
+        <result column="config_value" jdbcType="LONGVARCHAR" property="configValue"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, app_module_id, app_code, module_code, config_key, unique_key, config_type, version,
+    modified, modifier
+    </sql>
+    <sql id="Blob_Column_List">
+        config_value
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from config_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from config_info
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="cn.xwlin.configcenter.entity.ConfigInfo">
+        insert into config_info (id, app_module_id, app_code,
+                                 module_code, config_key, unique_key,
+                                 config_type, version, modified,
+                                 modifier, config_value)
+        values (#{id,jdbcType=BIGINT}, #{appModuleId,jdbcType=BIGINT}, #{appCode,jdbcType=VARCHAR},
+                #{moduleCode,jdbcType=VARCHAR}, #{configKey,jdbcType=VARCHAR},
+                #{uniqueKey,jdbcType=VARCHAR},
+                #{configType,jdbcType=VARCHAR}, #{version,jdbcType=BIGINT},
+                #{modified,jdbcType=TIMESTAMP},
+                #{modifier,jdbcType=VARCHAR}, #{configValue,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.xwlin.configcenter.entity.ConfigInfo">
+        insert into config_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="appModuleId != null">
+                app_module_id,
+            </if>
+            <if test="appCode != null">
+                app_code,
+            </if>
+            <if test="moduleCode != null">
+                module_code,
+            </if>
+            <if test="configKey != null">
+                config_key,
+            </if>
+            <if test="uniqueKey != null">
+                unique_key,
+            </if>
+            <if test="configType != null">
+                config_type,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="modified != null">
+                modified,
+            </if>
+            <if test="modifier != null">
+                modifier,
+            </if>
+            <if test="configValue != null">
+                config_value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="appModuleId != null">
+                #{appModuleId,jdbcType=BIGINT},
+            </if>
+            <if test="appCode != null">
+                #{appCode,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleCode != null">
+                #{moduleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="configKey != null">
+                #{configKey,jdbcType=VARCHAR},
+            </if>
+            <if test="uniqueKey != null">
+                #{uniqueKey,jdbcType=VARCHAR},
+            </if>
+            <if test="configType != null">
+                #{configType,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=BIGINT},
+            </if>
+            <if test="modified != null">
+                #{modified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                #{configValue,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="cn.xwlin.configcenter.entity.ConfigInfo">
+        update config_info
+        <set>
+            <if test="appModuleId != null">
+                app_module_id = #{appModuleId,jdbcType=BIGINT},
+            </if>
+            <if test="appCode != null">
+                app_code = #{appCode,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleCode != null">
+                module_code = #{moduleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="configKey != null">
+                config_key = #{configKey,jdbcType=VARCHAR},
+            </if>
+            <if test="uniqueKey != null">
+                unique_key = #{uniqueKey,jdbcType=VARCHAR},
+            </if>
+            <if test="configType != null">
+                config_type = #{configType,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=BIGINT},
+            </if>
+            <if test="modified != null">
+                modified = #{modified,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                config_value = #{configValue,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs"
+            parameterType="cn.xwlin.configcenter.entity.ConfigInfo">
+        update config_info
+        set app_module_id = #{appModuleId,jdbcType=BIGINT},
+            app_code      = #{appCode,jdbcType=VARCHAR},
+            module_code   = #{moduleCode,jdbcType=VARCHAR},
+            config_key    = #{configKey,jdbcType=VARCHAR},
+            unique_key    = #{uniqueKey,jdbcType=VARCHAR},
+            config_type   = #{configType,jdbcType=VARCHAR},
+            version       = #{version,jdbcType=BIGINT},
+            modified      = #{modified,jdbcType=TIMESTAMP},
+            modifier      = #{modifier,jdbcType=VARCHAR},
+            config_value  = #{configValue,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.xwlin.configcenter.entity.ConfigInfo">
+        update config_info
+        set app_module_id = #{appModuleId,jdbcType=BIGINT},
+            app_code      = #{appCode,jdbcType=VARCHAR},
+            module_code   = #{moduleCode,jdbcType=VARCHAR},
+            config_key    = #{configKey,jdbcType=VARCHAR},
+            unique_key    = #{uniqueKey,jdbcType=VARCHAR},
+            config_type   = #{configType,jdbcType=VARCHAR},
+            version       = #{version,jdbcType=BIGINT},
+            modified      = #{modified,jdbcType=TIMESTAMP},
+            modifier      = #{modifier,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByUniqueKey" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from config_info
+        where unique_key = #{uniqueKey,jdbcType=VARCHAR}
+    </select>
+
+    <select id="listChangeConfig" resultMap="BaseResultMap">
+        select id,
+               app_module_id,
+               app_code,
+               module_code,
+               config_key,
+               unique_key,
+               config_type,
+               version
+        from config_info
+        where modified > #{modified,jdbcType=TIMESTAMP}
+    </select>
+
+    <select id="listAllConfig" resultMap="BaseResultMap">
+        select id,
+               app_module_id,
+               app_code,
+               module_code,
+               config_key,
+               unique_key,
+               config_type,
+               version
+        from config_info
+    </select>
+</mapper>

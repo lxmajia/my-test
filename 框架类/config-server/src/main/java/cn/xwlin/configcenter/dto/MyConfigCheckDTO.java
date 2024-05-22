@@ -1,4 +1,4 @@
-package cn.xwlin.vo;
+package cn.xwlin.configcenter.dto;
 
 import java.util.Date;
 
@@ -6,10 +6,9 @@ import java.util.Date;
  * @author xiang.liao
  * @create 2024/5/6
  */
-public class MyConfigCheckVO {
-  private boolean serviceOk;
+public class MyConfigCheckDTO {
   private boolean configExist;
-  private String configKey;
+  private String uniqueKey;
   private Long oldVersion;
   private Long newVersion;
   private boolean isChange;
@@ -24,20 +23,12 @@ public class MyConfigCheckVO {
     this.configExist = configExist;
   }
 
-  public boolean isServiceOk() {
-    return serviceOk;
+  public String getUniqueKey() {
+    return uniqueKey;
   }
 
-  public void setServiceOk(boolean serviceOk) {
-    this.serviceOk = serviceOk;
-  }
-
-  public String getConfigKey() {
-    return configKey;
-  }
-
-  public void setConfigKey(String configKey) {
-    this.configKey = configKey;
+  public void setUniqueKey(String uniqueKey) {
+    this.uniqueKey = uniqueKey;
   }
 
   public Long getOldVersion() {
