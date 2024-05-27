@@ -13,13 +13,13 @@ public class NearPlayerInfo {
    */
   private Long userId;
   /**
-   * 经度
+   * 纬度x
    */
-  private BigDecimal longitude;
+  private BigDecimal x;
   /**
-   * 纬度
+   * 经度y
    */
-  private BigDecimal latitude;
+  private BigDecimal y;
   /**
    * 距离
    */
@@ -73,20 +73,20 @@ public class NearPlayerInfo {
     this.distance = distance.setScale(2, BigDecimal.ROUND_HALF_UP);
   }
 
-  public BigDecimal getLongitude() {
-    return longitude;
+  public BigDecimal getX() {
+    return x;
   }
 
-  public void setLongitude(BigDecimal longitude) {
-    this.longitude = longitude.setScale(6, BigDecimal.ROUND_HALF_UP);
+  public void setX(BigDecimal x) {
+    this.x = x;
   }
 
-  public BigDecimal getLatitude() {
-    return latitude;
+  public BigDecimal getY() {
+    return y;
   }
 
-  public void setLatitude(BigDecimal latitude) {
-    this.latitude = latitude.setScale(6, BigDecimal.ROUND_HALF_UP);;
+  public void setY(BigDecimal y) {
+    this.y = y;
   }
 
   public Long getBloodAmount() {

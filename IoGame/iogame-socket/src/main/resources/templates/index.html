@@ -92,12 +92,12 @@
     function startAsyncSendPosition() {
         setInterval(() => {
             var divOffset = $('#myPosition').offset();
-            var longitude = divOffset.top;
-            var latitude = divOffset.left;
+            var y = divOffset.top;
+            var x = divOffset.left;
 
             var positionJson = {};
-            positionJson.longitude = longitude;
-            positionJson.latitude = latitude;
+            positionJson.y = y;
+            positionJson.x = x;
 
             let inputText = JSON.stringify(positionJson);
             console.log("MyPosition:" + inputText)
@@ -112,13 +112,33 @@
             return;
         }
 
+        let userItemList = $("[id^='userItem_']");
+
+        // 选展示出需要展示的用户位置
+        let inPositionUserId = [];
         let nearPlayerInfoList = bizDataJson.body.nearPlayerInfoList;
         for (let i = 0; i < nearPlayerInfoList.length; i++) {
             let nearPlayer = nearPlayerInfoList[i];
             let userId = nearPlayer.userId;
-            let longitude = nearPlayer.longitude;
-            let latitude = nearPlayer.latitude;
-            refreshUser(userId, latitude, longitude);
+            let x = nearPlayer.x;
+            let y = nearPlayer.y;
+            try {
+                refreshUser(userId, x, y);
+            } catch (error) {
+            }
+            // 放入附近的人
+            inPositionUserId.push("userItem_" + userId);
+        }
+        // 删除已经超出范围，没返回的位置
+        try {
+            userItemList.each(function () {
+                let thisUserId = $(this).attr("id");
+                // 没有该元素，移除
+                if(inPositionUserId.indexOf(thisUserId) === -1){
+                    $(this).remove();
+                }
+            })
+        } catch (error) {
         }
     }
 
@@ -134,7 +154,7 @@
 
     function addNewUserPlayer(userId, x, y) {
         $('#box').append('<div id="userItem_' + userId +
-            '" style="width:10px;height:10px;border:solid 2px #0F0;position: absolute;top:0;left:0"></div>');
+            '" style="width:10px;height:10px;border:solid 2px #0F0;position: absolute;top:0;left:0;"></div>');
     }
 </script>
 </body>

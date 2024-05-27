@@ -4,8 +4,8 @@ spring:
   data:
     redis:
       database: 0
-      host: 703ec8c00926.c.methodot.com
-      port: 31169
+      host: 39a859fe4d25.c.methodot.com
+      port: 31581
   datasource:
     url: jdbc:mysql://xwlin.cn:3306/iogame?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver

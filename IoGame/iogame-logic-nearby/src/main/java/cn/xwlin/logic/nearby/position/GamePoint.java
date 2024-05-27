@@ -1,17 +1,16 @@
-package cn.xwlin.logic.nearby.req;
+package cn.xwlin.logic.nearby.position;
 
-import lombok.ToString;
-
-import java.math.BigDecimal;
-
-@ToString
-public class NearPlayerReq {
+/**
+ * @author xiang.liao
+ * @create 2024/5/27
+ */
+public class GamePoint {
   /**
-   * x纬度
+   * 屏幕横向（对应纬度latitude）
    */
   private Long x;
   /**
-   * y经度
+   * 屏幕竖向（对应经度longitude）
    */
   private Long y;
 
