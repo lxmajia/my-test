@@ -1,7 +1,7 @@
 package cn.xwlin.seqid;
 
 import cn.xwlin.constans.DsName;
-import cn.xwlin.source.multi.MultiDatasourceRouter;
+import cn.xwlin.dao.datasource.DynamicDatasource;
 import cn.xwlin.util.SpringContextUtil;
 
 import javax.sql.DataSource;
@@ -27,10 +27,10 @@ public class SeqIdUtil {
     if (!sequenceMap.containsKey(key)) {
       synchronized (lock) {
         if (!sequenceMap.containsKey(key)) {
-          MultiDatasourceRouter dataSource = SpringContextUtil.getApplicationContext().getBean(MultiDatasourceRouter.class);
+          DynamicDatasource dataSource = SpringContextUtil.getApplicationContext().getBean(DynamicDatasource.class);
           Map<Object, DataSource> resolvedDataSources;
           try {
-            Field field = MultiDatasourceRouter.class.getSuperclass().getDeclaredField("resolvedDataSources");
+            Field field = DynamicDatasource.class.getSuperclass().getDeclaredField("resolvedDataSources");
             field.setAccessible(true);
             resolvedDataSources = (Map<Object, DataSource>) field.get(dataSource);
           } catch (Exception e) {

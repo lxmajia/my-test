@@ -1,4 +1,4 @@
-package cn.xwlin.source.multi;
+package cn.xwlin.dao.datasource;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -6,12 +6,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 
-import java.util.Objects;
-
 @Aspect
-public class MultiDataSourceAspect {
+public class DataSourceAspect {
 
-    @Pointcut("@annotation(cn.xwlin.source.multi.DS) || @within(cn.xwlin.source.multi.DS)")
+    @Pointcut("@annotation(cn.xwlin.dao.datasource.DS) || @within(cn.xwlin.dao.datasource.DS)")
     public void dataSourcePointCut() {
 
     }
@@ -19,11 +17,11 @@ public class MultiDataSourceAspect {
     @Around("dataSourcePointCut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         String dsKey = getDSAnnotationValue(joinPoint).toUpperCase();
-        MultiDatasourceHolder.setDsName(dsKey);
+        DatasourceSwtich.setDsName(dsKey);
         try {
             return joinPoint.proceed();
         } finally {
-            MultiDatasourceHolder.removeContextKey();
+            DatasourceSwtich.removeContextKey();
         }
     }
 

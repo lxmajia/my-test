@@ -1,4 +1,4 @@
-package cn.xwlin.source.multi;
+package cn.xwlin.dao.datasource;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -4,8 +4,8 @@ info:
   author: majiaxueyuan
 logging:
   level:
-    per.lx.controller: debug
-xwlin:
+    cn.xwlin.controller: debug
+dynamic:
   datasource:
     config:
       MASTER:

@@ -1,9 +1,5 @@
-package cn.xwlin.source.config;
+package cn.xwlin.dao.datasource;
 
-import cn.xwlin.source.multi.MultiDataSourceAspect;
-import cn.xwlin.source.multi.MultiDatasourceHolder;
-import cn.xwlin.source.multi.MultiDatasourceRouter;
-import cn.xwlin.source.properties.DatasourceProperties;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,17 +14,17 @@ import java.util.Set;
 @Configuration
 @EnableConfigurationProperties(DatasourceProperties.class)
 @ConditionalOnClass({DataSource.class})
-public class DataSourceAutoConfiguration {
+public class DataSourceAutoConfig {
     private final DatasourceProperties datasourceProperties;
 
-    public DataSourceAutoConfiguration(DatasourceProperties datasourceProperties) {
+    public DataSourceAutoConfig(DatasourceProperties datasourceProperties) {
         this.datasourceProperties = datasourceProperties;
     }
 
     @Bean("dataSource")
     public DataSource dataSource() {
         preCheckDataSourceProperties(datasourceProperties);
-        MultiDatasourceRouter multiDatasourceRouter = new MultiDatasourceRouter();
+        DynamicDatasource dynamicDatasource = new DynamicDatasource();
         // 如果只有一个数据源的话，那么就是默认的数据源
         Map<String, DatasourceConfig> datasourceConfigMap = datasourceProperties.getConfig();
         Set<String> datasourceKeys = datasourceConfigMap.keySet();
@@ -41,12 +37,12 @@ public class DataSourceAutoConfiguration {
             DataSource dataSource = buildDruidDataSource(datasourceConfig, datasourceProperties.getDriverClass());
             targetDataSources.put(onlyOneKey, dataSource);
 
-            multiDatasourceRouter.setDefaultTargetDataSource(dataSource);
-            multiDatasourceRouter.setTargetDataSources(targetDataSources);
-            multiDatasourceRouter.afterPropertiesSet();
+            dynamicDatasource.setDefaultTargetDataSource(dataSource);
+            dynamicDatasource.setTargetDataSources(targetDataSources);
+            dynamicDatasource.afterPropertiesSet();
 
-            MultiDatasourceHolder.setDefaultDsName(onlyOneKey);
-            return multiDatasourceRouter;
+            DatasourceSwtich.setDefaultDsName(onlyOneKey);
+            return dynamicDatasource;
         }
 
         DataSource defaultDataSource = null;
@@ -58,22 +54,22 @@ public class DataSourceAutoConfiguration {
             targetDataSources.put(key, dataSource);
 
             if (value.getPrimary()) {
-                MultiDatasourceHolder.setDefaultDsName(key);
+                DatasourceSwtich.setDefaultDsName(key);
                 defaultDataSource = dataSource;
             }
         }
 
-        multiDatasourceRouter.setTargetDataSources(targetDataSources);
+        dynamicDatasource.setTargetDataSources(targetDataSources);
         if (defaultDataSource != null) {
-            multiDatasourceRouter.setDefaultTargetDataSource(defaultDataSource);
+            dynamicDatasource.setDefaultTargetDataSource(defaultDataSource);
         }
-        multiDatasourceRouter.afterPropertiesSet();
-        return multiDatasourceRouter;
+        dynamicDatasource.afterPropertiesSet();
+        return dynamicDatasource;
     }
 
     @Bean("multiDataSourceAspect")
-    public MultiDataSourceAspect multiDataSourceAspect() {
-        return new MultiDataSourceAspect();
+    public DataSourceAspect multiDataSourceAspect() {
+        return new DataSourceAspect();
     }
 
     private DataSource buildDruidDataSource(DatasourceConfig datasourceConfig, String driverClassName) {

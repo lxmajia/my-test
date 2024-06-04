@@ -1,6 +1,6 @@
-package cn.xwlin.source.multi;
+package cn.xwlin.dao.datasource;
 
-public class MultiDatasourceHolder {
+public class DatasourceSwtich {
 
     private static String defaultDsName = "";
     /**
@@ -36,6 +36,6 @@ public class MultiDatasourceHolder {
     }
 
     public static void setDefaultDsName(String defaultDsName) {
-        MultiDatasourceHolder.defaultDsName = defaultDsName;
+        DatasourceSwtich.defaultDsName = defaultDsName;
     }
 }

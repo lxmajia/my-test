@@ -1,4 +1,4 @@
-package cn.xwlin.source.config;
+package cn.xwlin.dao.datasource;
 
 import javax.sql.DataSource;
 

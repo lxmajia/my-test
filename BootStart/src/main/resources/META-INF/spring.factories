@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.xwlin.source.config.DataSourceAutoConfiguration
+cn.xwlin.dao.datasource.DataSourceAutoConfig
