@@ -20,8 +20,8 @@ public class OrderController {
     private OrderService orderService;
 
     @RequestMapping("getNewOrderId")
-    public Long getNewOrderId() {
-        return orderService.getOrderId();
+    public Long getNewOrderId(String tableName) {
+        return orderService.getOrderId(tableName);
     }
 
 }

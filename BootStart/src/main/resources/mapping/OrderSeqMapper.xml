@@ -3,9 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.xwlin.dao.OrderSeqMapper">
 
-    <insert id="insertAndGetId" parameterType="cn.xwlin.entity.OrderId"
-            keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        insert into order_seq (`flag`)
-        values (1)
+    <insert id="insertAndGetId" parameterType="cn.xwlin.util.IdBean">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+            SELECT LAST_INSERT_ID() as id;
+        </selectKey>
+        replace into ${tableName} (`id_unique`) values ('u');
     </insert>
+
+
+    <!--
+    CREATE TABLE `seq_order_id` (
+        `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        `id_unique` char(1) NOT NULL DEFAULT '',
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `idUnique` (`id_unique`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+    -->
 </mapper>

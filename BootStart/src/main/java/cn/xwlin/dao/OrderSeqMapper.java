@@ -1,9 +1,9 @@
 package cn.xwlin.dao;
 
-import cn.xwlin.entity.OrderId;
+import cn.xwlin.util.IdBean;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface OrderSeqMapper {
-    Long insertAndGetId(OrderId orderId);
+    Long insertAndGetId(IdBean idBean);
 }

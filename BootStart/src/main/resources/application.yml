@@ -9,10 +9,9 @@ xwlin:
   datasource:
     config:
       MASTER:
-        primary: true
-        url: jdbc:mysql://47.109.56.234:3306/order_info?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        username: root
-        password: LIAOxiang941229
+        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: liaoxiang
+        password: 5yjCVtR0sJcSuOO5
         init-size: 2
         min-idle: 2
         max-active: 2
@@ -20,9 +19,9 @@ xwlin:
         validation-query: SELECT 1 FROM dual
         validation-query-time-out: 2000
       SLAVE:
-        url: jdbc:mysql://47.109.56.234:3306/order_info?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        username: root
-        password: LIAOxiang941229
+        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: liaoxiang
+        password: 5yjCVtR0sJcSuOO5
         init-size: 2
         min-idle: 2
         max-active: 2
@@ -30,9 +29,9 @@ xwlin:
         validation-query: SELECT 1 FROM dual
         validation-query-time-out: 2000
       ORDER:
-        url: jdbc:mysql://47.109.56.234:3306/order_info?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        username: root
-        password: LIAOxiang941229
+        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: liaoxiang
+        password: 5yjCVtR0sJcSuOO5
         init-size: 2
         min-idle: 2
         max-active: 2
@@ -47,7 +46,7 @@ mybatis-plus:
 elasticsearch:
   # es集群名称
   clusterName: my-es
-  # es host ip 地址(集群)：本次使用的是单机模式
+  # es host ip 地址(集群)：本次使用的是单机模式,9200
   hosts: 6dfdbb255cea.c.methodot.com:30179
   # es 连接超时时间
   connectTimeOut: 1000
@@ -68,8 +67,8 @@ elasticsearch:
 
 spring:
   redis:
-    host: 703ec8c00926.c.methodot.com
-    port: 31169
+    host: 39a859fe4d25.c.methodot.com
+    port: 31581
     database: 0
     #password: LIAOxiang941229
     lettuce:
