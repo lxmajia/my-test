@@ -1,42 +1,55 @@
 package cn.xwlin.configcenter.config;
 
-import javax.sql.DataSource;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
+@EnableConfigurationProperties
+@ConfigurationProperties(prefix = "xwlin.configcenter")
 public class ConfigCenterConfig {
-    private String url;
-    private int port = 8899;
-    private String appCode;
-    private String moduleCode;
+  private String url;
+  private int port = 8899;
+  private String appCode;
+  private String moduleCode;
+  private int timeout = 60 * 1000;
 
-    public String getUrl() {
-        return url;
-    }
+  public int getTimeout() {
+    return timeout;
+  }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+  public void setTimeout(int timeout) {
+    this.timeout = timeout;
+  }
 
-    public int getPort() {
-        return port;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setPort(int port) {
-        this.port = port;
-    }
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
-    public String getAppCode() {
-        return appCode;
-    }
+  public int getPort() {
+    return port;
+  }
 
-    public void setAppCode(String appCode) {
-        this.appCode = appCode;
-    }
+  public void setPort(int port) {
+    this.port = port;
+  }
 
-    public String getModuleCode() {
-        return moduleCode;
-    }
+  public String getAppCode() {
+    return appCode;
+  }
 
-    public void setModuleCode(String moduleCode) {
-        this.moduleCode = moduleCode;
-    }
+  public void setAppCode(String appCode) {
+    this.appCode = appCode;
+  }
+
+  public String getModuleCode() {
+    return moduleCode;
+  }
+
+  public void setModuleCode(String moduleCode) {
+    this.moduleCode = moduleCode;
+  }
 }

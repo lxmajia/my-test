@@ -198,6 +198,18 @@
         where unique_key = #{uniqueKey,jdbcType=VARCHAR}
     </select>
 
+    <select id="selectByUniqueKeyList" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from config_info
+        where unique_key in
+        <foreach collection="uniqueKeyList" item="uniKey" open="(" separator="," close=")">
+            #{uniKey}
+        </foreach>
+    </select>
+
     <select id="listChangeConfig" resultMap="BaseResultMap">
         select id,
                app_module_id,
@@ -206,6 +218,7 @@
                config_key,
                unique_key,
                config_type,
+               modified,
                version
         from config_info
         where modified > #{modified,jdbcType=TIMESTAMP}
@@ -219,6 +232,7 @@
                config_key,
                unique_key,
                config_type,
+               modified,
                version
         from config_info
     </select>

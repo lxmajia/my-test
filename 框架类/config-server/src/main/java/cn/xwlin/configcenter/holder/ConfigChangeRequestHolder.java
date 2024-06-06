@@ -11,6 +11,7 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author xiang.liao
@@ -20,11 +21,12 @@ import java.util.*;
 public class ConfigChangeRequestHolder {
 
   @Autowired
-  private ConfigChangeHolder configChangeHolder;
-  private static ListMultimap<String, DeferredResult<HttpResp<GetConfigData>>> myWatchRequests = Multimaps.synchronizedListMultimap(ArrayListMultimap.create());
+  private ConfigCacheManager configCacheManager;
+  private static Map<String, DeferredResult<HttpResp<GetConfigData>>> myWatchRequests = new ConcurrentHashMap<>();
 
-  public void addHolder(String key, Long oldVersion, DeferredResult<HttpResp<GetConfigData>> result) {
-    String requestHolderCacheKey = key + "###" + oldVersion;
+  public void addHolder(String appCode, String moduleCode, String ip, Long lastFetchTime, DeferredResult<HttpResp<GetConfigData>> result) {
+    // 应用名+模块名+时间+IP（用来确认当前请求唯一）
+    String requestHolderCacheKey = appCode + "$" + moduleCode + "$" + lastFetchTime + "$" + ip;
     myWatchRequests.put(requestHolderCacheKey, result);
   }
 
@@ -36,7 +38,7 @@ public class ConfigChangeRequestHolder {
         System.out.println("###ConfigChangeRequestHolder###START");
         while (true) {
           // 服务还没OK，就稍等执行
-          if (!configChangeHolder.serviceOk()) {
+          if (!configCacheManager.serviceOk()) {
             try {
               Thread.sleep(1000);
             } catch (Throwable t) {
@@ -44,49 +46,31 @@ public class ConfigChangeRequestHolder {
             continue;
           }
 
-          // 无数据，空转
-          if (CollectionUtils.isEmpty(myWatchRequests.keys())) {
+          // 没有请求，空转
+          if (CollectionUtils.isEmpty(myWatchRequests)) {
             try {
-              Thread.sleep(500);
+              Thread.sleep(1000);
             } catch (Throwable t) {
             }
             continue;
           }
 
-          Iterator<Map.Entry<String, Collection<DeferredResult<HttpResp<GetConfigData>>>>> iterator = myWatchRequests.asMap().entrySet().iterator();
+          Iterator<Map.Entry<String, DeferredResult<HttpResp<GetConfigData>>>> iterator = myWatchRequests.entrySet().iterator();
           while (iterator.hasNext()) {
-            Map.Entry<String, Collection<DeferredResult<HttpResp<GetConfigData>>>> next = iterator.next();
+            Map.Entry<String, DeferredResult<HttpResp<GetConfigData>>> next = iterator.next();
             String key = next.getKey();
+            DeferredResult<HttpResp<GetConfigData>> value = next.getValue();
 
-            // 过滤出需要处理的（已经设置了返回值和已经超时的，就不处理了）
-            List<DeferredResult<HttpResp<GetConfigData>>> validDefered = Lists.newArrayList();
-            for (DeferredResult<HttpResp<GetConfigData>> stringDeferredResult : next.getValue()) {
-              if (!stringDeferredResult.isSetOrExpired()) {
-                validDefered.add(stringDeferredResult);
-              }
-            }
-            if (CollectionUtils.isEmpty(validDefered)) {
-              iterator.remove();
-              continue;
-            }
-
-            String[] split = key.split("###");
-            MyConfigCheckDTO checkVO = configChangeHolder.checkConfigChange(split[0], Long.valueOf(split[1]));
-
-            if (!checkVO.isConfigExist() || !checkVO.isChange()) {
+            String[] split = key.split("\\$");
+            MyConfigCheckDTO checkVO = configCacheManager.checkConfigChange(split[0], split[1], Long.valueOf(split[2]));
+            if (checkVO.getNewConfigChangeCount() == 0) {
               // 配置不存在或者没更新，等待下次执行
               continue;
             }
-
             GetConfigData getConfigData = new GetConfigData();
-            getConfigData.setOldVersion(checkVO.getOldVersion());
-            getConfigData.setNewVersion(checkVO.getNewVersion());
-            getConfigData.setUniqueKey(checkVO.getUniqueKey());
-            getConfigData.setConfigValue(checkVO.getNewConfigValue());
-            HttpResp resp = HttpResp.succuess(getConfigData);
-            validDefered.forEach(v -> {
-              v.setResult(resp);
-            });
+            getConfigData.setChangeCount(checkVO.getNewConfigChangeCount());
+            getConfigData.setChangeConfigMap(checkVO.getNewConfigValueMap());
+            value.setResult(HttpResp.succuess(getConfigData));
             iterator.remove();
           }
         }

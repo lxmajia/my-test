@@ -1,73 +1,38 @@
 package cn.xwlin.configcenter.dto;
 
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author xiang.liao
  * @create 2024/5/6
  */
 public class MyConfigCheckDTO {
-  private boolean configExist;
-  private String uniqueKey;
-  private Long oldVersion;
-  private Long newVersion;
-  private boolean isChange;
-  private String newConfigValue;
-  private Date modified;
+  private int newConfigChangeCount;
+  private Long nextFetchTime;
+  private Map<String, String> newConfigValueMap = new HashMap<>();
 
-  public boolean isConfigExist() {
-    return configExist;
+  public int getNewConfigChangeCount() {
+    return newConfigChangeCount;
   }
 
-  public void setConfigExist(boolean configExist) {
-    this.configExist = configExist;
+  public void setNewConfigChangeCount(int newConfigChangeCount) {
+    this.newConfigChangeCount = newConfigChangeCount;
   }
 
-  public String getUniqueKey() {
-    return uniqueKey;
+  public Long getNextFetchTime() {
+    return nextFetchTime;
   }
 
-  public void setUniqueKey(String uniqueKey) {
-    this.uniqueKey = uniqueKey;
+  public void setNextFetchTime(Long nextFetchTime) {
+    this.nextFetchTime = nextFetchTime;
   }
 
-  public Long getOldVersion() {
-    return oldVersion;
+  public Map<String, String> getNewConfigValueMap() {
+    return newConfigValueMap;
   }
 
-  public void setOldVersion(Long oldVersion) {
-    this.oldVersion = oldVersion;
-  }
-
-  public Long getNewVersion() {
-    return newVersion;
-  }
-
-  public void setNewVersion(Long newVersion) {
-    this.newVersion = newVersion;
-  }
-
-  public boolean isChange() {
-    return isChange;
-  }
-
-  public void setChange(boolean change) {
-    isChange = change;
-  }
-
-  public String getNewConfigValue() {
-    return newConfigValue;
-  }
-
-  public void setNewConfigValue(String newConfigValue) {
-    this.newConfigValue = newConfigValue;
-  }
-
-  public Date getModified() {
-    return modified;
-  }
-
-  public void setModified(Date modified) {
-    this.modified = modified;
+  public void setNewConfigValueMap(Map<String, String> newConfigValueMap) {
+    this.newConfigValueMap = newConfigValueMap;
   }
 }

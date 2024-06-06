@@ -25,19 +25,23 @@ public class ConfigCenterController {
   private ConfigService configService;
 
   @RequestMapping("/checkAppModule")
-  public HttpResp checkAppModule(String appCode,String moduleCode) {
+  public HttpResp checkAppModule(String appCode, String moduleCode) {
     return configService.checkAppModule(appCode, moduleCode);
   }
 
   @RequestMapping("/refreshConfig")
-  public DeferredResult<HttpResp<GetConfigData>> sayHello(String uniqueKey,
-                                                          long oldVersion,
-                                                          Long requestTimeout) {
+  public DeferredResult<HttpResp<GetConfigData>> sayHello(String appCode, String moduleCode, String ip, long lastFetchTime, Long requestTimeout) {
     DeferredResult<HttpResp<GetConfigData>> result = new DeferredResult<>(requestTimeout - 5000);
-    configChangeRequestHolder.addHolder(uniqueKey, oldVersion, result);
+    configChangeRequestHolder.addHolder(appCode, moduleCode, ip, lastFetchTime, result);
     result.onTimeout(() -> {
-      result.setResult(HttpResp.fail(408,"timeout"));
+      result.setResult(HttpResp.succuess());
     });
     return result;
+  }
+
+  @RequestMapping("/getConfigValue")
+  public HttpResp<GetConfigData> sayHello(String appCode, String moduleCode,
+                                                          String configKey) {
+    return HttpResp.succuess();
   }
 }

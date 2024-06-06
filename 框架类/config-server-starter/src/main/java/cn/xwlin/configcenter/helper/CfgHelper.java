@@ -1,6 +1,8 @@
 package cn.xwlin.configcenter.helper;
 
+import cn.xwlin.configcenter.config.ConfigCenterConfig;
 import cn.xwlin.configcenter.holder.ConfigCacheManeger;
+import cn.xwlin.configcenter.holder.ConfigCenterConfigHold;
 import cn.xwlin.configcenter.timer.ConfigClientTimer;
 import cn.xwlin.configcenter.timer.ConfigFetchTimerTask;
 
@@ -10,28 +12,30 @@ import cn.xwlin.configcenter.timer.ConfigFetchTimerTask;
  * @create 2024/5/22
  */
 public class CfgHelper {
-  private ConfigCacheManeger configHelper;
+  private ConfigCacheManeger configManager;
   private ConfigFetchTimerTask configFetchTimerTask;
 
-  public CfgHelper() {
-    configFetchTimerTask = ConfigFetchTimerTask.getConfigFetchTimerTaskInstance();
+  public CfgHelper(ConfigCenterConfig configCenterConfig) {
+    configManager = new ConfigCacheManeger();
+    configManager.runConfigManager();
+    ConfigCenterConfigHold.appCode = configCenterConfig.getAppCode();
+    ConfigCenterConfigHold.moduleCode = configCenterConfig.getModuleCode();
+    ConfigCenterConfigHold.url = configCenterConfig.getUrl();
+    ConfigCenterConfigHold.port = configCenterConfig.getPort();
+    ConfigCenterConfigHold.timeout = configCenterConfig.getTimeout();
   }
 
   public <T> T getConfig(Class<T> clazz) {
     T value = null;
     // if start error, lazy-loading
-    if (this.configHelper == null) {
+    if (this.configManager == null) {
       synchronized (CfgHelper.class) {
-        if (this.configHelper == null) {
-          this.configHelper = new ConfigCacheManeger();
+        if (this.configManager == null) {
+          this.configManager = new ConfigCacheManeger();
         }
       }
     }
-    value = configHelper.GetConfigValue(clazz.getSimpleName(), clazz);
+    value = configManager.GetConfigValue(clazz.getSimpleName(), clazz);
     return value;
-  }
-
-  private void GetConfigTimerStart() {
-    ConfigClientTimer.TimerInstanceStart(configFetchTimerTask, 60 * 1000);
   }
 }

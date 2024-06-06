@@ -1,5 +1,7 @@
 package cn.xwlin.configcenter.timer;
 
+import cn.xwlin.configcenter.holder.ConfigCenterConfigHold;
+
 import java.util.Timer;
 
 /**
@@ -10,19 +12,19 @@ public class ConfigClientTimer {
   private static Timer timer;
   private static final Object obj = new Object();
 
-  private ConfigClientTimer() {
-
-  }
-
-  public static void TimerInstanceStart(ConfigFetchTimerTask timerTask,long timerPeriod) {
+  public static void TimerInstanceStart(ConfigFetchTimerTask timerTask) {
     if (null == timer) {
       synchronized (obj) {
         if (null == timer) {
           timer = new Timer("ConfigCenter-fetch_timer", true);
+          long timerPeriod = ConfigCenterConfigHold.timeout;
           if (timerPeriod < 10000) {
             timerPeriod = 10000;
           }
-          timer.scheduleAtFixedRate(timerTask, 0, timerPeriod);
+          if (timerPeriod > 60000) {
+            timerPeriod = 60;
+          }timerTask
+          timer.scheduleAtFixedRate(, 0, timerPeriod);
         }
       }
     }

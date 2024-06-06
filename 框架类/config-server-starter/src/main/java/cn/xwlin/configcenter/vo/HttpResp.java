@@ -1,16 +1,45 @@
 package cn.xwlin.configcenter.vo;
 
 import cn.xwlin.configcenter.util.OSUtils;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+
 public class HttpResp<T> {
   private int code;
   private String message;
   private String serverIp;
   private T body;
+
+  public int getCode() {
+    return code;
+  }
+
+  public void setCode(int code) {
+    this.code = code;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  public String getServerIp() {
+    return serverIp;
+  }
+
+  public void setServerIp(String serverIp) {
+    this.serverIp = serverIp;
+  }
+
+  public T getBody() {
+    return body;
+  }
+
+  public void setBody(T body) {
+    this.body = body;
+  }
 
   public HttpResp() {
     this.serverIp = OSUtils.getLocalIP();

@@ -25,6 +25,7 @@ public interface ConfigInfoMapper {
     int updateByPrimaryKey(ConfigInfo record);
 
     ConfigInfo selectByUniqueKey(@Param("uniqueKey") String uniqueKey);
+    List<ConfigInfo> selectByUniqueKeyList(@Param("uniqueKeyList") List<String> uniqueKeyList);
 
     List<ConfigInfo> listChangeConfig(@Param("modified") Date modified);
 

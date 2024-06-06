@@ -1,0 +1,102 @@
+package cn.xwlin.configcenter.holder;
+
+import cn.xwlin.configcenter.entity.ConfigInfo;
+import cn.xwlin.configcenter.mapper.ConfigInfoMapper;
+import cn.xwlin.configcenter.dto.MyConfigCheckDTO;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * @author xiang.liao
+ * @create 2024/5/6
+ */
+@Component
+public class ConfigCacheManager {
+  private boolean initSuccess = false;
+  /**
+   * 具体的key=appCode#moduleCode
+   * value=<configKey,modifyTime>
+   */
+  private static Map<String, Map<String, Long>> appModuleConfigKeyTimestampMap = new ConcurrentHashMap<>();
+  private static long localRefreshTime;
+
+  @Autowired
+  private ConfigInfoMapper myConfigDao;
+
+  @PostConstruct
+  public void init() {
+    localRefreshTime = System.currentTimeMillis();
+    List<ConfigInfo> myConfigs = myConfigDao.listAllConfig();
+    for (ConfigInfo myConfig : myConfigs) {
+      String appModule = myConfig.getAppCode() + "$" + myConfig.getModuleCode();
+      String configKey = myConfig.getConfigKey();
+      long time = myConfig.getModified().getTime();
+      if (!appModuleConfigKeyTimestampMap.containsKey(appModule)) {
+        appModuleConfigKeyTimestampMap.put(appModule, new HashMap<>());
+      }
+      appModuleConfigKeyTimestampMap.get(appModule).put(configKey, time);
+    }
+    this.initSuccess = true;
+    System.out.println("初始化成功，设置为true");
+  }
+
+  public boolean serviceOk() {
+    return initSuccess;
+  }
+
+  @Scheduled(cron = "0/15 * * * * ?")
+  public void schedule() {
+    if (!this.initSuccess) {
+      return;
+    }
+    // 更新配置版本(10分钟之前更新的都刷新一遍)
+    localRefreshTime = System.currentTimeMillis();
+    long before10MinDate = localRefreshTime - (10 * 60 * 1000);
+    Date date = new Date(before10MinDate);
+    // 从数据库拉取配置
+    List<ConfigInfo> myConfigs = myConfigDao.listChangeConfig(date);
+    for (ConfigInfo myConfig : myConfigs) {
+      String appModule = myConfig.getAppCode() + "$" + myConfig.getModuleCode();
+      String configKey = myConfig.getConfigKey();
+      long time = myConfig.getModified().getTime();
+      if (!appModuleConfigKeyTimestampMap.containsKey(appModule)) {
+        appModuleConfigKeyTimestampMap.put(appModule, new HashMap<>());
+      }
+      appModuleConfigKeyTimestampMap.get(appModule).put(configKey, time);
+    }
+  }
+
+  public MyConfigCheckDTO checkConfigChange(String appCode, String moduleCode, Long time) {
+    String appModule = appCode + "$" + moduleCode;
+    MyConfigCheckDTO checkVO = new MyConfigCheckDTO();
+    checkVO.setNextFetchTime(localRefreshTime);
+    if (!appModuleConfigKeyTimestampMap.containsKey(appModule)) {
+      checkVO.setNewConfigChangeCount(0);
+      return checkVO;
+    }
+    Map<String, Long> configKeyTimestampMap = appModuleConfigKeyTimestampMap.get(appModule);
+
+    Set<String> changeUniqueId = Sets.newHashSet();
+    for (Map.Entry<String, Long> stringLongEntry : configKeyTimestampMap.entrySet()) {
+      String configKey = stringLongEntry.getKey();
+      Long value = stringLongEntry.getValue();
+      if (value > time) {
+        String configUniqueId = appModule + "$" + configKey;
+        changeUniqueId.add(configUniqueId);
+      }
+    }
+    checkVO.setNewConfigChangeCount(changeUniqueId.size());
+    List<ConfigInfo> configInfos = myConfigDao.selectByUniqueKeyList(Lists.newArrayList(changeUniqueId));
+    for (ConfigInfo configInfo : configInfos) {
+      checkVO.getNewConfigValueMap().put(configInfo.getConfigKey(), configInfo.getConfigValue());
+    }
+    return checkVO;
+  }
+}

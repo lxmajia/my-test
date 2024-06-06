@@ -1,6 +1,13 @@
 package cn.xwlin.configcenter.holder;
 
+import cn.xwlin.configcenter.timer.ConfigClientTimer;
+import cn.xwlin.configcenter.timer.ConfigFetchNetwork;
+import cn.xwlin.configcenter.timer.ConfigFetchTimerTask;
+import cn.xwlin.configcenter.vo.GetConfigData;
+import cn.xwlin.configcenter.vo.HttpResp;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.TypeReference;
+import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +17,11 @@ import java.util.Map;
  * @create 2024/5/22
  */
 public class ConfigCacheManeger {
-  private String appCode;
-  private String moduleCode;
+  public static Long refreshTime;
   private static Map<String, ConfigCacheVO> configCacheMap = new HashMap<>();
+
+  public ConfigCacheManeger() {
+  }
 
   public <T> T GetConfigValue(String key, Class<T> clazz) {
     return GetConfigValueFromCacheMap(key, clazz, null);
@@ -33,14 +42,41 @@ public class ConfigCacheManeger {
     return defaultValue;
   }
 
-  public static void addOrRefreshCacheMap(String key, String value, Long version) {
-    if (null == key || key.trim().isEmpty()) {
+  public void runConfigManager() {
+    refreshTime = System.currentTimeMillis();
+    // 先获取所有配置
+    initAllConfig();
+    // 定时任务Task
+    ConfigFetchTimerTask configFetchTimerTask =
+            ConfigFetchTimerTask.getConfigFetchTimerTaskInstance();
+    ConfigClientTimer.TimerInstanceStart(configFetchTimerTask);
+  }
+
+  public void initAllConfig() {
+    // firstFetchAllConfig
+    String allConfig = ConfigFetchNetwork.getAllConfig();
+    if (allConfig != null) {
+      TypeReference<HttpResp<GetConfigData>> typeReference = new TypeReference<HttpResp<GetConfigData>>() {
+      };
+      HttpResp<GetConfigData> getConfigDataHttpResp = JSONObject.parseObject(allConfig, typeReference);
+      if (getConfigDataHttpResp != null && getConfigDataHttpResp.getBody() != null) {
+        refreshCacheMap(getConfigDataHttpResp.getBody());
+      }
+    }
+  }
+
+
+  public static void refreshCacheMap(GetConfigData getConfigData) {
+    if (getConfigData == null) {
       return;
     }
-    ConfigCacheVO configCacheVO = new ConfigCacheVO();
-    configCacheVO.setVersion(version);
-    configCacheVO.setKey(key.trim());
-    configCacheVO.setConfigValue(value);
-    configCacheMap.put(key.trim(), configCacheVO);
+    if (!CollectionUtils.isEmpty(getConfigData.getChangeConfigMap())) {
+      for (Map.Entry<String, String> stringStringEntry : getConfigData.getChangeConfigMap().entrySet()) {
+        ConfigCacheVO configCacheVO = new ConfigCacheVO();
+        configCacheVO.setKey(stringStringEntry.getKey().trim());
+        configCacheVO.setConfigValue(stringStringEntry.getValue());
+        configCacheMap.put(stringStringEntry.getKey().trim(), configCacheVO);
+      }
+    }
   }
 }

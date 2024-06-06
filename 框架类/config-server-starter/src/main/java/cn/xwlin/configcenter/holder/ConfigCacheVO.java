@@ -7,7 +7,6 @@ package cn.xwlin.configcenter.holder;
  */
 public class ConfigCacheVO {
   private String key;
-  private long version;
   private String configValue;
 
   public String getKey() {
@@ -16,14 +15,6 @@ public class ConfigCacheVO {
 
   public void setKey(String key) {
     this.key = key;
-  }
-
-  public long getVersion() {
-    return version;
-  }
-
-  public void setVersion(long version) {
-    this.version = version;
   }
 
   public String getConfigValue() {
