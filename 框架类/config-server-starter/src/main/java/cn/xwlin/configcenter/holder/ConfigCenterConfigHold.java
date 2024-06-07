@@ -12,13 +12,13 @@ public class ConfigCenterConfigHold {
 
   private static String version = "1.0.0";
   private static String VERIFT_APP_MODULE = "/config/checkAppModule";
-  private static String GET_ALL_CONFIG = "/config/initAllConfig";
+  private static String GET_ALL_CONFIG = "/config/getAllConfig";
   private static String REFRESH_CONFIG = "/config/refreshConfig";
   private static String GET_CONFIG_VALUE = "/config/getConfigValue";
 
   public static String getCheckAppModuleUrl() {
     boolean b = url.startsWith("http");
-    return b ? "" : "http://" + url + ":" + port + VERIFT_APP_MODULE + "?appCode=" + appCode + "&" + "moduleCode=" + moduleCode;
+    return b ? "" : "http://" + url + ":" + port + VERIFT_APP_MODULE + "?appCode=" + appCode + "&" + "moduleCode=" + moduleCode+ "&ip=" + OSUtils.getLocalIP();
   }
 
   public static String getAllConfig() {
@@ -29,7 +29,7 @@ public class ConfigCenterConfigHold {
   public static String getRefreshConfig() {
     boolean b = url.startsWith("http");
     return b ? "" :
-            "http://" + url + ":" + port + REFRESH_CONFIG + "?appCode=" + appCode + "&" + "moduleCode=" + moduleCode + "&lastFetchTime=" + ConfigCacheManeger.refreshTime + "&requestTimeout=" + timeout + "&ip=" + OSUtils.getLocalIP();
+            "http://" + url + ":" + port + REFRESH_CONFIG + "?appCode=" + appCode + "&" + "moduleCode=" + moduleCode + "&lastFetchTime=" + ClientConfigCacheManager.refreshTime + "&requestTimeout=" + timeout + "&ip=" + OSUtils.getLocalIP();
   }
 
   public static String getConfigValue(String configKey) {

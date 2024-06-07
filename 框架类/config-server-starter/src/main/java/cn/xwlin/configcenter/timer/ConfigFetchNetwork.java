@@ -9,12 +9,14 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by minji on 15/11/16.
  */
 public class ConfigFetchNetwork {
-  private static OkHttpClient okHttpClient = new OkHttpClient();
+  private static OkHttpClient okHttpClient = null;
+  private static Object lock = new Object();
 
   public static String checkAppModule() {
     // 拉取配置，并更新缓存
@@ -43,6 +45,15 @@ public class ConfigFetchNetwork {
   }
 
   public static String refreshConfig() {
+    if (okHttpClient == null) {
+      synchronized (lock) {
+        okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(3, TimeUnit.SECONDS)
+                .readTimeout(ConfigCenterConfigHold.timeout, TimeUnit.MILLISECONDS)
+                .build();
+      }
+    }
+
     // 拉取配置，并更新缓存
     Request request = new Request.Builder().url(ConfigCenterConfigHold.getRefreshConfig()).build();
     try (Response response = okHttpClient.newCall(request).execute()) {

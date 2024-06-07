@@ -60,6 +60,10 @@ public class ConfigChangeRequestHolder {
             Map.Entry<String, DeferredResult<HttpResp<GetConfigData>>> next = iterator.next();
             String key = next.getKey();
             DeferredResult<HttpResp<GetConfigData>> value = next.getValue();
+            if (value.isSetOrExpired()) {
+              iterator.remove();
+              continue;
+            }
 
             String[] split = key.split("\\$");
             MyConfigCheckDTO checkVO = configCacheManager.checkConfigChange(split[0], split[1], Long.valueOf(split[2]));
@@ -68,10 +72,10 @@ public class ConfigChangeRequestHolder {
               continue;
             }
             GetConfigData getConfigData = new GetConfigData();
+            getConfigData.setNextTimeMills(checkVO.getNextFetchTime());
             getConfigData.setChangeCount(checkVO.getNewConfigChangeCount());
             getConfigData.setChangeConfigMap(checkVO.getNewConfigValueMap());
             value.setResult(HttpResp.succuess(getConfigData));
-            iterator.remove();
           }
         }
       }

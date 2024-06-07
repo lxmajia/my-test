@@ -16,11 +16,11 @@ import java.util.Map;
  * @author xiang.liao
  * @create 2024/5/22
  */
-public class ConfigCacheManeger {
+public class ClientConfigCacheManager {
   public static Long refreshTime;
   private static Map<String, ConfigCacheVO> configCacheMap = new HashMap<>();
 
-  public ConfigCacheManeger() {
+  public ClientConfigCacheManager() {
   }
 
   public <T> T GetConfigValue(String key, Class<T> clazz) {
@@ -43,7 +43,7 @@ public class ConfigCacheManeger {
   }
 
   public void runConfigManager() {
-    refreshTime = System.currentTimeMillis();
+    ClientConfigCacheManager.refreshTime = System.currentTimeMillis();
     // 先获取所有配置
     initAllConfig();
     // 定时任务Task

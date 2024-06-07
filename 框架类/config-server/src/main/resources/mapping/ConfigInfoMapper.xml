@@ -210,6 +210,16 @@
         </foreach>
     </select>
 
+    <select id="selectByAppModuleCode" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from config_info
+        where app_code = #{appCode,jdbcType=VARCHAR}
+        and module_code = #{moduleCode,jdbcType=VARCHAR}
+    </select>
+
     <select id="listChangeConfig" resultMap="BaseResultMap">
         select id,
                app_module_id,

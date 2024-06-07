@@ -10,6 +10,7 @@ public class HttpResp<T> {
   private int code;
   private String message;
   private String serverIp;
+  private Long serverTime;
   private T body;
 
   public HttpResp() {

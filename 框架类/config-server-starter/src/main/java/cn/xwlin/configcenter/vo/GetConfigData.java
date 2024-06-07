@@ -7,24 +7,34 @@ import java.util.Map;
  * @create 2024/5/22
  */
 public class GetConfigData {
-  private long appCode;
-  private long moduleCode;
+  private String appCode;
+  private String moduleCode;
+
+  private long nextTimeMills;
   private int changeCount;
   private Map<String, String> changeConfigMap;
 
-  public long getAppCode() {
+  public long getNextTimeMills() {
+    return nextTimeMills;
+  }
+
+  public void setNextTimeMills(long nextTimeMills) {
+    this.nextTimeMills = nextTimeMills;
+  }
+
+  public String getAppCode() {
     return appCode;
   }
 
-  public void setAppCode(long appCode) {
+  public void setAppCode(String appCode) {
     this.appCode = appCode;
   }
 
-  public long getModuleCode() {
+  public String getModuleCode() {
     return moduleCode;
   }
 
-  public void setModuleCode(long moduleCode) {
+  public void setModuleCode(String moduleCode) {
     this.moduleCode = moduleCode;
   }
 

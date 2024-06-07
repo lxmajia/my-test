@@ -7,7 +7,17 @@ public class HttpResp<T> {
   private int code;
   private String message;
   private String serverIp;
+  private Long serverTime;
   private T body;
+
+
+  public Long getServerTime() {
+    return serverTime;
+  }
+
+  public void setServerTime(Long serverTime) {
+    this.serverTime = serverTime;
+  }
 
   public int getCode() {
     return code;

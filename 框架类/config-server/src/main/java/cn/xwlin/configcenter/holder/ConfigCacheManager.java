@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -93,6 +94,9 @@ public class ConfigCacheManager {
       }
     }
     checkVO.setNewConfigChangeCount(changeUniqueId.size());
+    if(CollectionUtils.isEmpty(changeUniqueId)){
+      return checkVO;
+    }
     List<ConfigInfo> configInfos = myConfigDao.selectByUniqueKeyList(Lists.newArrayList(changeUniqueId));
     for (ConfigInfo configInfo : configInfos) {
       checkVO.getNewConfigValueMap().put(configInfo.getConfigKey(), configInfo.getConfigValue());

@@ -1,18 +1,16 @@
 package cn.xwlin.configcenter.timer;
 
 
-import cn.xwlin.configcenter.holder.ConfigCacheManeger;
+import cn.xwlin.configcenter.holder.ClientConfigCacheManager;
 import cn.xwlin.configcenter.vo.GetConfigData;
 import cn.xwlin.configcenter.vo.HttpResp;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Objects;
 import java.util.TimerTask;
+import java.util.UUID;
 
 /**
  * Created by minji on 15/11/16.
@@ -20,6 +18,8 @@ import java.util.TimerTask;
 public class ConfigFetchTimerTask extends TimerTask {
   private static ConfigFetchTimerTask hotSwitchTimerTask;
   private static final Object lock = new Object();
+
+  private static Logger logger = LoggerFactory.getLogger(ConfigFetchTimerTask.class);
 
   public static ConfigFetchTimerTask getConfigFetchTimerTaskInstance() {
     if (null == hotSwitchTimerTask) {
@@ -34,11 +34,16 @@ public class ConfigFetchTimerTask extends TimerTask {
 
   @Override
   public void run() {
+    String uuid = UUID.randomUUID().toString();
+    logger.info("REFRESH:" + uuid + ":S");
     String refreshConfig = ConfigFetchNetwork.refreshConfig();
-    TypeReference<HttpResp<GetConfigData>> typeReference = new TypeReference<HttpResp<GetConfigData>>() {};
+    logger.info("REFRESH:" + uuid + ":E");
+    TypeReference<HttpResp<GetConfigData>> typeReference = new TypeReference<HttpResp<GetConfigData>>() {
+    };
     HttpResp<GetConfigData> getConfigDataHttpResp = JSONObject.parseObject(refreshConfig, typeReference);
     if (getConfigDataHttpResp != null && getConfigDataHttpResp.getBody() != null) {
-      ConfigCacheManeger.(getConfigDataHttpResp.getBody());
+      ClientConfigCacheManager.refreshTime = getConfigDataHttpResp.getBody().getNextTimeMills();
+      ClientConfigCacheManager.refreshCacheMap(getConfigDataHttpResp.getBody());
     }
   }
 }

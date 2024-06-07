@@ -23,8 +23,8 @@ public class ConfigClientTimer {
           }
           if (timerPeriod > 60000) {
             timerPeriod = 60;
-          }timerTask
-          timer.scheduleAtFixedRate(, 0, timerPeriod);
+          }
+          timer.scheduleAtFixedRate(timerTask, 0, timerPeriod);
         }
       }
     }

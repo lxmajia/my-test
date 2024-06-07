@@ -29,6 +29,16 @@ public class ConfigCenterController {
     return configService.checkAppModule(appCode, moduleCode);
   }
 
+  @RequestMapping("/getAllConfig")
+  public HttpResp<GetConfigData> getAllConfig(String appCode, String moduleCode) {
+    return configService.getAllConfig(appCode, moduleCode);
+  }
+
+  @RequestMapping("/getConfigValue")
+  public HttpResp<GetConfigData> sayHello(String appCode, String moduleCode, String configKey) {
+    return configService.getConfigValue(appCode, moduleCode, configKey);
+  }
+
   @RequestMapping("/refreshConfig")
   public DeferredResult<HttpResp<GetConfigData>> sayHello(String appCode, String moduleCode, String ip, long lastFetchTime, Long requestTimeout) {
     DeferredResult<HttpResp<GetConfigData>> result = new DeferredResult<>(requestTimeout - 5000);
@@ -37,11 +47,5 @@ public class ConfigCenterController {
       result.setResult(HttpResp.succuess());
     });
     return result;
-  }
-
-  @RequestMapping("/getConfigValue")
-  public HttpResp<GetConfigData> sayHello(String appCode, String moduleCode,
-                                                          String configKey) {
-    return HttpResp.succuess();
   }
 }

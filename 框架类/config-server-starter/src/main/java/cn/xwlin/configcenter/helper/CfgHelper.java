@@ -1,10 +1,8 @@
 package cn.xwlin.configcenter.helper;
 
 import cn.xwlin.configcenter.config.ConfigCenterConfig;
-import cn.xwlin.configcenter.holder.ConfigCacheManeger;
+import cn.xwlin.configcenter.holder.ClientConfigCacheManager;
 import cn.xwlin.configcenter.holder.ConfigCenterConfigHold;
-import cn.xwlin.configcenter.timer.ConfigClientTimer;
-import cn.xwlin.configcenter.timer.ConfigFetchTimerTask;
 
 
 /**
@@ -12,17 +10,16 @@ import cn.xwlin.configcenter.timer.ConfigFetchTimerTask;
  * @create 2024/5/22
  */
 public class CfgHelper {
-  private ConfigCacheManeger configManager;
-  private ConfigFetchTimerTask configFetchTimerTask;
+  private ClientConfigCacheManager configManager;
 
   public CfgHelper(ConfigCenterConfig configCenterConfig) {
-    configManager = new ConfigCacheManeger();
-    configManager.runConfigManager();
     ConfigCenterConfigHold.appCode = configCenterConfig.getAppCode();
     ConfigCenterConfigHold.moduleCode = configCenterConfig.getModuleCode();
     ConfigCenterConfigHold.url = configCenterConfig.getUrl();
     ConfigCenterConfigHold.port = configCenterConfig.getPort();
     ConfigCenterConfigHold.timeout = configCenterConfig.getTimeout();
+    configManager = new ClientConfigCacheManager();
+    configManager.runConfigManager();
   }
 
   public <T> T getConfig(Class<T> clazz) {
@@ -31,7 +28,7 @@ public class CfgHelper {
     if (this.configManager == null) {
       synchronized (CfgHelper.class) {
         if (this.configManager == null) {
-          this.configManager = new ConfigCacheManeger();
+          this.configManager = new ClientConfigCacheManager();
         }
       }
     }
