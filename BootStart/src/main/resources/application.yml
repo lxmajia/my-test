@@ -92,3 +92,5 @@ xwlin:
     port: 8899
     app-code: order
     module-code: order-web
+sys:
+  name: ZhangSan

@@ -1,7 +1,9 @@
 package cn.xwlin.configcenter.controller;
 
+import cn.xwlin.configcenter.entity.SysConfig;
 import cn.xwlin.configcenter.holder.ConfigChangeRequestHolder;
 import cn.xwlin.configcenter.service.ConfigService;
+import cn.xwlin.configcenter.service.SysConfigService;
 import cn.xwlin.configcenter.vo.GetConfigData;
 import cn.xwlin.configcenter.vo.HttpResp;
 import lombok.SneakyThrows;
@@ -23,10 +25,17 @@ public class ConfigCenterController {
   private ConfigChangeRequestHolder configChangeRequestHolder;
   @Autowired
   private ConfigService configService;
+  @Autowired
+  private SysConfigService sysConfigService;
 
   @RequestMapping("/checkAppModule")
   public HttpResp checkAppModule(String appCode, String moduleCode) {
     return configService.checkAppModule(appCode, moduleCode);
+  }
+
+  @RequestMapping("/getSysConfig")
+  public HttpResp<GetConfigData> getSysConfig(String appCode, String moduleCode) {
+    return sysConfigService.getSysConfig(appCode, moduleCode);
   }
 
   @RequestMapping("/getAllConfig")

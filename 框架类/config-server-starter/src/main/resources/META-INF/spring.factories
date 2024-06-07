@@ -1,2 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.xwlin.configcenter.config.ConfigCenterAutoConfiguration
+ cn.xwlin.configcenter.config.ConfigCenterAutoConfiguration
+
+
+org.springframework.boot.env.EnvironmentPostProcessor=\
+ cn.xwlin.configcenter.config.SysConfigProcessEnvironmentPrepay
