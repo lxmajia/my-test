@@ -13,6 +13,15 @@ public class GetConfigData {
   private long nextTimeMills;
   private int changeCount;
   private Map<String, String> changeConfigMap;
+  private Map<String, Object> sysConfigMap;
+
+  public Map<String, Object> getSysConfigMap() {
+    return sysConfigMap;
+  }
+
+  public void setSysConfigMap(Map<String, Object> sysConfigMap) {
+    this.sysConfigMap = sysConfigMap;
+  }
 
   public long getNextTimeMills() {
     return nextTimeMills;

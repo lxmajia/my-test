@@ -4,7 +4,7 @@ package cn.xwlin.configcenter.holder;
 import cn.xwlin.configcenter.util.OSUtils;
 
 public class ConfigCenterConfigHold {
-  public static String url;
+  public static String url = "server.xwlin.cn";
   public static int port = 8899;
   public static String appCode;
   public static String moduleCode;
@@ -13,6 +13,7 @@ public class ConfigCenterConfigHold {
   private static String version = "1.0.0";
   private static String VERIFT_APP_MODULE = "/config/checkAppModule";
   private static String GET_ALL_CONFIG = "/config/getAllConfig";
+  private static String GET_SYS_CONFIG = "/config/getSysConfig";
   private static String REFRESH_CONFIG = "/config/refreshConfig";
   private static String GET_CONFIG_VALUE = "/config/getConfigValue";
 
@@ -24,6 +25,12 @@ public class ConfigCenterConfigHold {
   public static String getAllConfig() {
     boolean b = url.startsWith("http");
     return b ? "" : "http://" + url + ":" + port + GET_ALL_CONFIG + "?appCode=" + appCode + "&" + "moduleCode=" + moduleCode + "&ip=" + OSUtils.getLocalIP();
+  }
+
+  public static String getSysConfig() {
+    boolean b = url.startsWith("http");
+    return b ? "" : "http://" + url + ":" + port + GET_SYS_CONFIG + "?appCode=" + appCode + "&" +
+            "moduleCode=" + moduleCode + "&ip=" + OSUtils.getLocalIP();
   }
 
   public static String getRefreshConfig() {

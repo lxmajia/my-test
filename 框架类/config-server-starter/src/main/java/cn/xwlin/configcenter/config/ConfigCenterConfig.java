@@ -5,20 +5,20 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "xwlin.configcenter")
+@ConfigurationProperties(prefix = "wl.app")
 public class ConfigCenterConfig {
-  private String url;
+  private String url = "server.xwlin.cn";
   private int port = 8899;
   private String appCode;
   private String moduleCode;
-  private int timeout = 60 * 1000;
+  private int refreshConfigTimeout = 60 * 1000;
 
-  public int getTimeout() {
-    return timeout;
+  public int getRefreshConfigTimeout() {
+    return refreshConfigTimeout;
   }
 
-  public void setTimeout(int timeout) {
-    this.timeout = timeout;
+  public void setRefreshConfigTimeout(int refreshConfigTimeout) {
+    this.refreshConfigTimeout = refreshConfigTimeout;
   }
 
   public String getUrl() {

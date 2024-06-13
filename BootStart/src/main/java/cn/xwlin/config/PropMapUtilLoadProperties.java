@@ -14,12 +14,12 @@ import java.util.Map;
  */
 @Data
 @Configuration
-public class MyMappingProperties implements InitializingBean {
+public class PropMapUtilLoadProperties implements InitializingBean {
   private Map<String, String> myMapping = new HashMap<>();
 
   @Override
   public void afterPropertiesSet() {
-    Map<String, String> stringStringMap = PropertiesUtils.loadProperties("myMapping.properties");
+    Map<String, String> stringStringMap = PropertiesUtils.loadProperties("config/prop_map_util_load.properties");
     myMapping = stringStringMap;
   }
 }

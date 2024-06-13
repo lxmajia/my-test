@@ -12,12 +12,7 @@ import cn.xwlin.configcenter.holder.ConfigCenterConfigHold;
 public class CfgHelper {
   private ClientConfigCacheManager configManager;
 
-  public CfgHelper(ConfigCenterConfig configCenterConfig) {
-    ConfigCenterConfigHold.appCode = configCenterConfig.getAppCode();
-    ConfigCenterConfigHold.moduleCode = configCenterConfig.getModuleCode();
-    ConfigCenterConfigHold.url = configCenterConfig.getUrl();
-    ConfigCenterConfigHold.port = configCenterConfig.getPort();
-    ConfigCenterConfigHold.timeout = configCenterConfig.getTimeout();
+  public CfgHelper() {
     configManager = new ClientConfigCacheManager();
     configManager.runConfigManager();
   }

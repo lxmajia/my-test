@@ -1,4 +1,4 @@
-package cn.xwlin.config;
+package cn.xwlin.spring;
 
 import cn.xwlin.server.MyServerTest;
 import org.springframework.beans.factory.config.BeanDefinition;

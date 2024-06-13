@@ -39,9 +39,9 @@ public class SysConfigService {
 
     GetConfigData getConfigData = new GetConfigData();
     if (!CollectionUtils.isEmpty(sysConfigs)) {
-      getConfigData.setChangeConfigMap(Maps.newHashMap());
+      getConfigData.setSysConfigMap(Maps.newHashMap());
       for (SysConfig sysConfig : sysConfigs) {
-        getConfigData.getChangeConfigMap().put(sysConfig.getConfigKey(), sysConfig.getConfigValue());
+        getConfigData.getSysConfigMap().put(sysConfig.getConfigKey(), sysConfig.getConfigValue());
       }
     }
     return HttpResp.succuess(getConfigData);

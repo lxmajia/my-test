@@ -5,7 +5,7 @@ server:
       enabled: true
 spring:
   datasource:
-    url: jdbc:mysql://47.109.56.234:3306/config_center?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://server.xwlin.cn:3306/config_center?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: LIAOxiang941229
@@ -18,10 +18,3 @@ logging:
       apache:
         tomcat: DEBUG
         catalina: DEBUG
-wx:
-  miniapp:
-    aesKey: '@aesKey'
-    appid: wx69c193871872abd7
-    msgDataFormat: JSON
-    secret: 5571f65dcdb28dc1853ce01d26a6ac39
-    token: '@token'

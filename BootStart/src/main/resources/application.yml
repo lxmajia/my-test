@@ -5,92 +5,91 @@ info:
 logging:
   level:
     cn.xwlin.controller: debug
-dynamic:
-  datasource:
-    config:
-      MASTER:
-        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        username: liaoxiang
-        password: 5yjCVtR0sJcSuOO5
-        init-size: 2
-        min-idle: 2
-        max-active: 2
-        max-wait: 60000
-        validation-query: SELECT 1 FROM dual
-        validation-query-time-out: 2000
-      SLAVE:
-        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        username: liaoxiang
-        password: 5yjCVtR0sJcSuOO5
-        init-size: 2
-        min-idle: 2
-        max-active: 2
-        max-wait: 60000
-        validation-query: SELECT 1 FROM dual
-        validation-query-time-out: 2000
-      ORDER:
-        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        username: liaoxiang
-        password: 5yjCVtR0sJcSuOO5
-        init-size: 2
-        min-idle: 2
-        max-active: 2
-        max-wait: 60000
-        validation-query: SELECT 1 FROM dual
-        validation-query-time-out: 2000
-      ID_SEQ:
-        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang_seq?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        username: liaoxiang_seq
-        password: vHfA2EP6y8jhFyrr
-        init-size: 2
-        min-idle: 2
-        max-active: 2
-        max-wait: 60000
-        validation-query: SELECT 1 FROM dual
-        validation-query-time-out: 2000
+
+wl:
+  app:
+    app-code: order
+    module-code: order-web
+
+#dynamic:
+#  datasource:
+#    config:
+#      MASTER:
+#        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#        username: liaoxiang
+#        password: 5yjCVtR0sJcSuOO5
+#        init-size: 2
+#        min-idle: 2
+#        max-active: 2
+#        max-wait: 60000
+#        validation-query: SELECT 1 FROM dual
+#        validation-query-time-out: 2000
+#      SLAVE:
+#        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#        username: liaoxiang
+#        password: 5yjCVtR0sJcSuOO5
+#        init-size: 2
+#        min-idle: 2
+#        max-active: 2
+#        max-wait: 60000
+#        validation-query: SELECT 1 FROM dual
+#        validation-query-time-out: 2000
+#      ORDER:
+#        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#        username: liaoxiang
+#        password: 5yjCVtR0sJcSuOO5
+#        init-size: 2
+#        min-idle: 2
+#        max-active: 2
+#        max-wait: 60000
+#        validation-query: SELECT 1 FROM dual
+#        validation-query-time-out: 2000
+#      ID_SEQ:
+#        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang_seq?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#        username: liaoxiang_seq
+#        password: vHfA2EP6y8jhFyrr
+#        init-size: 2
+#        min-idle: 2
+#        max-active: 2
+#        max-wait: 60000
+#        validation-query: SELECT 1 FROM dual
+#        validation-query-time-out: 2000
 mybatis-plus:
   type-handlers-package: cn.xwlin.dao.typehandler
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: cn.xwlin.entity
 
-elasticsearch:
-  # es集群名称
-  clusterName: my-es
-  # es host ip 地址(集群)：本次使用的是单机模式,9200
-  hosts: 6dfdbb255cea.c.methodot.com:30179
-  # es 连接超时时间
-  connectTimeOut: 1000
-  # es socket 连接超时时间
-  connectionRequestTimeOut: 500
-  # es 最大连接数
-  maxConnectNum: 10
-  # es 每个路由的最大连接数
-  maxConnectNumPerRoute: 10
-  # es 请求方式
-  scheme: http
-  # es socket 连接超时时间
-  socketTimeOut: 30000
-  #es用户名
-  #userName: elastic
-  #es密码
-  #password: elastic
+#elasticsearch:
+#  # es集群名称
+#  clusterName: my-es
+#  # es host ip 地址(集群)：本次使用的是单机模式,9200
+#  hosts: 1_6dfdbb255cea.c.methodot.com:30179
+#  # es 连接超时时间
+#  connectTimeOut: 1000
+#  # es socket 连接超时时间
+#  connectionRequestTimeOut: 500
+#  # es 最大连接数
+#  maxConnectNum: 10
+#  # es 每个路由的最大连接数
+#  maxConnectNumPerRoute: 10
+#  # es 请求方式
+#  scheme: http
+#  # es socket 连接超时时间
+#  socketTimeOut: 30000
+#  #es用户名
+#  #userName: elastic
+#  #es密码
+#  #password: elastic
 
-spring:
-  redis:
-    host: 39a859fe4d25.c.methodot.com
-    port: 31581
-    database: 0
-    #password: LIAOxiang941229
-    lettuce:
-      pool:
-        max-active: 5
-        max-wait: 30000
-        min-idle: 2
-xwlin:
-  configcenter:
-    url: 127.0.0.1
-    port: 8899
-    app-code: order
-    module-code: order-web
+#spring:
+#  redis:
+#    host: 1_39a859fe4d25.c.methodot.com
+#    port: 31581
+#    database: 0
+#    lettuce:
+#      pool:
+#        max-active: 5
+#        max-wait: 30000
+#        min-idle: 2
 sys:
   name: ZhangSan

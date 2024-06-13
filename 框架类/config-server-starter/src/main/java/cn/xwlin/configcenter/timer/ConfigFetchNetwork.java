@@ -44,6 +44,19 @@ public class ConfigFetchNetwork {
     }
   }
 
+  public static String getSysConfig() {
+    // 拉取配置，并更新缓存
+    Request request = new Request.Builder().url(ConfigCenterConfigHold.getSysConfig()).build();
+    try (Response response = new OkHttpClient().newCall(request).execute()) {
+      if (!response.isSuccessful()) {
+        throw new IOException("Unexpected code " + response);
+      }
+      return Objects.requireNonNull(response.body()).string();
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
   public static String refreshConfig() {
     if (okHttpClient == null) {
       synchronized (lock) {
