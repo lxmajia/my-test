@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 @EnableConfigurationProperties
-@ConfigurationProperties(prefix = "dynamic.datasource")
+@ConfigurationProperties(prefix = "wl.datasource")
 public class DatasourceProperties {
 
   private Class<? extends DataSource> type = DruidDataSource.class;

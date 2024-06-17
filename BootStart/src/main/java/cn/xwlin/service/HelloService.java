@@ -3,7 +3,7 @@ package cn.xwlin.service;
 
 import cn.xwlin.constans.DsName;
 import cn.xwlin.dao.UserMapper;
-import cn.xwlin.dao.datasource.DS;
+import cn.xwlin.datasource.anno.DS;
 import cn.xwlin.vo.UserFullInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

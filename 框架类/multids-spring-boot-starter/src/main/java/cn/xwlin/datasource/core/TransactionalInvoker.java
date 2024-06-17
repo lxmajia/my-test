@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
 public class TransactionalInvoker {
 
   @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)

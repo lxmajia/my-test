@@ -1,7 +1,7 @@
 package cn.xwlin.seqid;
 
 import cn.xwlin.constans.DsName;
-import cn.xwlin.dao.datasource.DynamicDatasource;
+import cn.xwlin.datasource.core.DynamicDatasource;
 import cn.xwlin.util.SpringContextUtil;
 
 import javax.sql.DataSource;
