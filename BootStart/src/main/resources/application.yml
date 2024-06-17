@@ -86,6 +86,8 @@ mybatis-plus:
 #    host: 1_39a859fe4d25.c.methodot.com
 #    port: 31581
 #    database: 0
+#    username: default
+#    password: EXvBawuiYuWvhMYxH1vbLWSMZgS4YwN8
 #    lettuce:
 #      pool:
 #        max-active: 5
