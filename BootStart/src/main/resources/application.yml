@@ -11,7 +11,6 @@ wl:
     app-code: order
     module-code: order-web
 
-#dynamic:
 #  datasource:
 #    config:
 #      MASTER:
