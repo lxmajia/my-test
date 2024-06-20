@@ -1,12 +1,10 @@
 package cn.xwlin.configcenter.controller;
 
-import cn.xwlin.configcenter.entity.SysConfig;
 import cn.xwlin.configcenter.holder.ConfigChangeRequestHolder;
 import cn.xwlin.configcenter.service.ConfigService;
 import cn.xwlin.configcenter.service.SysConfigService;
 import cn.xwlin.configcenter.vo.GetConfigData;
 import cn.xwlin.configcenter.vo.HttpResp;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +17,7 @@ import org.springframework.web.context.request.async.DeferredResult;
  */
 @RestController
 @RequestMapping("/config")
-public class ConfigCenterController {
+public class ConfigCenterApiController {
 
   @Autowired
   private ConfigChangeRequestHolder configChangeRequestHolder;

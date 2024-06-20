@@ -6,6 +6,7 @@ import cn.xwlin.configcenter.dto.MyConfigCheckDTO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -61,8 +62,13 @@ public class ConfigCacheManager {
     localRefreshTime = System.currentTimeMillis();
     long before10MinDate = localRefreshTime - (10 * 60 * 1000);
     Date date = new Date(before10MinDate);
+    refreshConfig(date);
+  }
+
+  @Async
+  public void refreshConfig(Date afterTime) {
     // 从数据库拉取配置
-    List<ConfigInfo> myConfigs = myConfigDao.listChangeConfig(date);
+    List<ConfigInfo> myConfigs = myConfigDao.listChangeConfig(afterTime);
     for (ConfigInfo myConfig : myConfigs) {
       String appModule = myConfig.getAppCode() + "$" + myConfig.getModuleCode();
       String configKey = myConfig.getConfigKey();
@@ -94,7 +100,7 @@ public class ConfigCacheManager {
       }
     }
     checkVO.setNewConfigChangeCount(changeUniqueId.size());
-    if(CollectionUtils.isEmpty(changeUniqueId)){
+    if (CollectionUtils.isEmpty(changeUniqueId)) {
       return checkVO;
     }
     List<ConfigInfo> configInfos = myConfigDao.selectByUniqueKeyList(Lists.newArrayList(changeUniqueId));
