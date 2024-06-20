@@ -3,7 +3,6 @@ package cn.xwlin.configcenter.holder;
 import cn.xwlin.configcenter.dto.MyConfigCheckDTO;
 import cn.xwlin.configcenter.vo.GetConfigData;
 import cn.xwlin.configcenter.vo.HttpResp;
-import com.google.common.collect.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -75,7 +74,7 @@ public class ConfigChangeRequestHolder {
             getConfigData.setNextTimeMills(checkVO.getNextFetchTime());
             getConfigData.setChangeCount(checkVO.getNewConfigChangeCount());
             getConfigData.setChangeConfigMap(checkVO.getNewConfigValueMap());
-            value.setResult(HttpResp.succuess(getConfigData));
+            value.setResult(HttpResp.success(getConfigData));
           }
         }
       }

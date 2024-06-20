@@ -33,7 +33,7 @@ public class ConfigService {
     if (appInfo == null) {
       return HttpResp.fail(-1, "ConfigCenter:appCode and moduleCode is not exist!");
     }
-    return HttpResp.succuess();
+    return HttpResp.success();
   }
 
   public HttpResp<GetConfigData> getAllConfig(String appCode, String moduleCode) {
@@ -54,20 +54,6 @@ public class ConfigService {
         getConfigData.getChangeConfigMap().put(info.getConfigKey(), info.getConfigValue());
       }
     }
-    return HttpResp.succuess(getConfigData);
-  }
-
-
-  public HttpResp<GetConfigData> getConfigValue(String appCode, String moduleCode, String configKey) {
-    String uniqiue = appCode + "$" + moduleCode + "$" + configKey;
-    ConfigInfo configInfo = configInfoMapper.selectByUniqueKey(uniqiue);
-    GetConfigData getConfigData = new GetConfigData();
-    getConfigData.setAppCode(appCode);
-    getConfigData.setModuleCode(moduleCode);
-    if (configInfo != null) {
-      getConfigData.setChangeConfigMap(Maps.newHashMap());
-      getConfigData.getChangeConfigMap().put(configKey, configInfo.getConfigValue());
-    }
-    return HttpResp.succuess(configInfo);
+    return HttpResp.success(getConfigData);
   }
 }

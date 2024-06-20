@@ -17,29 +17,29 @@ public class HttpResp<T> {
     this.serverIp = OSUtils.getLocalIP();
   }
 
-  public static HttpResp succuess() {
-    HttpResp restResponse = new HttpResp();
+  public static  <T> HttpResp <T> success() {
+    HttpResp <T> restResponse = new HttpResp<T>();
     restResponse.setCode(0);
     return restResponse;
   }
 
-  public static <T> HttpResp succuess(T body) {
-    HttpResp restResponse = new HttpResp();
+  public static <T> HttpResp<T> success(T body) {
+    HttpResp<T> restResponse = new HttpResp<T>();
     restResponse.setCode(0);
     restResponse.setBody(body);
 
     return restResponse;
   }
 
-  public static HttpResp fail(int failCode) {
-    HttpResp restResponse = new HttpResp();
+  public static  <T> HttpResp <T> fail(int failCode) {
+    HttpResp <T> restResponse = new HttpResp <T>();
     restResponse.setCode(failCode);
     return restResponse;
   }
 
 
-  public static HttpResp fail(int failCode, String message) {
-    HttpResp restResponse = new HttpResp();
+  public static <T> HttpResp <T> fail(int failCode, String message) {
+    HttpResp<T> restResponse = new HttpResp <T>();
     restResponse.setCode(failCode);
     restResponse.setMessage(message);
     return restResponse;

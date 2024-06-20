@@ -1,10 +1,8 @@
 package cn.xwlin.configcenter.service;
 
 import cn.xwlin.configcenter.entity.AppInfo;
-import cn.xwlin.configcenter.entity.ConfigInfo;
 import cn.xwlin.configcenter.entity.SysConfig;
 import cn.xwlin.configcenter.mapper.AppInfoMapper;
-import cn.xwlin.configcenter.mapper.ConfigInfoMapper;
 import cn.xwlin.configcenter.mapper.SysConfigMapper;
 import cn.xwlin.configcenter.vo.GetConfigData;
 import cn.xwlin.configcenter.vo.HttpResp;
@@ -44,6 +42,6 @@ public class SysConfigService {
         getConfigData.getSysConfigMap().put(sysConfig.getConfigKey(), sysConfig.getConfigValue());
       }
     }
-    return HttpResp.succuess(getConfigData);
+    return HttpResp.success(getConfigData);
   }
 }

@@ -41,17 +41,12 @@ public class ConfigCenterApiController {
     return configService.getAllConfig(appCode, moduleCode);
   }
 
-  @RequestMapping("/getConfigValue")
-  public HttpResp<GetConfigData> sayHello(String appCode, String moduleCode, String configKey) {
-    return configService.getConfigValue(appCode, moduleCode, configKey);
-  }
-
   @RequestMapping("/refreshConfig")
   public DeferredResult<HttpResp<GetConfigData>> sayHello(String appCode, String moduleCode, String ip, long lastFetchTime, Long requestTimeout) {
     DeferredResult<HttpResp<GetConfigData>> result = new DeferredResult<>(requestTimeout - 5000);
     configChangeRequestHolder.addHolder(appCode, moduleCode, ip, lastFetchTime, result);
     result.onTimeout(() -> {
-      result.setResult(HttpResp.succuess());
+      result.setResult(HttpResp.success());
     });
     return result;
   }

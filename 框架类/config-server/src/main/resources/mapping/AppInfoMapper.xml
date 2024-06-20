@@ -88,4 +88,11 @@
     and module_code = #{moduleCode,jdbcType=VARCHAR}
     limit 1
   </select>
+
+  <select id="listAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from app_info
+    order by id desc
+  </select>
 </mapper>
