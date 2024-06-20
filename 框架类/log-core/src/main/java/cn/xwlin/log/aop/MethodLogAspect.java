@@ -1,4 +1,4 @@
-package cn.xwlin;
+package cn.xwlin.log.aop;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class MethodLogAspect {
     /**
      * 监听注解MethodLog，打印请求和返回日志
      */
-    @Around(value = "@annotation(cn.xwlin.anno.MethodLog)")
+    @Around(value = "@annotation(cn.xwlin.log.anno.MethodLog)")
     public Object logAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         // 这里可能会出现异常的情况，其实这个结果跟动态代理是一样的。
         String className = proceedingJoinPoint.getTarget().getClass().getName();

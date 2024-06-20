@@ -1,4 +1,4 @@
-package cn.xwlin.anno;
+package cn.xwlin.log.anno;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
