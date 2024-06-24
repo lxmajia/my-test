@@ -64,4 +64,15 @@ public class HelloController {
     LoggerUtils.getControllerLogger().info("sssssssss");
     return helloService.getId(request.getId());
   }
+
+  @RequestMapping("add")
+  public String getById(String name) {
+    try {
+      int insert = helloService.insert(name);
+    } catch (Exception ingored) {
+      ingored.printStackTrace();
+      return "false";
+    }
+    return "SUCCESS";
+  }
 }

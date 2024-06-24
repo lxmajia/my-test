@@ -14,6 +14,7 @@ wl:
 #  datasource:
 #    config:
 #      MASTER:
+#        primary: true
 #        url: jdbc:mysql://mysql.sqlpub.com:3306/liaoxiang?useUnicode=true&characterEncoding=UTF-8&useSSL=false
 #        username: liaoxiang
 #        password: 5yjCVtR0sJcSuOO5
