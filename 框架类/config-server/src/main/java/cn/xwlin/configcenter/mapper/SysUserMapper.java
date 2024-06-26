@@ -8,4 +8,5 @@ import org.apache.ibatis.annotations.Param;
 public interface SysUserMapper {
 
     SysUser selectByLogin(@Param("username") String username, @Param("password") String password);
+    SysUser selectById(@Param("id") Long id);
 }

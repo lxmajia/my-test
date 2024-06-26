@@ -1,10 +1,10 @@
-package cn.xwlin.configcenter.vo;
+package cn.xwlin.configcenter.vo.resp;
 
 /**
  * @author xiang.liao
  * @create 2024/6/20
  */
-public class LoginResp {
+public class LoginInfoResp {
   private String nickName;
   private String token;
 

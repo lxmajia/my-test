@@ -1,4 +1,4 @@
-package cn.xwlin.configcenter.vo;
+package cn.xwlin.configcenter.vo.resp;
 
 /**
  * @author xiang.liao

@@ -1,8 +1,8 @@
 package cn.xwlin.configcenter.holder;
 
 import cn.xwlin.configcenter.dto.MyConfigCheckDTO;
-import cn.xwlin.configcenter.vo.GetConfigData;
-import cn.xwlin.configcenter.vo.HttpResp;
+import cn.xwlin.configcenter.vo.resp.GetConfigData;
+import cn.xwlin.configcenter.vo.resp.HttpResp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

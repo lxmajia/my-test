@@ -1,4 +1,4 @@
-package cn.xwlin.configcenter.vo;
+package cn.xwlin.configcenter.vo.resp;
 
 import cn.xwlin.configcenter.util.OSUtils;
 import lombok.Getter;

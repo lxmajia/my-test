@@ -20,4 +20,11 @@
     and `password` = #{password,jdbcType=VARCHAR}
     limit 1
   </select>
+  <select id="selectById" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_user
+    where id = #{id}
+    limit 1
+  </select>
 </mapper>

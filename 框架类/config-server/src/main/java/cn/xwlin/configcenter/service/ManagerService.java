@@ -6,10 +6,10 @@ import cn.xwlin.configcenter.entity.AppInfo;
 import cn.xwlin.configcenter.entity.SysUser;
 import cn.xwlin.configcenter.mapper.AppInfoMapper;
 import cn.xwlin.configcenter.mapper.SysUserMapper;
-import cn.xwlin.configcenter.vo.AppModuleResp;
-import cn.xwlin.configcenter.vo.HttpResp;
-import cn.xwlin.configcenter.vo.LoginResp;
-import com.github.pagehelper.Page;
+import cn.xwlin.configcenter.vo.resp.AppModuleResp;
+import cn.xwlin.configcenter.vo.resp.HttpResp;
+import cn.xwlin.configcenter.vo.resp.LoginInfoResp;
+import cn.xwlin.configcenter.vo.resp.LoginResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -61,4 +61,11 @@ public class ManagerService {
     return new PageInfo<>(appModuleResps);
   }
 
+  public HttpResp<LoginInfoResp> loginInfo() {
+    Long loginUserId = Long.valueOf(StpUtil.getLoginId().toString());
+    SysUser sysUser = sysUserMapper.selectById(loginUserId);
+    LoginInfoResp loginInfoResp = new LoginInfoResp();
+    loginInfoResp.setNickName(sysUser.getNickName());
+    return HttpResp.success(loginInfoResp);
+  }
 }
