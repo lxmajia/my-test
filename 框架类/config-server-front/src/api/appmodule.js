@@ -7,3 +7,11 @@ export function getAppModuleList(data) {
     data
   })
 }
+
+
+export function getAppModuleStructList() {
+  return request({
+    url: '/manager/appModuleStructList',
+    method: 'get'
+  })
+}

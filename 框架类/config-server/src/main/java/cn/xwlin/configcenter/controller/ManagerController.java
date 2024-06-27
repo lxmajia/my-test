@@ -2,6 +2,7 @@ package cn.xwlin.configcenter.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.xwlin.configcenter.entity.ConfigInfo;
 import cn.xwlin.configcenter.entity.SysConfig;
 import cn.xwlin.configcenter.service.ManagerService;
 import cn.xwlin.configcenter.vo.request.AppModuleListRequest;
@@ -62,6 +63,10 @@ public class ManagerController {
   @RequestMapping("/getSysConfigList")
   public HttpResp<PageInfo<SysConfig>> getSysConfigList(@RequestBody GetSysConfigReq req) {
     return HttpResp.success(managerService.getSysConfigList(req));
+  }
+  @RequestMapping("/getConfigInfoList")
+  public HttpResp<PageInfo<ConfigInfo>> getConfigInfoList(@RequestBody GetSysConfigReq req) {
+    return HttpResp.success(managerService.getConfigInfoList(req));
   }
 
 }

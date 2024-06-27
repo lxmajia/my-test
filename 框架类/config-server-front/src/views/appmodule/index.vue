@@ -47,7 +47,7 @@
         <template slot-scope="scope">
           <span>
             <el-button type="primary" @click="goSysConfig(scope.row.appCode, scope.row.id)">系统配置</el-button>
-            <el-button type="warning">应用配置</el-button>
+            <el-button type="primary" @click="goAppConfig(scope.row.appCode, scope.row.id)">应用配置</el-button>
           </span>
         </template>
       </el-table-column>
@@ -141,6 +141,20 @@ export default {
       // 使用 $router 进行跳转并设置参数
       this.$router.push({
         path: '/sysconfig/index',
+        query: params  // 设置查询参数
+      });
+    },
+    goAppConfig(appCode, moduleId){
+      console.log(appCode + " - " + moduleId)
+
+      // 设置参数
+      const params = {
+        appCode: appCode,
+        moduleId: moduleId
+      };
+      // 使用 $router 进行跳转并设置参数
+      this.$router.push({
+        path: '/configinfo/index',
         query: params  // 设置查询参数
       });
     },

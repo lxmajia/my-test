@@ -34,4 +34,5 @@ public interface ConfigInfoMapper {
   List<ConfigInfo> listChangeConfig(@Param("modified") Date modified);
 
   List<ConfigInfo> listAllConfig();
+  List<ConfigInfo> listAppModuleConfig(@Param("appModuleId") Long appModuleId,@Param("configKey") String configKey);
 }

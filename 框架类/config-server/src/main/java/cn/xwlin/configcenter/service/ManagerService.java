@@ -2,9 +2,11 @@ package cn.xwlin.configcenter.service;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.xwlin.configcenter.entity.ConfigInfo;
 import cn.xwlin.configcenter.entity.SysConfig;
 import cn.xwlin.configcenter.entity.SysUser;
 import cn.xwlin.configcenter.mapper.AppInfoMapper;
+import cn.xwlin.configcenter.mapper.ConfigInfoMapper;
 import cn.xwlin.configcenter.mapper.SysConfigMapper;
 import cn.xwlin.configcenter.mapper.SysUserMapper;
 import cn.xwlin.configcenter.vo.request.AppModuleListRequest;
@@ -35,6 +37,9 @@ public class ManagerService {
 
   @Autowired
   private SysConfigMapper sysConfigMapper;
+
+  @Autowired
+  private ConfigInfoMapper configInfoMapper;
 
   public HttpResp<LoginResp> login(String username, String password) {
     SysUser sysUser = sysUserMapper.selectByLogin(username, password);
@@ -79,6 +84,12 @@ public class ManagerService {
     PageHelper.startPage(req.getPageNum(), req.getPageSize());
     List<SysConfig> sysConfigs = sysConfigMapper.listByAppModuleId(req.getAppModuleId(), req.getConfigKey());
     return new PageInfo<>(sysConfigs);
+  }
+
+  public PageInfo<ConfigInfo> getConfigInfoList(GetSysConfigReq req) {
+    PageHelper.startPage(req.getPageNum(), req.getPageSize());
+    List<ConfigInfo> configInfos = configInfoMapper.listAppModuleConfig(req.getAppModuleId(), req.getConfigKey());
+    return new PageInfo<>(configInfos);
   }
 
 

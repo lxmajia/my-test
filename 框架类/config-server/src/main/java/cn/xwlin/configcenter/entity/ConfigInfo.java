@@ -1,6 +1,8 @@
 package cn.xwlin.configcenter.entity;
 
 import cn.xwlin.configcenter.util.ConfigUtil;
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
@@ -21,6 +23,7 @@ public class ConfigInfo {
 
     private Long version;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modified;
 
     private String modifier;

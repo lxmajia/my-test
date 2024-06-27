@@ -102,6 +102,6 @@
     <if test="moduleCode != null and moduleCode != ''">
       and module_code like CONCAT('%',#{moduleCode},'%')
     </if>
-    order by id desc
+    order by id asc
   </select>
 </mapper>

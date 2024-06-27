@@ -1,5 +1,7 @@
 package cn.xwlin.configcenter.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class SysConfig {
@@ -11,6 +13,7 @@ public class SysConfig {
 
     private String configValue;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     public Long getId() {

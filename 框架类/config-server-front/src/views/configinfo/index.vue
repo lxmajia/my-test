@@ -40,24 +40,26 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="ConfigKey" width="400">
+      <el-table-column label="ConfigKey" width="250">
         <template slot-scope="scope">
           {{ scope.row.configKey }}
         </template>
       </el-table-column>
-      <el-table-column label="ConfigValue" width="200" align="center">
+      <el-table-column label="ConfigValue" width="450" align="center" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.configValue }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="CreateTime" width="110" align="center">
+      <el-table-column label="修改时间" width="180" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.createTime }}</span>
+          <span>{{ scope.row.modified }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <span>操作 | 操作</span>
+          <span>
+            <el-button type="primary" @click="showFormatConfigValueDialog(scope.row.configValue)">格式化展示</el-button>
+          </span>
         </template>
       </el-table-column>
     </el-table>
@@ -73,14 +75,35 @@
         @current-change="changePageNum">
       </el-pagination>
     </div>
+
+
+    <el-dialog
+      title="提示"
+      :visible.sync="formatConfigValueDialogShow"
+      width="60%">
+      <span>
+        <vue-json-pretty :deep="10" selectableType="single" :showSelectController="true" :highlightMouseoverNode="true"
+                         path="res" :data="formatConfigValueDialogValue" > </vue-json-pretty>
+      </span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="formatConfigValueDialogShow = false">复 制</el-button>
+    <el-button type="primary" @click="formatConfigValueDialogShow = false">关 闭</el-button>
+  </span>
+    </el-dialog>
   </div>
+
 </template>
+
+
 <script>
-import {getSysConfig} from '@/api/sysconfig'
+import {getConfigInfo} from '@/api/configinfo'
 import {getAppModuleStructList} from '@/api/appmodule'
 import {Message, Pagination, Form} from "element-ui";
+import VueJsonPretty from 'vue-json-pretty';
+import 'vue-json-pretty/lib/styles.css';
 
 export default {
+  components : {VueJsonPretty},
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -93,6 +116,8 @@ export default {
   },
   data() {
     return {
+      formatConfigValueDialogShow: false,
+      formatConfigValueDialogValue: "",
       list: null,
       appList: [],
       listLoading: false,
@@ -107,23 +132,28 @@ export default {
       filterAppModuleForm: {
         appCode: "",
         appModuleCodeId: undefined,
-        configKey:""
+        configKey: ""
       }
     }
   },
   created() {
     // 使用 $route 获取传递的参数
     this.initAppModuleStructData();
-    if(this.$route.query.appCode){
+    if (this.$route.query.appCode) {
       this.filterAppModuleForm.appCode = this.$route.query.appCode;
       this.changeAppCode(this.filterAppModuleForm.appCode);
     }
-    if(this.$route.query.moduleId){
+    if (this.$route.query.moduleId) {
       this.filterAppModuleForm.appModuleCodeId = this.$route.query.moduleId;
       this.fetchData(1);
     }
   },
   methods: {
+    showFormatConfigValueDialog(value) {
+      this.formatConfigValueDialogValue = JSON.parse(value);
+      this.formatConfigValueDialogShow = true;
+    },
+
     initAppModuleStructData() {
       getAppModuleStructList().then(response => {
         const {data} = response;
@@ -138,14 +168,14 @@ export default {
         }
       });
     },
-    changeAppCode(appCode){
+    changeAppCode(appCode) {
       this.moduleList = this.appModuleMapping[appCode];
     },
-    refreshModuleSelect(){
+    refreshModuleSelect() {
       this.$forceUpdate();
     },
     fetchData(pageNum) {
-      if(!this.filterAppModuleForm.appModuleCodeId){
+      if (!this.filterAppModuleForm.appModuleCodeId) {
         Message({
           message: '选择moduleCode',
           type: 'error',
@@ -162,7 +192,7 @@ export default {
         configKey: this.filterAppModuleForm.configKey
       }
 
-      getSysConfig(queryParam).then(response => {
+      getConfigInfo(queryParam).then(response => {
         const {data} = response;
         this.listLoading = false
         if (data.code === 0) {

@@ -82,6 +82,19 @@ export const constantRoutes = [
   },
 
   {
+    path: '/configinfo',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '应用配置',
+        component: () => import('@/views/configinfo/index'),
+        meta: { title: '应用配置', icon: 'form' }
+      }
+    ]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',

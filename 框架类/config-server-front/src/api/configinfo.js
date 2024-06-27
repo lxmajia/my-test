@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
 
-export function getSysConfig(data) {
+
+export function getConfigInfo(data) {
   return request({
-    url: '/manager/getSysConfigList',
+    url: '/manager/getConfigInfoList',
     method: 'post',
     data
   })
