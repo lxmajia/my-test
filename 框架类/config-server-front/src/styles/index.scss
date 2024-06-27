@@ -63,3 +63,10 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+
+// 分页组件
+.pagination-container {
+  position: absolute; /* 固定位置 */
+  bottom: 10px; /* 距离底部10像素 */
+  right: 10px; /* 距离右侧10像素 */
+}

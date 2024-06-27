@@ -19,10 +19,14 @@
         where id = #{id,jdbcType=BIGINT}
     </select>
 
-    <select id="listByAppModuleId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="listByAppModuleId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from sys_config
         where app_module_id = #{appModuleId,jdbcType=BIGINT}
+        <if test="configKey != null and configKey != ''">
+            and config_key like CONCAT('%',#{configKey},'%')
+        </if>
+        order by id desc
     </select>
 </mapper>

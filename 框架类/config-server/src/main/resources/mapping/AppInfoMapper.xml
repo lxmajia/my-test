@@ -89,10 +89,19 @@
     limit 1
   </select>
 
-  <select id="listAll" resultMap="BaseResultMap">
+  <select id="listAll" resultType="cn.xwlin.configcenter.vo.resp.AppModuleResp">
     select
-    <include refid="Base_Column_List" />
+    id as id,
+    app_code as appCode,
+    module_code as appModule
     from app_info
+    where 1=1
+    <if test="appCode != null and appCode != ''">
+      and app_code like CONCAT('%',#{appCode},'%')
+    </if>
+    <if test="moduleCode != null and moduleCode != ''">
+      and module_code like CONCAT('%',#{moduleCode},'%')
+    </if>
     order by id desc
   </select>
 </mapper>

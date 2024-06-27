@@ -69,6 +69,19 @@ export const constantRoutes = [
   },
 
   {
+    path: '/sysconfig',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '系统配置',
+        component: () => import('@/views/sysconfig/index'),
+        meta: { title: '系统配置', icon: 'form' }
+      }
+    ]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',

@@ -3,10 +3,17 @@
     <div>
       <el-form :inline="true" :model="filterAppModuleForm" class="demo-form-inline">
         <el-form-item label="AppCode">
-          <el-input v-model="filterAppModuleForm.appCode" placeholder="AppCode"></el-input>
+          <el-select v-model="filterAppModuleForm.appCode" placeholder="AppCode" @change="changeAppCode">
+            <el-option v-for="item in appList" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="ModuleCode">
-          <el-input v-model="filterAppModuleForm.moduleCode" placeholder="AppCode"></el-input>
+          <el-select v-model="filterAppModuleForm.appModuleCodeId" placeholder="ModuleCode" @change="refreshModuleSelect">
+            <el-option v-for="item in moduleList" :key="item.moduleId" :label="item.moduleCode" :value="item.moduleId"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="ModuleCode">
+          <el-input v-model="filterAppModuleForm.configKey" placeholder="ConfigKey"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="querySearch">查询</el-button>
@@ -33,22 +40,24 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="AppCode" width="95">
+      <el-table-column label="ConfigKey" width="400">
         <template slot-scope="scope">
-          {{ scope.row.appCode }}
+          {{ scope.row.configKey }}
         </template>
       </el-table-column>
-      <el-table-column label="ModuleCode" width="110" align="center">
+      <el-table-column label="ConfigValue" width="200" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.appModule }}</span>
+          <span>{{ scope.row.configValue }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="CreateTime" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <span>
-            <el-button type="primary" @click="goSysConfig(scope.row.appCode, scope.row.id)">系统配置</el-button>
-            <el-button type="warning">应用配置</el-button>
-          </span>
+          <span>操作 | 操作</span>
         </template>
       </el-table-column>
     </el-table>
@@ -67,7 +76,7 @@
   </div>
 </template>
 <script>
-import {getAppModuleList} from '@/api/appmodule'
+import {getAppModuleStructList, getSysConfig} from '@/api/sysconfig'
 import {Message, Pagination, Form} from "element-ui";
 
 export default {
@@ -84,7 +93,10 @@ export default {
   data() {
     return {
       list: null,
-      listLoading: true,
+      appList: [],
+      listLoading: false,
+      moduleList: [],
+      appModuleMapping: {},
       pageInfo: {
         totalCount: 0,
         pageSize: 1,
@@ -92,25 +104,64 @@ export default {
         pageCount: 0
       },
       filterAppModuleForm: {
-        appCode: '',
-        moduleCode: ''
+        appCode: "",
+        appModuleCodeId: undefined,
+        configKey:""
       }
     }
   },
   created() {
-    this.fetchData(1);
+    // 使用 $route 获取传递的参数
+    this.initAppModuleStructData();
+    if(this.$route.query.appCode){
+      this.filterAppModuleForm.appCode = this.$route.query.appCode;
+      this.changeAppCode(this.filterAppModuleForm.appCode);
+    }
+    if(this.$route.query.moduleId){
+      this.filterAppModuleForm.appModuleCodeId = this.$route.query.moduleId;
+      this.fetchData(1);
+    }
   },
   methods: {
+    initAppModuleStructData() {
+      getAppModuleStructList().then(response => {
+        const {data} = response;
+        if (data.code === 0) {
+          let appModuleListMapping = data.body;
+          let appList = [];
+          this.appModuleMapping = appModuleListMapping;
+          for (let key in appModuleListMapping) {
+            appList.push(key);
+          }
+          this.appList = appList;
+        }
+      });
+    },
+    changeAppCode(appCode){
+      this.moduleList = this.appModuleMapping[appCode];
+    },
+    refreshModuleSelect(){
+      this.$forceUpdate();
+    },
     fetchData(pageNum) {
+      if(!this.filterAppModuleForm.appModuleCodeId){
+        Message({
+          message: '选择moduleCode',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return;
+      }
       this.listLoading = true
+
       let queryParam = {
         pageNum: pageNum,
         pageSize: 10,
-        appCode: this.filterAppModuleForm.appCode,
-        moduleCode: this.filterAppModuleForm.moduleCode
+        appModuleId: this.filterAppModuleForm.appModuleCodeId,
+        configKey: this.filterAppModuleForm.configKey
       }
 
-      getAppModuleList(queryParam).then(response => {
+      getSysConfig(queryParam).then(response => {
         const {data} = response;
         this.listLoading = false
         if (data.code === 0) {
@@ -129,20 +180,6 @@ export default {
           })
         }
       })
-    },
-    goSysConfig(appCode, moduleId){
-      console.log(appCode + " - " + moduleId)
-
-      // 设置参数
-      const params = {
-        appCode: appCode,
-        moduleId: moduleId
-      };
-      // 使用 $router 进行跳转并设置参数
-      this.$router.push({
-        path: '/sysconfig/index',
-        query: params  // 设置查询参数
-      });
     },
     // 页码变了，其他条件都没变
     changePageNum(pageSize) {

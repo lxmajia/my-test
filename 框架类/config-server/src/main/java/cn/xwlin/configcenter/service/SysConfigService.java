@@ -33,7 +33,7 @@ public class SysConfigService {
     if (appInfo == null) {
       return HttpResp.fail(-1, "ConfigCenter:appCode and moduleCode is not exist!");
     }
-    List<SysConfig> sysConfigs = sysConfigMapper.listByAppModuleId(appInfo.getId());
+    List<SysConfig> sysConfigs = sysConfigMapper.listByAppModuleId(appInfo.getId(),null);
 
     GetConfigData getConfigData = new GetConfigData();
     if (!CollectionUtils.isEmpty(sysConfigs)) {

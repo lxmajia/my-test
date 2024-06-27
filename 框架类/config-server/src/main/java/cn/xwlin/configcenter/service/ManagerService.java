@@ -2,21 +2,23 @@ package cn.xwlin.configcenter.service;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.xwlin.configcenter.entity.AppInfo;
+import cn.xwlin.configcenter.entity.SysConfig;
 import cn.xwlin.configcenter.entity.SysUser;
 import cn.xwlin.configcenter.mapper.AppInfoMapper;
+import cn.xwlin.configcenter.mapper.SysConfigMapper;
 import cn.xwlin.configcenter.mapper.SysUserMapper;
-import cn.xwlin.configcenter.vo.resp.AppModuleResp;
-import cn.xwlin.configcenter.vo.resp.HttpResp;
-import cn.xwlin.configcenter.vo.resp.LoginInfoResp;
-import cn.xwlin.configcenter.vo.resp.LoginResp;
+import cn.xwlin.configcenter.vo.request.AppModuleListRequest;
+import cn.xwlin.configcenter.vo.request.GetSysConfigReq;
+import cn.xwlin.configcenter.vo.resp.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xiang.liao
@@ -30,6 +32,9 @@ public class ManagerService {
 
   @Autowired
   private AppInfoMapper appInfoMapper;
+
+  @Autowired
+  private SysConfigMapper sysConfigMapper;
 
   public HttpResp<LoginResp> login(String username, String password) {
     SysUser sysUser = sysUserMapper.selectByLogin(username, password);
@@ -46,20 +51,36 @@ public class ManagerService {
     return HttpResp.success(loginResp);
   }
 
-  public PageInfo<AppModuleResp> listAppModule(int pageNum, int pageSize) {
-    PageHelper.startPage(pageNum, pageSize);
-    List<AppInfo> appInfos = appInfoMapper.listAll();
-
-    List<AppModuleResp> appModuleResps = Lists.newArrayList();
-    for (AppInfo appInfo : appInfos) {
-      AppModuleResp appModuleResp = new AppModuleResp();
-      appModuleResp.setId(appInfo.getId());
-      appModuleResp.setAppCode(appInfo.getAppCode());
-      appModuleResp.setAppModule(appInfo.getModuleCode());
-      appModuleResps.add(appModuleResp);
-    }
-    return new PageInfo<>(appModuleResps);
+  public PageInfo<AppModuleResp> listAppModule(AppModuleListRequest request) {
+    PageHelper.startPage(request.getPageNum(), request.getPageSize());
+    List<AppModuleResp> appInfos = appInfoMapper.listAll(request.getAppCode(), request.getModuleCode());
+    return new PageInfo<>(appInfos);
   }
+
+  public HttpResp<Map<String, List<AppModuleStructResp>>> listAppModuleStruct() {
+    Map<String, List<AppModuleStructResp>> appModuleMapping = Maps.newHashMap();
+    List<AppModuleResp> appInfos = appInfoMapper.listAll(null, null);
+    for (AppModuleResp appInfo : appInfos) {
+      List<AppModuleStructResp> appModuleStructModuleData = appModuleMapping.get(appInfo.getAppCode());
+      if (appModuleStructModuleData == null) {
+        appModuleStructModuleData = Lists.newArrayList();
+      }
+      AppModuleStructResp moduleStructModuleData = new AppModuleStructResp();
+      moduleStructModuleData.setModuleId(appInfo.getId());
+      moduleStructModuleData.setModuleCode(appInfo.getAppModule());
+      appModuleStructModuleData.add(moduleStructModuleData);
+
+      appModuleMapping.put(appInfo.getAppCode(), appModuleStructModuleData);
+    }
+    return HttpResp.success(appModuleMapping);
+  }
+
+  public PageInfo<SysConfig> getSysConfigList(GetSysConfigReq req) {
+    PageHelper.startPage(req.getPageNum(), req.getPageSize());
+    List<SysConfig> sysConfigs = sysConfigMapper.listByAppModuleId(req.getAppModuleId(), req.getConfigKey());
+    return new PageInfo<>(sysConfigs);
+  }
+
 
   public HttpResp<LoginInfoResp> loginInfo() {
     Long loginUserId = Long.valueOf(StpUtil.getLoginId().toString());

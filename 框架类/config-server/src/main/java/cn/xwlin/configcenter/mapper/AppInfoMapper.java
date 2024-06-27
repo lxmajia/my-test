@@ -1,6 +1,8 @@
 package cn.xwlin.configcenter.mapper;
 
 import cn.xwlin.configcenter.entity.AppInfo;
+import cn.xwlin.configcenter.vo.request.AppModuleListRequest;
+import cn.xwlin.configcenter.vo.resp.AppModuleResp;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,5 +24,5 @@ public interface AppInfoMapper {
 
     AppInfo selectByAppModule(@Param("appCode") String appCode,@Param("moduleCode") String moduleCode);
 
-    List<AppInfo> listAll();
+    List<AppModuleResp> listAll(@Param("appCode") String appCode,@Param("moduleCode") String moduleCode);
 }
