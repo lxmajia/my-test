@@ -8,3 +8,12 @@ export function getSysConfig(data) {
     data
   })
 }
+
+
+export function updateSysConfig(data) {
+  return request({
+    url: '/manager/updateSysConfig',
+    method: 'post',
+    data
+  })
+}

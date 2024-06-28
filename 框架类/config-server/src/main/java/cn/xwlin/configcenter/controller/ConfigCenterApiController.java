@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import java.util.Date;
+
 
 /**
  * @author xiang.liao
  * @create 2024/5/6
  */
 @RestController
-@RequestMapping("/config")
+@RequestMapping("/rest/api/v1/config")
 public class ConfigCenterApiController {
 
   @Autowired
@@ -51,7 +53,9 @@ public class ConfigCenterApiController {
     DeferredResult<HttpResp<GetConfigData>> result = new DeferredResult<>(requestTimeout - 5000);
     configChangeRequestHolder.addHolder(appCode, moduleCode, ip, lastFetchTime, result);
     result.onTimeout(() -> {
-      result.setResult(HttpResp.success());
+      GetConfigData getConfigData = new GetConfigData();
+      getConfigData.setNextTimeMills(new Date().getTime()-1000);
+      result.setResult(HttpResp.success(getConfigData));
     });
     return result;
   }

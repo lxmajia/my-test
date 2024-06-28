@@ -14,4 +14,12 @@ public interface SysConfigMapper {
   SysConfig selectByPrimaryKey(Long id);
 
   List<SysConfig> listByAppModuleId(@Param("appModuleId") Long appModuleId,@Param("configKey")String configKey);
+
+  int insert(SysConfig record);
+
+  int insertSelective(SysConfig record);
+
+  int updateByPrimaryKeySelective(SysConfig record);
+
+  int updateByPrimaryKey(SysConfig record);
 }

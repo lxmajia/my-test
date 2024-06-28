@@ -29,4 +29,74 @@
         </if>
         order by id desc
     </select>
+
+    <insert id="insert" parameterType="cn.xwlin.configcenter.entity.SysConfig">
+        insert into sys_config (id, app_module_id, config_key,
+                                config_value, create_time)
+        values (#{id,jdbcType=BIGINT}, #{appModuleId,jdbcType=BIGINT}, #{configKey,jdbcType=VARCHAR},
+                #{configValue,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.xwlin.configcenter.entity.SysConfig">
+        insert into sys_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="appModuleId != null">
+                app_module_id,
+            </if>
+            <if test="configKey != null">
+                config_key,
+            </if>
+            <if test="configValue != null">
+                config_value,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="appModuleId != null">
+                #{appModuleId,jdbcType=BIGINT},
+            </if>
+            <if test="configKey != null">
+                #{configKey,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                #{configValue,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.configcenter.entity.SysConfig">
+        update sys_config
+        <set>
+            <if test="appModuleId != null">
+                app_module_id = #{appModuleId,jdbcType=BIGINT},
+            </if>
+            <if test="configKey != null">
+                config_key = #{configKey,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                config_value = #{configValue,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.xwlin.configcenter.entity.SysConfig">
+        update sys_config
+        set app_module_id = #{appModuleId,jdbcType=BIGINT},
+            config_key = #{configKey,jdbcType=VARCHAR},
+            config_value = #{configValue,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

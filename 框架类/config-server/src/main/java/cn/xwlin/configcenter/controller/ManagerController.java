@@ -5,10 +5,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.xwlin.configcenter.entity.ConfigInfo;
 import cn.xwlin.configcenter.entity.SysConfig;
 import cn.xwlin.configcenter.service.ManagerService;
-import cn.xwlin.configcenter.vo.request.AppModuleListRequest;
-import cn.xwlin.configcenter.vo.request.GetSysConfigReq;
-import cn.xwlin.configcenter.vo.request.LoginInfoReq;
-import cn.xwlin.configcenter.vo.request.LoginReq;
+import cn.xwlin.configcenter.vo.request.*;
 import cn.xwlin.configcenter.vo.resp.*;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +61,18 @@ public class ManagerController {
   public HttpResp<PageInfo<SysConfig>> getSysConfigList(@RequestBody GetSysConfigReq req) {
     return HttpResp.success(managerService.getSysConfigList(req));
   }
+  @RequestMapping("/updateSysConfig")
+  public HttpResp updateSysConfig(@RequestBody UpdateSysConfigReq req) {
+    return managerService.updateSysConfig(req);
+  }
   @RequestMapping("/getConfigInfoList")
   public HttpResp<PageInfo<ConfigInfo>> getConfigInfoList(@RequestBody GetSysConfigReq req) {
     return HttpResp.success(managerService.getConfigInfoList(req));
+  }
+
+  @RequestMapping("/updateConfigInfo")
+  public HttpResp updateConfigInfo(@RequestBody UpdateConfigInfoReq req) {
+    return managerService.updateConfigInfo(req);
   }
 
 }

@@ -2,15 +2,19 @@ package cn.xwlin.configcenter.service;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.xwlin.configcenter.entity.AppInfo;
 import cn.xwlin.configcenter.entity.ConfigInfo;
 import cn.xwlin.configcenter.entity.SysConfig;
 import cn.xwlin.configcenter.entity.SysUser;
+import cn.xwlin.configcenter.holder.ConfigCacheManager;
 import cn.xwlin.configcenter.mapper.AppInfoMapper;
 import cn.xwlin.configcenter.mapper.ConfigInfoMapper;
 import cn.xwlin.configcenter.mapper.SysConfigMapper;
 import cn.xwlin.configcenter.mapper.SysUserMapper;
 import cn.xwlin.configcenter.vo.request.AppModuleListRequest;
 import cn.xwlin.configcenter.vo.request.GetSysConfigReq;
+import cn.xwlin.configcenter.vo.request.UpdateConfigInfoReq;
+import cn.xwlin.configcenter.vo.request.UpdateSysConfigReq;
 import cn.xwlin.configcenter.vo.resp.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,6 +23,7 @@ import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +45,9 @@ public class ManagerService {
 
   @Autowired
   private ConfigInfoMapper configInfoMapper;
+
+  @Autowired
+  private ConfigCacheManager configCacheManager;
 
   public HttpResp<LoginResp> login(String username, String password) {
     SysUser sysUser = sysUserMapper.selectByLogin(username, password);
@@ -85,6 +93,63 @@ public class ManagerService {
     List<SysConfig> sysConfigs = sysConfigMapper.listByAppModuleId(req.getAppModuleId(), req.getConfigKey());
     return new PageInfo<>(sysConfigs);
   }
+
+  public HttpResp updateSysConfig(UpdateSysConfigReq req) {
+    SysConfig sysConfig = null;
+    if (req.getId() != null) {
+      sysConfig = sysConfigMapper.selectByPrimaryKey(req.getId());
+      if (sysConfig == null) {
+        return HttpResp.fail(403, "数据不存在");
+      }
+      sysConfig.setConfigKey(req.getConfigKey());
+      sysConfig.setConfigValue(req.getConfigValue());
+      sysConfigMapper.updateByPrimaryKey(sysConfig);
+    } else {
+      sysConfig = new SysConfig();
+      sysConfig.setAppModuleId(req.getAppModuleId());
+      sysConfig.setConfigKey(req.getConfigKey());
+      sysConfig.setConfigValue(req.getConfigValue());
+      sysConfig.setCreateTime(new Date());
+      sysConfigMapper.insertSelective(sysConfig);
+    }
+    return HttpResp.success();
+  }
+
+  public HttpResp updateConfigInfo(UpdateConfigInfoReq req) {
+    ConfigInfo configInfo = null;
+
+    if (req.getId() != null) {
+      configInfo = configInfoMapper.selectByPrimaryKey(req.getId());
+      if (configInfo == null) {
+        return HttpResp.fail(403, "数据不存在");
+      }
+      configInfo.setConfigKey(req.getConfigKey());
+      configInfo.setConfigValue(req.getConfigValue());
+      configInfo.setModified(new Date());
+      configInfo.setVersion(configInfo.getVersion() + 1);
+      configInfoMapper.updateByPrimaryKeySelective(configInfo);
+    } else {
+      AppInfo appInfo = appInfoMapper.selectByPrimaryKey(req.getAppModuleId());
+      if (appInfo == null) {
+        return HttpResp.fail(-1, "应用不存在!");
+      }
+      configInfo = new ConfigInfo();
+      configInfo.setAppModuleId(req.getAppModuleId());
+      configInfo.setConfigKey(req.getConfigKey());
+      configInfo.setConfigValue(req.getConfigValue());
+      configInfo.setModified(new Date());
+      configInfo.setConfigType("1");
+      configInfo.setAppCode(appInfo.getAppCode());
+      configInfo.setModuleCode(appInfo.getModuleCode());
+      configInfo.setUniqueKey(appInfo.getAppCode() + "$" + appInfo.getModuleCode() + "$" + configInfo.getConfigKey());
+      configInfo.setVersion(1L);
+      configInfoMapper.insertSelective(configInfo);
+    }
+    // 异步刷新当前配置
+    configCacheManager.refreshByApi(configInfo.getId());
+    return HttpResp.success();
+  }
+
 
   public PageInfo<ConfigInfo> getConfigInfoList(GetSysConfigReq req) {
     PageHelper.startPage(req.getPageNum(), req.getPageSize());

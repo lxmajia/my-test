@@ -27,14 +27,11 @@ public class ConfigCacheManager {
    * value=<configKey,modifyTime>
    */
   private static Map<String, Map<String, Long>> appModuleConfigKeyTimestampMap = new ConcurrentHashMap<>();
-  private static long localRefreshTime;
-
   @Autowired
   private ConfigInfoMapper myConfigDao;
 
   @PostConstruct
   public void init() {
-    localRefreshTime = System.currentTimeMillis();
     List<ConfigInfo> myConfigs = myConfigDao.listAllConfig();
     for (ConfigInfo myConfig : myConfigs) {
       String appModule = myConfig.getAppCode() + "$" + myConfig.getModuleCode();
@@ -59,8 +56,7 @@ public class ConfigCacheManager {
       return;
     }
     // 更新配置版本(10分钟之前更新的都刷新一遍)
-    localRefreshTime = System.currentTimeMillis();
-    long before10MinDate = localRefreshTime - (10 * 60 * 1000);
+    long before10MinDate = System.currentTimeMillis() - (10 * 60 * 1000);
     Date date = new Date(before10MinDate);
     refreshConfig(date);
   }
@@ -80,26 +76,45 @@ public class ConfigCacheManager {
     }
   }
 
-  public MyConfigCheckDTO checkConfigChange(String appCode, String moduleCode, Long time) {
+  @Async
+  public void refreshByApi(Long id) {
+    // 从数据库拉取配置
+    ConfigInfo myConfig = myConfigDao.selectByPrimaryKey(id);
+    if(myConfig != null){
+      String appModule = myConfig.getAppCode() + "$" + myConfig.getModuleCode();
+      String configKey = myConfig.getConfigKey();
+      long time = myConfig.getModified().getTime();
+      if (!appModuleConfigKeyTimestampMap.containsKey(appModule)) {
+        appModuleConfigKeyTimestampMap.put(appModule, new HashMap<>());
+      }
+      appModuleConfigKeyTimestampMap.get(appModule).put(configKey, time);
+    }
+  }
+
+  public MyConfigCheckDTO checkConfigChange(String appCode, String moduleCode, Long fetchTime) {
     String appModule = appCode + "$" + moduleCode;
     MyConfigCheckDTO checkVO = new MyConfigCheckDTO();
-    checkVO.setNextFetchTime(localRefreshTime);
     if (!appModuleConfigKeyTimestampMap.containsKey(appModule)) {
       checkVO.setNewConfigChangeCount(0);
       return checkVO;
     }
+    // 设置当前时间为下次抓取时间
+    long nextFetchTime = new Date().getTime();
     Map<String, Long> configKeyTimestampMap = appModuleConfigKeyTimestampMap.get(appModule);
-
     Set<String> changeUniqueId = Sets.newHashSet();
     for (Map.Entry<String, Long> stringLongEntry : configKeyTimestampMap.entrySet()) {
       String configKey = stringLongEntry.getKey();
-      Long value = stringLongEntry.getValue();
-      if (value > time) {
+      Long configKeyModifiedTime = stringLongEntry.getValue();
+      if (configKeyModifiedTime > fetchTime) {
         String configUniqueId = appModule + "$" + configKey;
         changeUniqueId.add(configUniqueId);
       }
+      if(configKeyModifiedTime > nextFetchTime){
+        nextFetchTime = configKeyModifiedTime;
+      }
     }
     checkVO.setNewConfigChangeCount(changeUniqueId.size());
+    checkVO.setNextFetchTime(nextFetchTime);
     if (CollectionUtils.isEmpty(changeUniqueId)) {
       return checkVO;
     }

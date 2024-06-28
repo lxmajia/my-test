@@ -8,7 +8,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="ModuleCode">
-          <el-select v-model="filterAppModuleForm.appModuleCodeId" placeholder="ModuleCode" @change="refreshModuleSelect">
+          <el-select v-model="filterAppModuleForm.appModuleCodeId" placeholder="ModuleCode">
             <el-option v-for="item in moduleList" :key="item.moduleId" :label="item.moduleCode" :value="item.moduleId"></el-option>
           </el-select>
         </el-form-item>
@@ -17,6 +17,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="querySearch">查询</el-button>
+          <el-button type="primary" @click="addSysConfig">新增</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -50,14 +51,16 @@
           <span>{{ scope.row.configValue }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="CreateTime" width="110" align="center">
+      <el-table-column label="CreateTime" width="200" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <span>操作 | 操作</span>
+          <el-button type="primary" @click="editSysConfig(scope.row.id,scope.row.appModuleId,scope.row.configKey,scope.row.configValue)">编辑
+          </el-button>
+          <el-button type="primary" @click="deleteSysConfig(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -73,10 +76,30 @@
         @current-change="changePageNum">
       </el-pagination>
     </div>
+
+
+    <el-dialog title="配置 修改/新增" :visible.sync="sysConfigEditOrAddDialogForm.showSysConfigEditOrAddDialog">
+      <el-form :model="sysConfigEditOrAddDialogForm">
+        <el-form-item label="归属" label-width="200">
+          <el-input v-model="sysConfigEditOrAddDialogForm.belong" disabled autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="ConfigKey" label-width="200">
+          <el-input v-model="sysConfigEditOrAddDialogForm.configKey" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="ConfigValue" label-width="200">
+          <el-input v-model="sysConfigEditOrAddDialogForm.configValue" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="sysConfigEditOrAddDialogForm.showSysConfigEditOrAddDialog = false">取 消</el-button>
+        <el-button type="primary" @click="submitEditOrAddSysConfig">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 <script>
-import {getSysConfig} from '@/api/sysconfig'
+import {getSysConfig, updateSysConfig} from '@/api/sysconfig'
 import {getAppModuleStructList} from '@/api/appmodule'
 import {Message, Pagination, Form} from "element-ui";
 
@@ -100,30 +123,101 @@ export default {
       appModuleMapping: {},
       pageInfo: {
         totalCount: 0,
-        pageSize: 1,
-        pageNum: 10,
+        pageSize: 10,
+        pageNum: 1,
         pageCount: 0
       },
       filterAppModuleForm: {
         appCode: "",
         appModuleCodeId: undefined,
-        configKey:""
+        configKey: ""
+      },
+      sysConfigEditOrAddDialogForm: {
+        showSysConfigEditOrAddDialog: false,
+        id: null,
+        appModuleId: null,
+        belong: "",
+        configKey: "",
+        configValue: ""
       }
     }
   },
   created() {
     // 使用 $route 获取传递的参数
-    this.initAppModuleStructData();
-    if(this.$route.query.appCode){
+    if (this.$route.query.appCode) {
       this.filterAppModuleForm.appCode = this.$route.query.appCode;
-      this.changeAppCode(this.filterAppModuleForm.appCode);
     }
-    if(this.$route.query.moduleId){
+    if (this.$route.query.moduleId) {
       this.filterAppModuleForm.appModuleCodeId = this.$route.query.moduleId;
       this.fetchData(1);
     }
+    this.initAppModuleStructData();
   },
   methods: {
+    editSysConfig(id, appModuleId, configKey, configValue) {
+      let belong =  "修改_" + id;
+      this.sysConfigEditOrAddDialogForm = {
+        showSysConfigEditOrAddDialog: true,
+        belong: belong,
+        id: id,
+        appModuleId: appModuleId,
+        configKey: configKey,
+        configValue: configValue
+      };
+    },
+    addSysConfig() {
+      if(!this.filterAppModuleForm.appModuleCodeId){
+        Message({
+          message: "过滤窗口先选择应用",
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return;
+      }
+      let belong = "新增";
+      this.sysConfigEditOrAddDialogForm = {
+        showSysConfigEditOrAddDialog: true,
+        belong: belong,
+        id: null,
+        appModuleId: this.filterAppModuleForm.appModuleCodeId,
+        configKey: "",
+        configValue: ""
+      };
+    },
+    submitEditOrAddSysConfig() {
+      let sysConfigEditOrAddDialogForm = this.sysConfigEditOrAddDialogForm;
+      let submitForm = {
+        "id": sysConfigEditOrAddDialogForm.id,
+        "appModuleId": sysConfigEditOrAddDialogForm.appModuleId,
+        "configKey": sysConfigEditOrAddDialogForm.configKey,
+        "configValue": sysConfigEditOrAddDialogForm.configValue
+      };
+      updateSysConfig(submitForm).then(response => {
+        this.sysConfigEditOrAddDialogForm.showSysConfigEditOrAddDialog = false;
+        const {data} = response;
+        if (data.code === 0) {
+          Message({
+            message: "操作成功，自动刷新该页面",
+            type: 'success',
+            duration: 5 * 1000
+          })
+          this.fetchData(this.pageInfo.pageNum);
+        } else {
+          Message({
+            message: data.message,
+            type: 'error',
+            duration: 5 * 1000
+          })
+        }
+      })
+    },
+    deleteSysConfig() {
+      Message({
+        message: "暂不开放使用，影响核心系统启动",
+        type: 'error',
+        duration: 5 * 1000
+      })
+    },
     initAppModuleStructData() {
       getAppModuleStructList().then(response => {
         const {data} = response;
@@ -135,17 +229,18 @@ export default {
             appList.push(key);
           }
           this.appList = appList;
+
+          if (this.filterAppModuleForm.appCode) {
+            this.changeAppCode(this.filterAppModuleForm.appCode);
+          }
         }
       });
     },
-    changeAppCode(appCode){
+    changeAppCode(appCode) {
       this.moduleList = this.appModuleMapping[appCode];
     },
-    refreshModuleSelect(){
-      this.$forceUpdate();
-    },
     fetchData(pageNum) {
-      if(!this.filterAppModuleForm.appModuleCodeId){
+      if (!this.filterAppModuleForm.appModuleCodeId) {
         Message({
           message: '选择moduleCode',
           type: 'error',

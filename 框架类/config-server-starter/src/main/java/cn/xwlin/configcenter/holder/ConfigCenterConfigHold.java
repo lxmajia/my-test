@@ -11,11 +11,11 @@ public class ConfigCenterConfigHold {
   public static int timeout = 60 * 1000;
 
   private static String version = "1.0.0";
-  private static String VERIFT_APP_MODULE = "/config/checkAppModule";
-  private static String GET_ALL_CONFIG = "/config/getAllConfig";
-  private static String GET_SYS_CONFIG = "/config/getSysConfig";
-  private static String REFRESH_CONFIG = "/config/refreshConfig";
-  private static String GET_CONFIG_VALUE = "/config/getConfigValue";
+  private static String VERIFT_APP_MODULE = "/rest/api/v1/config/checkAppModule";
+  private static String GET_ALL_CONFIG = "/rest/api/v1/config/getAllConfig";
+  private static String GET_SYS_CONFIG = "/rest/api/v1/config/getSysConfig";
+  private static String REFRESH_CONFIG = "/rest/api/v1/config/refreshConfig";
+  private static String GET_CONFIG_VALUE = "/rest/api/v1/config/getConfigValue";
 
   public static String getCheckAppModuleUrl() {
     boolean b = url.startsWith("http");

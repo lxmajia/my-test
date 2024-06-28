@@ -38,7 +38,7 @@
         from config_info
         where id = #{id,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" parameterType="cn.xwlin.configcenter.entity.ConfigInfo">
+    <insert id="insert" parameterType="cn.xwlin.configcenter.entity.ConfigInfo"  keyProperty="id" useGeneratedKeys="true" keyColumn="id">
         insert into config_info (id, app_module_id, app_code,
                                  module_code, config_key, unique_key,
                                  config_type, version, modified,
@@ -50,7 +50,7 @@
                 #{modified,jdbcType=TIMESTAMP},
                 #{modifier,jdbcType=VARCHAR}, #{configValue,jdbcType=LONGVARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="cn.xwlin.configcenter.entity.ConfigInfo">
+    <insert id="insertSelective" parameterType="cn.xwlin.configcenter.entity.ConfigInfo" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
         insert into config_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -183,6 +183,7 @@
             config_key    = #{configKey,jdbcType=VARCHAR},
             unique_key    = #{uniqueKey,jdbcType=VARCHAR},
             config_type   = #{configType,jdbcType=VARCHAR},
+            config_value  = #{configValue,jdbcType=VARCHAR},
             version       = #{version,jdbcType=BIGINT},
             modified      = #{modified,jdbcType=TIMESTAMP},
             modifier      = #{modifier,jdbcType=VARCHAR}

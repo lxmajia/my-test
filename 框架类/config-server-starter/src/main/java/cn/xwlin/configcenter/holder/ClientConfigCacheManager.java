@@ -1,6 +1,5 @@
 package cn.xwlin.configcenter.holder;
 
-import cn.xwlin.configcenter.timer.ConfigClientTimer;
 import cn.xwlin.configcenter.timer.ConfigFetchNetwork;
 import cn.xwlin.configcenter.timer.ConfigFetchTimerTask;
 import cn.xwlin.configcenter.vo.GetConfigData;
@@ -44,12 +43,12 @@ public class ClientConfigCacheManager {
 
   public void runConfigManager() {
     ClientConfigCacheManager.refreshTime = System.currentTimeMillis();
-    // 先获取所有配置
+    // 先获取所有配置(这里不去校验参数对不对，在获取系统参数的时候就校验了)
     initAllConfig();
+
     // 定时任务Task
-    ConfigFetchTimerTask configFetchTimerTask =
-            ConfigFetchTimerTask.getConfigFetchTimerTaskInstance();
-    ConfigClientTimer.TimerInstanceStart(configFetchTimerTask);
+    Thread thread = new Thread(new ConfigFetchTimerTask());
+    thread.start();
   }
 
   public void initAllConfig() {
