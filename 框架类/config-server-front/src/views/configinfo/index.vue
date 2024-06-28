@@ -120,8 +120,8 @@ export default {
       formatConfigValueDialogValue: "",
       list: null,
       appList: [],
-      listLoading: false,
       moduleList: [],
+      listLoading: false,
       appModuleMapping: {},
       pageInfo: {
         totalCount: 0,
@@ -136,15 +136,14 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     // 使用 $route 获取传递的参数
     this.initAppModuleStructData();
     if (this.$route.query.appCode) {
       this.filterAppModuleForm.appCode = this.$route.query.appCode;
-      this.changeAppCode(this.filterAppModuleForm.appCode);
     }
     if (this.$route.query.moduleId) {
-      this.filterAppModuleForm.appModuleCodeId = this.$route.query.moduleId;
+      this.filterAppModuleForm.appModuleCodeId = parseInt(this.$route.query.moduleId, 10);
       this.fetchData(1);
     }
   },
@@ -165,6 +164,10 @@ export default {
             appList.push(key);
           }
           this.appList = appList;
+
+          if(this.filterAppModuleForm.appCode){
+            this.changeAppCode(this.filterAppModuleForm.appCode);
+          }
         }
       });
     },
