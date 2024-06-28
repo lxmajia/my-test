@@ -12,7 +12,7 @@
             <el-option v-for="item in moduleList" :key="item.moduleId" :label="item.moduleCode" :value="item.moduleId"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="ModuleCode">
+        <el-form-item label="ConfigKey">
           <el-input v-model="filterAppModuleForm.configKey" placeholder="ConfigKey"></el-input>
         </el-form-item>
         <el-form-item>
