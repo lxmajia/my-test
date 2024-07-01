@@ -8,7 +8,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="ModuleCode">
-          <el-select v-model="filterAppModuleForm.appModuleCodeId" placeholder="ModuleCode" @change="refreshModuleSelect">
+          <el-select v-model="filterAppModuleForm.appModuleCodeId" placeholder="ModuleCode">
             <el-option v-for="item in moduleList" :key="item.moduleId" :label="item.moduleCode" :value="item.moduleId"></el-option>
           </el-select>
         </el-form-item>
@@ -111,7 +111,7 @@
             type="textarea"
             autosize
             placeholder="请输入内容(标准JSON格式)"
-            :autosize="{ minRows: 6}"
+            :autosize="{ minRows: 6, maxRows: 20}"
             v-model="configInfoEditOrAddDialogForm.configValue">
           </el-input>
         </el-form-item>
@@ -241,6 +241,7 @@ export default {
         configKey: configKey,
         configValue: configValue
       };
+      this.checkConfigValueIsJson();
     },
     addConfigInfo() {
       if (!this.filterAppModuleForm.appModuleCodeId) {
@@ -258,8 +259,9 @@ export default {
         id: null,
         appModuleId: this.filterAppModuleForm.appModuleCodeId,
         configKey: "",
-        configValue: ""
+        configValue: "{}"
       };
+      this.checkConfigValueIsJson();
     },
     submitEditOrAddConfigInfo() {
       let checkConfigValueIsJson1 = this.checkConfigValueIsJson();
@@ -340,9 +342,6 @@ export default {
     },
     changeAppCode(appCode) {
       this.moduleList = this.appModuleMapping[appCode];
-    },
-    refreshModuleSelect() {
-      this.$forceUpdate();
     },
     fetchData(pageNum) {
       if (!this.filterAppModuleForm.appModuleCodeId) {
