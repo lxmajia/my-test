@@ -1,0 +1,68 @@
+server:
+  port: 81
+
+#数据源配置
+spring:
+  redis:
+    ##redis 单机环境配置
+    host: redis-18983.c302.asia-northeast1-1.gce.redns.redis-cloud.com
+    port: 18983
+    password: EXvBawuiYuWvhMYxH1vbLWSMZgS4YwN8
+    database: 0
+    ssl: false
+
+  datasource:
+    url: jdbc:mysql://47.109.56.234:3306/school?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
+    username: root
+    password: LIAOxiang941229
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # druid相关配置
+    druid:
+      # 初始化 最小 最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 110
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filter:
+        stat:
+          log-slow-sql: false
+          slow-sql-millis: 1000
+
+
+#blade配置
+crazy:
+  prop:
+    #上传文件访问域名，用于文件上传外网访问地址的拼接
+    upload-domain: http://localhost:81
+    #开启远程上传路径
+    remote-mode: true
+    # 设置远程上传路径
+    remote-path: F:\tongZhou\liveschool\src\main\resources
+    # 站点域名
+    domain: http://localhost:81
+    #前台站点域名
+    front-domain: http://localhost:81
+    # 上传文件类型限制
+    upload-file-type: jpg,png,jpeg,JPG,PNG,JPEG,docx,doc,xls,xlsx,ico
+    # vue前台 icon上传路径
+    front-icon-path: D:\tongzhou\favicon.ico
+    # vue后台管理端 icon上传路径
+    admin-icon-path: F:\tongZhou\liveschool-student-ui\favicon.ico
+    # redis 缓存前缀
+    redis-prefix: school_gitee_lqx_1_1_5
+    # 视频云服务域名
+    videoyun-domain:
+  mybatis-plus:
+    sql-log: true
