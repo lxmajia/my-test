@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "cross-env NODE_ENV=tongzhou VUE_APP_API_PATH=http://localhost:1888/api vue-cli-service serve",
+    "serve": "cross-env NODE_ENV=tongzhou VUE_APP_API_PATH=http://localhost:81/ vue-cli-service serve",
     "build": "cross-env NODE_ENV=tongzhou VUE_APP_API_PATH=https://wx.tongzhoushidai.com/api vue-cli-service build",
     "build.pkt": "cross-env NODE_ENV=pkt VUE_APP_API_PATH=http://localhost:1888/api vue-cli-service build",
     "analyzer": "vue-cli-service serve --mode analyzer",
