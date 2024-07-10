@@ -1,43 +1,5 @@
 <template>
-  <div>
-    <div>
-    <div>
-      <div class="container-types container-rank clearfix" >
-        <h3 class="types-title clearfix">
-          <span>专家讲师</span>
-          <router-link target="_blank" class="more"  :to="{path:'/teacher/teacherList'}">查看更多 <i class="imv2-right2"></i></router-link>
-        </h3>
-        <div>
-          <div class="nodata" v-if="teacherList.length == 0">
-            <p><i class="imv2-error_c"></i></p>
-            <p>暂无数据</p>
-          </div>
-          <ul>
-            <li class="teacher-info-li" v-for="(teacher,index) in teacherList" :key="index">
-              <a  target="_blank" :title="teacher.name" :href="'/teacher/teacherInfo/'+teacher.id">
-                <img  :src="teacher.headImg" class="teacher-photo"/>
-                <div class="teacher-connect-bottom">
-                  <div>{{teacher.name}}</div>
-                </div>
-                <div class="teacher-connect" style="display: none;">
-                  <div class="teacher-connect-top">
-                    <div>{{teacher.name}}</div>
-                  </div>
-                  <div class="teacher-connect-down">
-                    <div style="overflow: hidden;text-overflow: ellipsis;display:-webkit-box; -webkit-box-orient:vertical;-webkit-line-clamp:4;">
-                      {{teacher.education}}
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="clear"></div>
-      </div>
-    </div>
-  </div>
-  </div>
+
 </template>
 
 <script>
@@ -57,17 +19,17 @@
     components: {},
     methods: {
       init(){
-        this.getTeacherList();
+        //this.getTeacherList();
       },
       getTeacherList(){//查询教师列表
-        let params = {
-          "current": this.current,
-          "size": this.size,
-        }
-        getTeacherList(params).then(res=>{
-          this.teacherList=res.data.data.records;
-          this.page = res.data.data
-        })
+        // let params = {
+        //   "current": this.current,
+        //   "size": this.size,
+        // }
+        // getTeacherList(params).then(res=>{
+        //   this.teacherList=res.data.data.records;
+        //   this.page = res.data.data
+        // })
       }
     },
     mounted:function() {

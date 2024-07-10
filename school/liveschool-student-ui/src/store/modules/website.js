@@ -32,12 +32,44 @@ const website = {
       return new Promise((resolve, reject) => {
         //判断如果站点配置有值则不更新数据
         if(validatenull(state.websiteConfig)){
-          websiteProfile("web,qqlogin,weibologin,wechatlogin,wechatpay,alipay,webregister,networklogin").then(res =>{
-            commit('SET_WESITECONFIG',res.data.data);
+          const webSiteInfo = {
+            "copyright": "Copyright ©2023 版权所有   <a href=\"#void(0)\">津ICP备19004321号-2</a>",
+            "keywords": "在线网校,网校系统,在线教育,网校平台,智慧教育",
+            "qqOpenFlag": "1",
+            "description": "在线教育平台搭建商",
+            "weiboOpenFlag": "2",
+            "publicKey": "xxxxxx",
+            "title": "网校系统",
+            "qqClientSecret": "xxxxxx",
+            "smsloginFlag": "1",
+            "appId": "xxxxxx",
+            "qqClientId": "xxxxxx",
+            "logo": "http://wxdemo.liangzhikeji.cn/upload/image/20230306/1263189383568711.png",
+            "aliFlag": "1",
+            "weiboClientId": "xxxxxx",
+            "company": "网校系统",
+            "wxMchId": "xxxxxx",
+            "email": "service@126.com     投诉电话：400-***-****",
+            "weiboClientSecret": "xxxxxx",
+            "author": "网校系统",
+            "wechatOpenFlag": "1",
+            "AppSecret": "xxxxxx",
+            "smsOpenFlag": "2",
+            "privateKey": "xxxxxx",
+            "phone": "400-***-****",
+            "loginLogo": "http://wxdemo.liangzhikeji.cn/upload/image/20230306/1263189383568711.png",
+            "wechatClientId": "xxxxxx",
+            "wechatClientSecret": "xxxxxx",
+            "bottonLogo": "http://wxdemo.liangzhikeji.cn/upload/image/20221117/77082907318184326.jpg",
+            "information": "",
+            "censusCodeString": "",
+            "wechatFlag": "1"
+          };
+
+            commit('SET_WESITECONFIG',webSiteInfo);
             //将数据存入本地浏览器seession
-            setStore({ name: 'websiteConfig', content: res.data.data ,type: 'session'})
-            resolve(res.data.data);
-          })
+            setStore({ name: 'websiteConfig', content: webSiteInfo ,type: 'session'})
+            resolve(webSiteInfo);
         }else{
           resolve(state.websiteConfig);
         }

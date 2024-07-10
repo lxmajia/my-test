@@ -123,7 +123,6 @@
         type: String,
         default: "/"
       },
-
     },
     methods: {
       checkUrl(url){

@@ -12,7 +12,7 @@ import org.springcrazy.modules.cms.vo.ArticleVO;
  * @author TongZhou
  * @since 2020-02-28
  */
-public interface IArticleService extends BaseService<Article> {
+public interface IArticleService extends IService<Article> {
 
 	/**
 	 * 自定义分页

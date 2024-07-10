@@ -15,28 +15,28 @@
       </div>-->
       <div class="course-content">
         <div class="course-nav-box">
-          <div class="course-nav-row clearfix ">
-            <span class="hd l">类型：</span>
-            <div class="bd">
-              <ul class="">
-                <li class="course-nav-item" v-on:click="clickType(0)" v-bind:class="{'on' :typeActive == 0}">
-                  <a href="javascript:void(0)">全部</a>
-                </li>
-                <li class="course-nav-item " v-on:click="clickType(1)" v-bind:class="{'on' :typeActive == 1}">
-                  <a href="javascript:void(0)">点播</a>
-                </li>
-                <li class="course-nav-item " v-on:click="clickType(2)" v-bind:class="{'on' :typeActive == 2}">
-                  <a href="javascript:void(0)">直播</a>
-                </li>
-                <li class="course-nav-item " v-on:click="clickType(3)" v-bind:class="{'on' :typeActive == 3}">
-                  <a href="javascript:void(0)">班级</a>
-                </li>
-                <li class="course-nav-item " v-on:click="clickFaceTeaching()" v-bind:class="{'on' :typeActive == 4}">
-                  <a href="javascript:void(0)">面授</a>
-                </li>
-              </ul>
-            </div>
-          </div>
+<!--          <div class="course-nav-row clearfix ">-->
+<!--            <span class="hd l">类型：</span>-->
+<!--            <div class="bd">-->
+<!--              <ul class="">-->
+<!--                <li class="course-nav-item" v-on:click="clickType(0)" v-bind:class="{'on' :typeActive == 0}">-->
+<!--                  <a href="javascript:void(0)">全部</a>-->
+<!--                </li>-->
+<!--                <li class="course-nav-item " v-on:click="clickType(1)" v-bind:class="{'on' :typeActive == 1}">-->
+<!--                  <a href="javascript:void(0)">点播</a>-->
+<!--                </li>-->
+<!--                <li class="course-nav-item " v-on:click="clickType(2)" v-bind:class="{'on' :typeActive == 2}">-->
+<!--                  <a href="javascript:void(0)">直播</a>-->
+<!--                </li>-->
+<!--                <li class="course-nav-item " v-on:click="clickType(3)" v-bind:class="{'on' :typeActive == 3}">-->
+<!--                  <a href="javascript:void(0)">班级</a>-->
+<!--                </li>-->
+<!--                <li class="course-nav-item " v-on:click="clickFaceTeaching()" v-bind:class="{'on' :typeActive == 4}">-->
+<!--                  <a href="javascript:void(0)">面授</a>-->
+<!--                </li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--          </div>-->
           <div class="course-nav-row clearfix">
             <span class="hd l">分类：</span>
             <div class="bd">
@@ -50,21 +50,21 @@
               </ul>
             </div>
           </div>
-          <div class="course-nav-row course-nav-skills clearfix border_bottom_none">
-            <div class="js-course-skills " v-bind:class="{'course-skills-box' :subjectLevel2.length > 29}">
-              <span class="hd l"></span>
-              <div class="bd">
-                <ul class="">
-                  <li class="course-nav-item"  v-on:click="clickSubLevel2(0)" v-bind:class="{'on' :subLevel2Active == 0}">
-                    <a href="javascript:void(0)">全部</a>
-                  </li>
-                  <li class="course-nav-item" v-on:click="clickSubLevel2(subject.id)" v-bind:class="{'on' :subLevel2Active == subject.id}" v-for="subject in subjectLevel2" :key="subject.id">
-                    <a href="javascript:void(0)" data-id="6303" data-ct="tyscript">{{subject.title}}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+<!--          <div class="course-nav-row course-nav-skills clearfix border_bottom_none">-->
+<!--            <div class="js-course-skills " v-bind:class="{'course-skills-box' :subjectLevel2.length > 29}">-->
+<!--              <span class="hd l"></span>-->
+<!--              <div class="bd">-->
+<!--                <ul class="">-->
+<!--                  <li class="course-nav-item"  v-on:click="clickSubLevel2(0)" v-bind:class="{'on' :subLevel2Active == 0}">-->
+<!--                    <a href="javascript:void(0)">全部</a>-->
+<!--                  </li>-->
+<!--                  <li class="course-nav-item" v-on:click="clickSubLevel2(subject.id)" v-bind:class="{'on' :subLevel2Active == subject.id}" v-for="subject in subjectLevel2" :key="subject.id">-->
+<!--                    <a href="javascript:void(0)" data-id="6303" data-ct="tyscript">{{subject.title}}</a>-->
+<!--                  </li>-->
+<!--                </ul>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
       </div>
     </div>
