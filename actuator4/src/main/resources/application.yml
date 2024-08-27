@@ -16,15 +16,8 @@ logging:
     per.lx.controller: debug
 spring:
   redis:
-    host: 1_39a859fe4d25.c.methodot.com
-    port: 31581
+    host: redis-18983.c302.asia-northeast1-1.gce.redns.redis-cloud.com
+    port: 18983
     database: 0
     username: default
     password: EXvBawuiYuWvhMYxH1vbLWSMZgS4YwN8
-    client-type: lettuce
-    lettuce:
-      pool:
-        max-active: 5
-        max-wait: 2
-        min-idle: 2
-        enabled: true
