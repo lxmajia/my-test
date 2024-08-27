@@ -18,6 +18,7 @@ public class CustomInterceptor implements HandlerInterceptor {
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
     // 可以在这里添加自定义逻辑
+    System.out.println(request.getMethod() + "-" + request.getPathInfo());
   }
 
   @Override
