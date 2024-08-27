@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 @EnableScheduling
 public class SaticScheduleTask {
-    @Scheduled(cron = "0/5 * * * * ?")
+    @Scheduled(cron = "0/20 * * * * ?")
     private void configureTasks() {
         System.err.println("执行静态定时任务时间: " + System.currentTimeMillis());
     }
