@@ -9,9 +9,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * 启动器
  *
- * @author TongZhou
+ * @author TongZhous
  */
-@EnableScheduling
 @SpringBootApplication
 public class Application {
 

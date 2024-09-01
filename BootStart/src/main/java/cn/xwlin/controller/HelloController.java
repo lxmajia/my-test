@@ -9,6 +9,7 @@ import cn.xwlin.logger.LoggerUtils;
 import cn.xwlin.service.HelloService;
 import cn.xwlin.vo.UserFullInfo;
 import com.alibaba.fastjson2.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequestMapping("hello")
 public class HelloController {
