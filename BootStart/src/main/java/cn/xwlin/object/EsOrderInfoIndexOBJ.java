@@ -7,108 +7,74 @@ import java.util.Date;
 import java.util.List;
 
 public class EsOrderInfoIndexOBJ {
-    @JSONField(name = "orderGoods")
-    private Long orderId;
-    @JSONField(name = "orderGoods")
-    private Integer orderType;
-    @JSONField(name = "orderGoods")
-    private Integer orderFrom;
-    @JSONField(name = "orderGoods")
-    private String transNo;
-    @JSONField(name = "orderGoods")
-    private String receiveName;
-    @JSONField(name = "orderGoods")
-    private String receiveMobile;
-    @JSONField(name = "orderGoods")
-    private Long shopId;
-    @JSONField(name = "orderGoods")
-    private Integer orderStatus;
-    @JSONField(name = "orderGoods")
-    private Date createTime;
-    @JSONField(name = "orderGoods")
-    private List<EsOrderInfoIndexOBJGoodsInfo> orderGoods;
+  @JSONField(name = "orderId")
+  private Long orderId;
+  @JSONField(name = "orderStatus")
+  private Integer orderStatus;
+  @JSONField(name = "userId")
+  private Long userId;
+  @JSONField(name = "contactName")
+  private String contactName;
+  @JSONField(name = "contactPhone")
+  private String contactPhone;
+  @JSONField(name = "createTime", format = "yyyy-MM-ddTHH:mm:ssZ")
+  private Date createTime;
+  @JSONField(name = "goodsList")
+  private List<EsOrderInfoIndexOBJGoodsInfo> goodsList;
 
-    public String getId() {
-        return String.valueOf(orderId);
-    }
+  public Long getOrderId() {
+    return orderId;
+  }
 
-    public Long getOrderId() {
-        return orderId;
-    }
+  public void setOrderId(Long orderId) {
+    this.orderId = orderId;
+  }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
+  public Integer getOrderStatus() {
+    return orderStatus;
+  }
 
-    public Integer getOrderType() {
-        return orderType;
-    }
+  public void setOrderStatus(Integer orderStatus) {
+    this.orderStatus = orderStatus;
+  }
 
-    public void setOrderType(Integer orderType) {
-        this.orderType = orderType;
-    }
+  public Long getUserId() {
+    return userId;
+  }
 
-    public Integer getOrderFrom() {
-        return orderFrom;
-    }
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
-    public void setOrderFrom(Integer orderFrom) {
-        this.orderFrom = orderFrom;
-    }
+  public String getContactName() {
+    return contactName;
+  }
 
-    public String getTransNo() {
-        return transNo;
-    }
+  public void setContactName(String contactName) {
+    this.contactName = contactName;
+  }
 
-    public void setTransNo(String transNo) {
-        this.transNo = transNo;
-    }
+  public String getContactPhone() {
+    return contactPhone;
+  }
 
-    public String getReceiveName() {
-        return receiveName;
-    }
+  public void setContactPhone(String contactPhone) {
+    this.contactPhone = contactPhone;
+  }
 
-    public void setReceiveName(String receiveName) {
-        this.receiveName = receiveName;
-    }
+  public Date getCreateTime() {
+    return createTime;
+  }
 
-    public String getReceiveMobile() {
-        return receiveMobile;
-    }
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
 
-    public void setReceiveMobile(String receiveMobile) {
-        this.receiveMobile = receiveMobile;
-    }
+  public List<EsOrderInfoIndexOBJGoodsInfo> getGoodsList() {
+    return goodsList;
+  }
 
-    public Long getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Long shopId) {
-        this.shopId = shopId;
-    }
-
-    public Integer getOrderStatus() {
-        return orderStatus;
-    }
-
-    public void setOrderStatus(Integer orderStatus) {
-        this.orderStatus = orderStatus;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public List<EsOrderInfoIndexOBJGoodsInfo> getOrderGoods() {
-        return orderGoods;
-    }
-
-    public void setOrderGoods(List<EsOrderInfoIndexOBJGoodsInfo> orderGoods) {
-        this.orderGoods = orderGoods;
-    }
+  public void setGoodsList(List<EsOrderInfoIndexOBJGoodsInfo> goodsList) {
+    this.goodsList = goodsList;
+  }
 }
