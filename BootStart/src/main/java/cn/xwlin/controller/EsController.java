@@ -4,6 +4,8 @@ import cn.xwlin.object.EsOrderInfoIndexOBJ;
 import cn.xwlin.util.OrderUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -32,9 +34,11 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @RestController
 @RequestMapping("es")
@@ -100,24 +104,39 @@ public class EsController {
     }
 
     int successCount = 0;
+
+    List<IndexRequest> requestList = new ArrayList<>();
     for (int i = 0; i < count; i++) {
-      EsOrderInfoIndexOBJ esOrderInfoIndex = buildRandomEsObj(startOrderId);
+      EsOrderInfoIndexOBJ esOrderInfoIndex = null;
+      if (i % 26 == 0) {
+        esOrderInfoIndex = buildMyRandomEsObj(startOrderId);
+      } else {
+        esOrderInfoIndex = buildRandomEsObj(startOrderId);
+      }
       IndexRequest indexRequest = new IndexRequest("order_info");
       indexRequest.source(JSON.toJSONString(esOrderInfoIndex), XContentType.JSON);
       indexRequest.timeout(TimeValue.timeValueSeconds(1));
       indexRequest.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
       indexRequest.create(true);
       indexRequest.id(esOrderInfoIndex.getOrderId().toString());
-      try {
-        IndexResponse index = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
-        if (index.status().equals(RestStatus.OK)) {
-          successCount++;
-        }
-      } catch (Throwable t) {
-      } finally {
-        startOrderId++;
-      }
+      requestList.add(indexRequest);
+
+      startOrderId++;
     }
+
+    ExecutorService executorService = Executors.newFixedThreadPool(8);
+    CountDownLatch downLatch = new CountDownLatch(requestList.size());
+    for (IndexRequest indexRequest : requestList) {
+      executorService.execute(() -> {
+        try {
+          IndexResponse index = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
+        } catch (Throwable t) {
+        } finally {
+          downLatch.countDown();
+        }
+      });
+    }
+    downLatch.await();
     return "SUCCESS：" + successCount + ",maxOrderId:" + startOrderId;
   }
 
@@ -129,6 +148,18 @@ public class EsController {
     obj.setCreateTime(new Date());
     obj.setContactName(OrderUtil.getName());
     obj.setContactPhone(OrderUtil.getAPhoneNum());
+    obj.setGoodsList(OrderUtil.getGoodsInfo());
+    return obj;
+  }
+
+  private EsOrderInfoIndexOBJ buildMyRandomEsObj(Long orderId) {
+    EsOrderInfoIndexOBJ obj = new EsOrderInfoIndexOBJ();
+    obj.setOrderId(orderId);
+    obj.setOrderStatus(OrderUtil.getOrderStatus());
+    obj.setUserId(438944209L);
+    obj.setCreateTime(new Date());
+    obj.setContactName("廖祥");
+    obj.setContactPhone("15680747337");
     obj.setGoodsList(OrderUtil.getGoodsInfo());
     return obj;
   }

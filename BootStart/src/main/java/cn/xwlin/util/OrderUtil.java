@@ -60,7 +60,7 @@ public class OrderUtil {
   }
 
   public static Long getUserId() {
-    return RandomUtil.randomLong(20000000000L, 99000000000000L);
+    return RandomUtil.randomLong(30000000000L, 30000002000L);
   }
 
 
