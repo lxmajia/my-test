@@ -52,15 +52,15 @@ public class OrderUtil {
   }
 
   public static Long getGoodsId() {
-    return RandomUtil.randomLong(101234L, 999999999L);
+    return RandomUtil.randomLong(999989999L, 999999999L);
   }
 
   public static Long getGoodsUniqueId() {
-    return RandomUtil.randomLong(999999999L, 99999999999999L);
+    return RandomUtil.randomLong(69999999799999L, 69999999999999L);
   }
 
   public static Long getUserId() {
-    return RandomUtil.randomLong(30000000000L, 30000002000L);
+    return RandomUtil.randomLong(438944208L, 438954209L);
   }
 
 
@@ -94,7 +94,7 @@ public class OrderUtil {
 
   public static BigDecimal getCostAmount(BigDecimal saleAmount) {
     int i = RandomUtil.randomInt(80, 95);
-    BigDecimal bigDecimal = BigDecimal.valueOf(i / 100);
+    BigDecimal bigDecimal = BigDecimal.valueOf(i).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
     return saleAmount.multiply(bigDecimal);
   }
 
@@ -111,6 +111,7 @@ public class OrderUtil {
       esOrderInfoIndexOBJGoodsInfo.setGoodsType(getGoodsType());
       esOrderInfoIndexOBJGoodsInfo.setSaleAmount(getSaleAmount().setScale(2, RoundingMode.HALF_UP));
       esOrderInfoIndexOBJGoodsInfo.setCostAmount(getCostAmount(esOrderInfoIndexOBJGoodsInfo.getSaleAmount()).setScale(2, RoundingMode.HALF_UP));
+      result.add(esOrderInfoIndexOBJGoodsInfo);
     }
     return result;
   }

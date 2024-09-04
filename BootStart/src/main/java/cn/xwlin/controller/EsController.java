@@ -1,7 +1,10 @@
 package cn.xwlin.controller;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.xwlin.object.EsOrderInfoIndexOBJ;
+import cn.xwlin.server.EsServer;
 import cn.xwlin.util.OrderUtil;
+import cn.xwlin.vo.EsQueryResult;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -19,10 +22,12 @@ import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
+import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -46,6 +51,8 @@ public class EsController {
 
   @Autowired
   private RestHighLevelClient restHighLevelClient;
+  @Autowired
+  private EsServer esServer;
 
   @RequestMapping("info")
   public MainResponse info(String name) throws Exception {
@@ -75,27 +82,28 @@ public class EsController {
   }
 
   @RequestMapping("createData")
-  public String createData(Long startOrderId, Integer count) throws Exception {
+  public String createData(Integer count) throws Exception {
+    String indexName = "order-info";
+
+    Long startOrderId = 0L;
     SearchRequest searchRequest = new SearchRequest();
-    searchRequest.indices("order_info");//指定要查询的索引
+    searchRequest.indices(indexName);//指定要查询的索引
 
-    SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
     MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
-    searchSourceBuilder.query(matchAllQueryBuilder);
-    searchSourceBuilder.sort("orderId", SortOrder.DESC);
-    searchSourceBuilder.size(1);
-    //3.将 SearchSourceBuilder 添加到 SearchRequest中
-    searchRequest.source(searchSourceBuilder);
-    //4.执行查询
-    SearchResponse searchResponse = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
-    //5.解析查询结果
-    System.out.println(searchResponse);
-    System.out.println("花费的时长：" + searchResponse.getTook());
+    // 设置查询的字段
+    String[] includes = new String[]{"orderId", "contactName", "contactPhone", "goodsList", "createTime"}; // 替换为你想查询的字段
+    String[] excludes = Strings.EMPTY_ARRAY; // 不排除任何字段
 
-    SearchHits hits = searchResponse.getHits();
-    if (hits.getHits().length > 0) {
-      SearchHit hit = hits.getHits()[0];
-      long l = Long.parseLong(hit.getId());
+    SearchSourceBuilder queryBuilder = new SearchSourceBuilder();
+    queryBuilder.query(matchAllQueryBuilder);
+    queryBuilder.fetchSource(includes, excludes);
+    queryBuilder.sort("orderId", SortOrder.DESC);
+    queryBuilder.size(2);
+
+    EsQueryResult<EsOrderInfoIndexOBJ> esOrderInfoIndexOBJEsQueryResult = esServer.queryByTemplate(queryBuilder, EsOrderInfoIndexOBJ.class, indexName);
+
+    if (esOrderInfoIndexOBJEsQueryResult.getCount() > 0) {
+      long l = esOrderInfoIndexOBJEsQueryResult.getList().get(0).getOrderId();
       startOrderId = l + 1;
     }
 
@@ -108,12 +116,13 @@ public class EsController {
     List<IndexRequest> requestList = new ArrayList<>();
     for (int i = 0; i < count; i++) {
       EsOrderInfoIndexOBJ esOrderInfoIndex = null;
-      if (i % 26 == 0) {
+      int i1 = RandomUtil.randomInt(1, 100);
+      if (i1 < 4) {
         esOrderInfoIndex = buildMyRandomEsObj(startOrderId);
       } else {
         esOrderInfoIndex = buildRandomEsObj(startOrderId);
       }
-      IndexRequest indexRequest = new IndexRequest("order_info");
+      IndexRequest indexRequest = new IndexRequest(indexName);
       indexRequest.source(JSON.toJSONString(esOrderInfoIndex), XContentType.JSON);
       indexRequest.timeout(TimeValue.timeValueSeconds(1));
       indexRequest.setRefreshPolicy(WriteRequest.RefreshPolicy.WAIT_UNTIL);
@@ -124,7 +133,7 @@ public class EsController {
       startOrderId++;
     }
 
-    ExecutorService executorService = Executors.newFixedThreadPool(8);
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
     CountDownLatch downLatch = new CountDownLatch(requestList.size());
     for (IndexRequest indexRequest : requestList) {
       executorService.execute(() -> {
