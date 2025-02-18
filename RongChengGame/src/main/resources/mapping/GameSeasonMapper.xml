@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.GameSeasonMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GameSeason">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="game_type_id" jdbcType="INTEGER" property="gameTypeId" />
+    <result column="season_name" jdbcType="VARCHAR" property="seasonName" />
+    <result column="season_short_name" jdbcType="VARCHAR" property="seasonShortName" />
+    <result column="season_logo" jdbcType="VARCHAR" property="seasonLogo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, game_type_id, season_name, season_short_name, season_logo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from game_season
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from game_season
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.rcgame.entity.GameSeason">
+    insert into game_season (id, game_type_id, season_name, 
+      season_short_name, season_logo)
+    values (#{id,jdbcType=INTEGER}, #{gameTypeId,jdbcType=INTEGER}, #{seasonName,jdbcType=VARCHAR}, 
+      #{seasonShortName,jdbcType=VARCHAR}, #{seasonLogo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.GameSeason">
+    insert into game_season
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gameTypeId != null">
+        game_type_id,
+      </if>
+      <if test="seasonName != null">
+        season_name,
+      </if>
+      <if test="seasonShortName != null">
+        season_short_name,
+      </if>
+      <if test="seasonLogo != null">
+        season_logo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="gameTypeId != null">
+        #{gameTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="seasonName != null">
+        #{seasonName,jdbcType=VARCHAR},
+      </if>
+      <if test="seasonShortName != null">
+        #{seasonShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="seasonLogo != null">
+        #{seasonLogo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.rcgame.entity.GameSeason">
+    update game_season
+    <set>
+      <if test="gameTypeId != null">
+        game_type_id = #{gameTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="seasonName != null">
+        season_name = #{seasonName,jdbcType=VARCHAR},
+      </if>
+      <if test="seasonShortName != null">
+        season_short_name = #{seasonShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="seasonLogo != null">
+        season_logo = #{seasonLogo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.rcgame.entity.GameSeason">
+    update game_season
+    set game_type_id = #{gameTypeId,jdbcType=INTEGER},
+      season_name = #{seasonName,jdbcType=VARCHAR},
+      season_short_name = #{seasonShortName,jdbcType=VARCHAR},
+      season_logo = #{seasonLogo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

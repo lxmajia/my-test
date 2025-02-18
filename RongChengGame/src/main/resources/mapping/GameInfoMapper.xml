@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.GameInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GameInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="game_type_id" jdbcType="INTEGER" property="gameTypeId" />
+    <result column="game_season_id" jdbcType="INTEGER" property="gameSeasonId" />
+    <result column="game_name_desc" jdbcType="VARCHAR" property="gameNameDesc" />
+    <result column="main_club_id" jdbcType="INTEGER" property="mainClubId" />
+    <result column="main_club_name" jdbcType="VARCHAR" property="mainClubName" />
+    <result column="main_control_rate" jdbcType="INTEGER" property="mainControlRate" />
+    <result column="guest_club_id" jdbcType="INTEGER" property="guestClubId" />
+    <result column="guest_club_name" jdbcType="VARCHAR" property="guestClubName" />
+    <result column="match_status" jdbcType="INTEGER" property="matchStatus" />
+    <result column="match_time" jdbcType="TIMESTAMP" property="matchTime" />
+    <result column="real_match_time" jdbcType="TIMESTAMP" property="realMatchTime" />
+    <result column="half_main_score" jdbcType="INTEGER" property="halfMainScore" />
+    <result column="half_guest_score" jdbcType="INTEGER" property="halfGuestScore" />
+    <result column="full_main_score" jdbcType="INTEGER" property="fullMainScore" />
+    <result column="full_guest_score" jdbcType="INTEGER" property="fullGuestScore" />
+    <result column="main_point" jdbcType="INTEGER" property="mainPoint" />
+    <result column="guest_point" jdbcType="INTEGER" property="guestPoint" />
+    <result column="match_city" jdbcType="VARCHAR" property="matchCity" />
+    <result column="match_stadium_name" jdbcType="VARCHAR" property="matchStadiumName" />
+    <result column="position_type" jdbcType="INTEGER" property="positionType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, game_type_id, game_season_id, game_name_desc, main_club_id, main_club_name, main_control_rate, 
+    guest_club_id, guest_club_name, match_status, match_time, real_match_time, half_main_score, 
+    half_guest_score, full_main_score, full_guest_score, main_point, guest_point, match_city, 
+    match_stadium_name, position_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from game_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from game_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.rcgame.entity.GameInfo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into game_info (id, game_type_id, game_season_id, 
+      game_name_desc, main_club_id, main_club_name, 
+      main_control_rate, guest_club_id, guest_club_name, 
+      match_status, match_time, real_match_time, 
+      half_main_score, half_guest_score, full_main_score, 
+      full_guest_score, main_point, guest_point, 
+      match_city, match_stadium_name, position_type
+      )
+    values (#{id,jdbcType=INTEGER}, #{gameTypeId,jdbcType=INTEGER}, #{gameSeasonId,jdbcType=INTEGER}, 
+      #{gameNameDesc,jdbcType=VARCHAR}, #{mainClubId,jdbcType=INTEGER}, #{mainClubName,jdbcType=VARCHAR}, 
+      #{mainControlRate,jdbcType=INTEGER}, #{guestClubId,jdbcType=INTEGER}, #{guestClubName,jdbcType=VARCHAR}, 
+      #{matchStatus,jdbcType=INTEGER}, #{matchTime,jdbcType=TIMESTAMP}, #{realMatchTime,jdbcType=TIMESTAMP}, 
+      #{halfMainScore,jdbcType=INTEGER}, #{halfGuestScore,jdbcType=INTEGER}, #{fullMainScore,jdbcType=INTEGER}, 
+      #{fullGuestScore,jdbcType=INTEGER}, #{mainPoint,jdbcType=INTEGER}, #{guestPoint,jdbcType=INTEGER}, 
+      #{matchCity,jdbcType=VARCHAR}, #{matchStadiumName,jdbcType=VARCHAR}, #{positionType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.GameInfo"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into game_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gameTypeId != null">
+        game_type_id,
+      </if>
+      <if test="gameSeasonId != null">
+        game_season_id,
+      </if>
+      <if test="gameNameDesc != null">
+        game_name_desc,
+      </if>
+      <if test="mainClubId != null">
+        main_club_id,
+      </if>
+      <if test="mainClubName != null">
+        main_club_name,
+      </if>
+      <if test="mainControlRate != null">
+        main_control_rate,
+      </if>
+      <if test="guestClubId != null">
+        guest_club_id,
+      </if>
+      <if test="guestClubName != null">
+        guest_club_name,
+      </if>
+      <if test="matchStatus != null">
+        match_status,
+      </if>
+      <if test="matchTime != null">
+        match_time,
+      </if>
+      <if test="realMatchTime != null">
+        real_match_time,
+      </if>
+      <if test="halfMainScore != null">
+        half_main_score,
+      </if>
+      <if test="halfGuestScore != null">
+        half_guest_score,
+      </if>
+      <if test="fullMainScore != null">
+        full_main_score,
+      </if>
+      <if test="fullGuestScore != null">
+        full_guest_score,
+      </if>
+      <if test="mainPoint != null">
+        main_point,
+      </if>
+      <if test="guestPoint != null">
+        guest_point,
+      </if>
+      <if test="matchCity != null">
+        match_city,
+      </if>
+      <if test="matchStadiumName != null">
+        match_stadium_name,
+      </if>
+      <if test="positionType != null">
+        position_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="gameTypeId != null">
+        #{gameTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="gameSeasonId != null">
+        #{gameSeasonId,jdbcType=INTEGER},
+      </if>
+      <if test="gameNameDesc != null">
+        #{gameNameDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainClubId != null">
+        #{mainClubId,jdbcType=INTEGER},
+      </if>
+      <if test="mainClubName != null">
+        #{mainClubName,jdbcType=VARCHAR},
+      </if>
+      <if test="mainControlRate != null">
+        #{mainControlRate,jdbcType=INTEGER},
+      </if>
+      <if test="guestClubId != null">
+        #{guestClubId,jdbcType=INTEGER},
+      </if>
+      <if test="guestClubName != null">
+        #{guestClubName,jdbcType=VARCHAR},
+      </if>
+      <if test="matchStatus != null">
+        #{matchStatus,jdbcType=INTEGER},
+      </if>
+      <if test="matchTime != null">
+        #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realMatchTime != null">
+        #{realMatchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="halfMainScore != null">
+        #{halfMainScore,jdbcType=INTEGER},
+      </if>
+      <if test="halfGuestScore != null">
+        #{halfGuestScore,jdbcType=INTEGER},
+      </if>
+      <if test="fullMainScore != null">
+        #{fullMainScore,jdbcType=INTEGER},
+      </if>
+      <if test="fullGuestScore != null">
+        #{fullGuestScore,jdbcType=INTEGER},
+      </if>
+      <if test="mainPoint != null">
+        #{mainPoint,jdbcType=INTEGER},
+      </if>
+      <if test="guestPoint != null">
+        #{guestPoint,jdbcType=INTEGER},
+      </if>
+      <if test="matchCity != null">
+        #{matchCity,jdbcType=VARCHAR},
+      </if>
+      <if test="matchStadiumName != null">
+        #{matchStadiumName,jdbcType=VARCHAR},
+      </if>
+      <if test="positionType != null">
+        #{positionType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.rcgame.entity.GameInfo">
+    update game_info
+    <set>
+      <if test="gameTypeId != null">
+        game_type_id = #{gameTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="gameSeasonId != null">
+        game_season_id = #{gameSeasonId,jdbcType=INTEGER},
+      </if>
+      <if test="gameNameDesc != null">
+        game_name_desc = #{gameNameDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mainClubId != null">
+        main_club_id = #{mainClubId,jdbcType=INTEGER},
+      </if>
+      <if test="mainClubName != null">
+        main_club_name = #{mainClubName,jdbcType=VARCHAR},
+      </if>
+      <if test="mainControlRate != null">
+        main_control_rate = #{mainControlRate,jdbcType=INTEGER},
+      </if>
+      <if test="guestClubId != null">
+        guest_club_id = #{guestClubId,jdbcType=INTEGER},
+      </if>
+      <if test="guestClubName != null">
+        guest_club_name = #{guestClubName,jdbcType=VARCHAR},
+      </if>
+      <if test="matchStatus != null">
+        match_status = #{matchStatus,jdbcType=INTEGER},
+      </if>
+      <if test="matchTime != null">
+        match_time = #{matchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realMatchTime != null">
+        real_match_time = #{realMatchTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="halfMainScore != null">
+        half_main_score = #{halfMainScore,jdbcType=INTEGER},
+      </if>
+      <if test="halfGuestScore != null">
+        half_guest_score = #{halfGuestScore,jdbcType=INTEGER},
+      </if>
+      <if test="fullMainScore != null">
+        full_main_score = #{fullMainScore,jdbcType=INTEGER},
+      </if>
+      <if test="fullGuestScore != null">
+        full_guest_score = #{fullGuestScore,jdbcType=INTEGER},
+      </if>
+      <if test="mainPoint != null">
+        main_point = #{mainPoint,jdbcType=INTEGER},
+      </if>
+      <if test="guestPoint != null">
+        guest_point = #{guestPoint,jdbcType=INTEGER},
+      </if>
+      <if test="matchCity != null">
+        match_city = #{matchCity,jdbcType=VARCHAR},
+      </if>
+      <if test="matchStadiumName != null">
+        match_stadium_name = #{matchStadiumName,jdbcType=VARCHAR},
+      </if>
+      <if test="positionType != null">
+        position_type = #{positionType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.rcgame.entity.GameInfo">
+    update game_info
+    set game_type_id = #{gameTypeId,jdbcType=INTEGER},
+      game_season_id = #{gameSeasonId,jdbcType=INTEGER},
+      game_name_desc = #{gameNameDesc,jdbcType=VARCHAR},
+      main_club_id = #{mainClubId,jdbcType=INTEGER},
+      main_club_name = #{mainClubName,jdbcType=VARCHAR},
+      main_control_rate = #{mainControlRate,jdbcType=INTEGER},
+      guest_club_id = #{guestClubId,jdbcType=INTEGER},
+      guest_club_name = #{guestClubName,jdbcType=VARCHAR},
+      match_status = #{matchStatus,jdbcType=INTEGER},
+      match_time = #{matchTime,jdbcType=TIMESTAMP},
+      real_match_time = #{realMatchTime,jdbcType=TIMESTAMP},
+      half_main_score = #{halfMainScore,jdbcType=INTEGER},
+      half_guest_score = #{halfGuestScore,jdbcType=INTEGER},
+      full_main_score = #{fullMainScore,jdbcType=INTEGER},
+      full_guest_score = #{fullGuestScore,jdbcType=INTEGER},
+      main_point = #{mainPoint,jdbcType=INTEGER},
+      guest_point = #{guestPoint,jdbcType=INTEGER},
+      match_city = #{matchCity,jdbcType=VARCHAR},
+      match_stadium_name = #{matchStadiumName,jdbcType=VARCHAR},
+      position_type = #{positionType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

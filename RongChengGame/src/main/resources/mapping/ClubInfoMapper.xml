@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.ClubInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.ClubInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="show_name" jdbcType="VARCHAR" property="showName" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
+    <result column="loc_city" jdbcType="VARCHAR" property="locCity" />
+    <result column="stadium_name_name" jdbcType="VARCHAR" property="stadiumNameName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `name`, show_name, logo, loc_city, stadium_name_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from club_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByShowName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from club_info
+    where show_name = #{showName}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from club_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.rcgame.entity.ClubInfo"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into club_info (id, `name`, show_name, 
+      logo, loc_city, stadium_name_name
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{showName,jdbcType=VARCHAR}, 
+      #{logo,jdbcType=VARCHAR}, #{locCity,jdbcType=VARCHAR}, #{stadiumNameName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.ClubInfo"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into club_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="showName != null">
+        show_name,
+      </if>
+      <if test="logo != null">
+        logo,
+      </if>
+      <if test="locCity != null">
+        loc_city,
+      </if>
+      <if test="stadiumNameName != null">
+        stadium_name_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="showName != null">
+        #{showName,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="locCity != null">
+        #{locCity,jdbcType=VARCHAR},
+      </if>
+      <if test="stadiumNameName != null">
+        #{stadiumNameName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.rcgame.entity.ClubInfo">
+    update club_info
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="showName != null">
+        show_name = #{showName,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="locCity != null">
+        loc_city = #{locCity,jdbcType=VARCHAR},
+      </if>
+      <if test="stadiumNameName != null">
+        stadium_name_name = #{stadiumNameName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.rcgame.entity.ClubInfo">
+    update club_info
+    set `name` = #{name,jdbcType=VARCHAR},
+      show_name = #{showName,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      loc_city = #{locCity,jdbcType=VARCHAR},
+      stadium_name_name = #{stadiumNameName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

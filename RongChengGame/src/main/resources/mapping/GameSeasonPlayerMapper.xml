@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.GameSeasonPlayerMapper">
+    <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GameSeasonPlayer">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="season_id" jdbcType="INTEGER" property="seasonId"/>
+        <result column="cn_name" jdbcType="VARCHAR" property="cnName"/>
+        <result column="en_name" jdbcType="VARCHAR" property="enName"/>
+        <result column="season_wear_num" jdbcType="INTEGER" property="seasonWearNum"/>
+        <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+        <result column="height" jdbcType="INTEGER" property="height"/>
+        <result column="national" jdbcType="VARCHAR" property="national"/>
+        <result column="regiesr_time" jdbcType="TIMESTAMP" property="regiesrTime"/>
+        <result column="titan_detail_url" jdbcType="VARCHAR" property="titanDetailUrl"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, season_id, cn_name, en_name, season_wear_num, birthday, height, `national`, regiesr_time,
+    titan_detail_url
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from game_season_player
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectBySeasonAndNum" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from game_season_player
+        where season_id = #{seasonId,jdbcType=INTEGER}
+        and season_wear_num = #{seasonWearNum,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from game_season_player
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="cn.xwlin.rcgame.entity.GameSeasonPlayer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into game_season_player (id, season_id, cn_name,
+                                        en_name, season_wear_num, birthday,
+                                        height, `national`, regiesr_time,
+                                        titan_detail_url)
+        values (#{id,jdbcType=INTEGER}, #{seasonId,jdbcType=INTEGER}, #{cnName,jdbcType=VARCHAR},
+                #{enName,jdbcType=VARCHAR}, #{seasonWearNum,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP},
+                #{height,jdbcType=INTEGER}, #{national,jdbcType=VARCHAR}, #{regiesrTime,jdbcType=TIMESTAMP},
+                #{titanDetailUrl,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.GameSeasonPlayer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into game_season_player
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="seasonId != null">
+                season_id,
+            </if>
+            <if test="cnName != null">
+                cn_name,
+            </if>
+            <if test="enName != null">
+                en_name,
+            </if>
+            <if test="seasonWearNum != null">
+                season_wear_num,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="height != null">
+                height,
+            </if>
+            <if test="national != null">
+                `national`,
+            </if>
+            <if test="regiesrTime != null">
+                regiesr_time,
+            </if>
+            <if test="titanDetailUrl != null">
+                titan_detail_url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="seasonId != null">
+                #{seasonId,jdbcType=INTEGER},
+            </if>
+            <if test="cnName != null">
+                #{cnName,jdbcType=VARCHAR},
+            </if>
+            <if test="enName != null">
+                #{enName,jdbcType=VARCHAR},
+            </if>
+            <if test="seasonWearNum != null">
+                #{seasonWearNum,jdbcType=INTEGER},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="height != null">
+                #{height,jdbcType=INTEGER},
+            </if>
+            <if test="national != null">
+                #{national,jdbcType=VARCHAR},
+            </if>
+            <if test="regiesrTime != null">
+                #{regiesrTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="titanDetailUrl != null">
+                #{titanDetailUrl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.rcgame.entity.GameSeasonPlayer">
+        update game_season_player
+        <set>
+            <if test="seasonId != null">
+                season_id = #{seasonId,jdbcType=INTEGER},
+            </if>
+            <if test="cnName != null">
+                cn_name = #{cnName,jdbcType=VARCHAR},
+            </if>
+            <if test="enName != null">
+                en_name = #{enName,jdbcType=VARCHAR},
+            </if>
+            <if test="seasonWearNum != null">
+                season_wear_num = #{seasonWearNum,jdbcType=INTEGER},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="height != null">
+                height = #{height,jdbcType=INTEGER},
+            </if>
+            <if test="national != null">
+                `national` = #{national,jdbcType=VARCHAR},
+            </if>
+            <if test="regiesrTime != null">
+                regiesr_time = #{regiesrTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="titanDetailUrl != null">
+                titan_detail_url = #{titanDetailUrl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.xwlin.rcgame.entity.GameSeasonPlayer">
+        update game_season_player
+        set season_id        = #{seasonId,jdbcType=INTEGER},
+            cn_name          = #{cnName,jdbcType=VARCHAR},
+            en_name          = #{enName,jdbcType=VARCHAR},
+            season_wear_num  = #{seasonWearNum,jdbcType=INTEGER},
+            birthday         = #{birthday,jdbcType=TIMESTAMP},
+            height           = #{height,jdbcType=INTEGER},
+            `national`       = #{national,jdbcType=VARCHAR},
+            regiesr_time     = #{regiesrTime,jdbcType=TIMESTAMP},
+            titan_detail_url = #{titanDetailUrl,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

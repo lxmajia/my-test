@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.GameTypeMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GameType">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="game_type" jdbcType="VARCHAR" property="gameType" />
+    <result column="game_name" jdbcType="VARCHAR" property="gameName" />
+    <result column="game_short_name" jdbcType="VARCHAR" property="gameShortName" />
+    <result column="game_logo" jdbcType="VARCHAR" property="gameLogo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, game_type, game_name, game_short_name, game_logo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from game_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from game_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.rcgame.entity.GameType">
+    insert into game_type (id, game_type, game_name, 
+      game_short_name, game_logo)
+    values (#{id,jdbcType=INTEGER}, #{gameType,jdbcType=VARCHAR}, #{gameName,jdbcType=VARCHAR}, 
+      #{gameShortName,jdbcType=VARCHAR}, #{gameLogo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.GameType">
+    insert into game_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gameType != null">
+        game_type,
+      </if>
+      <if test="gameName != null">
+        game_name,
+      </if>
+      <if test="gameShortName != null">
+        game_short_name,
+      </if>
+      <if test="gameLogo != null">
+        game_logo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="gameType != null">
+        #{gameType,jdbcType=VARCHAR},
+      </if>
+      <if test="gameName != null">
+        #{gameName,jdbcType=VARCHAR},
+      </if>
+      <if test="gameShortName != null">
+        #{gameShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="gameLogo != null">
+        #{gameLogo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.rcgame.entity.GameType">
+    update game_type
+    <set>
+      <if test="gameType != null">
+        game_type = #{gameType,jdbcType=VARCHAR},
+      </if>
+      <if test="gameName != null">
+        game_name = #{gameName,jdbcType=VARCHAR},
+      </if>
+      <if test="gameShortName != null">
+        game_short_name = #{gameShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="gameLogo != null">
+        game_logo = #{gameLogo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.rcgame.entity.GameType">
+    update game_type
+    set game_type = #{gameType,jdbcType=VARCHAR},
+      game_name = #{gameName,jdbcType=VARCHAR},
+      game_short_name = #{gameShortName,jdbcType=VARCHAR},
+      game_logo = #{gameLogo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

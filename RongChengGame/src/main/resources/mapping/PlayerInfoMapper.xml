@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.PlayerInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.PlayerInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cn_name" jdbcType="VARCHAR" property="cnName" />
+    <result column="en_name" jdbcType="VARCHAR" property="enName" />
+    <result column="show_name" jdbcType="VARCHAR" property="showName" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="height" jdbcType="INTEGER" property="height" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="contract_dead_time" jdbcType="TIMESTAMP" property="contractDeadTime" />
+    <result column="photo_url" jdbcType="VARCHAR" property="photoUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, cn_name, en_name, show_name, birthday, height, weight, contract_dead_time, photo_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from player_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from player_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.rcgame.entity.PlayerInfo">
+    insert into player_info (id, cn_name, en_name, 
+      show_name, birthday, height, 
+      weight, contract_dead_time, photo_url
+      )
+    values (#{id,jdbcType=INTEGER}, #{cnName,jdbcType=VARCHAR}, #{enName,jdbcType=VARCHAR}, 
+      #{showName,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{height,jdbcType=INTEGER}, 
+      #{weight,jdbcType=INTEGER}, #{contractDeadTime,jdbcType=TIMESTAMP}, #{photoUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.PlayerInfo">
+    insert into player_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cnName != null">
+        cn_name,
+      </if>
+      <if test="enName != null">
+        en_name,
+      </if>
+      <if test="showName != null">
+        show_name,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="contractDeadTime != null">
+        contract_dead_time,
+      </if>
+      <if test="photoUrl != null">
+        photo_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cnName != null">
+        #{cnName,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null">
+        #{enName,jdbcType=VARCHAR},
+      </if>
+      <if test="showName != null">
+        #{showName,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="contractDeadTime != null">
+        #{contractDeadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photoUrl != null">
+        #{photoUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.rcgame.entity.PlayerInfo">
+    update player_info
+    <set>
+      <if test="cnName != null">
+        cn_name = #{cnName,jdbcType=VARCHAR},
+      </if>
+      <if test="enName != null">
+        en_name = #{enName,jdbcType=VARCHAR},
+      </if>
+      <if test="showName != null">
+        show_name = #{showName,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="contractDeadTime != null">
+        contract_dead_time = #{contractDeadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="photoUrl != null">
+        photo_url = #{photoUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.rcgame.entity.PlayerInfo">
+    update player_info
+    set cn_name = #{cnName,jdbcType=VARCHAR},
+      en_name = #{enName,jdbcType=VARCHAR},
+      show_name = #{showName,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      height = #{height,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      contract_dead_time = #{contractDeadTime,jdbcType=TIMESTAMP},
+      photo_url = #{photoUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
