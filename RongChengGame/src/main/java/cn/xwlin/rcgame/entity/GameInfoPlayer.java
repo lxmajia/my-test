@@ -1,175 +1,215 @@
 package cn.xwlin.rcgame.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class GameInfoPlayer {
-    private Integer id;
+  private Integer id;
 
-    private Integer seasonId;
+  private Integer seasonId;
 
-    private Integer gameId;
+  private Integer gameId;
 
-    private Integer playerId;
+  private Integer clubId;
 
-    private Integer seasonWearNum;
+  private Integer seasonPlayerId;
 
-    private Date birthday;
+  private Integer seasonWearNum;
 
-    private Integer height;
+  private Date birthday;
 
-    private String national;
+  private Integer height;
 
-    private Date regiesrTime;
+  private String national;
 
-    private Integer startPlayer;
+  private Date regiesrTime;
 
-    private Integer positionId;
+  private Integer startPlayer;
 
-    private Integer upMinute;
+  private Integer positionId;
 
-    private Integer offMinute;
+  private Integer upMinute;
 
-    private Integer gameMinute;
+  private Integer offMinute;
 
-    private Integer shotCount;
+  private Integer gameMinute;
 
-    private Integer shotTargetCount;
+  private Integer shotCount;
 
-    private Integer passSuccessRate;
+  private Integer shotTargetCount;
 
-    public Integer getId() {
-        return id;
-    }
+  private Integer passSuccessRate;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
-    public Integer getSeasonId() {
-        return seasonId;
-    }
+  private List<GameInfoEvent> eventList;
+  private String name;
+  private String detailUrl;
 
-    public void setSeasonId(Integer seasonId) {
-        this.seasonId = seasonId;
-    }
+  public String getDetailUrl() {
+    return detailUrl;
+  }
 
-    public Integer getGameId() {
-        return gameId;
-    }
+  public void setDetailUrl(String detailUrl) {
+    this.detailUrl = detailUrl;
+  }
 
-    public void setGameId(Integer gameId) {
-        this.gameId = gameId;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Integer getPlayerId() {
-        return playerId;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setPlayerId(Integer playerId) {
-        this.playerId = playerId;
-    }
+  public List<GameInfoEvent> getEventList() {
+    return eventList;
+  }
 
-    public Integer getSeasonWearNum() {
-        return seasonWearNum;
-    }
+  public void setEventList(List<GameInfoEvent> eventList) {
+    this.eventList = eventList;
+  }
 
-    public void setSeasonWearNum(Integer seasonWearNum) {
-        this.seasonWearNum = seasonWearNum;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public Date getBirthday() {
-        return birthday;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
+  public Integer getSeasonId() {
+    return seasonId;
+  }
 
-    public Integer getHeight() {
-        return height;
-    }
+  public void setSeasonId(Integer seasonId) {
+    this.seasonId = seasonId;
+  }
 
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
+  public Integer getGameId() {
+    return gameId;
+  }
 
-    public String getNational() {
-        return national;
-    }
+  public void setGameId(Integer gameId) {
+    this.gameId = gameId;
+  }
 
-    public void setNational(String national) {
-        this.national = national == null ? null : national.trim();
-    }
+  public Integer getClubId() {
+    return clubId;
+  }
 
-    public Date getRegiesrTime() {
-        return regiesrTime;
-    }
+  public void setClubId(Integer clubId) {
+    this.clubId = clubId;
+  }
 
-    public void setRegiesrTime(Date regiesrTime) {
-        this.regiesrTime = regiesrTime;
-    }
+  public Integer getSeasonPlayerId() {
+    return seasonPlayerId;
+  }
 
-    public Integer getStartPlayer() {
-        return startPlayer;
-    }
+  public void setSeasonPlayerId(Integer seasonPlayerId) {
+    this.seasonPlayerId = seasonPlayerId;
+  }
 
-    public void setStartPlayer(Integer startPlayer) {
-        this.startPlayer = startPlayer;
-    }
+  public Integer getSeasonWearNum() {
+    return seasonWearNum;
+  }
 
-    public Integer getPositionId() {
-        return positionId;
-    }
+  public void setSeasonWearNum(Integer seasonWearNum) {
+    this.seasonWearNum = seasonWearNum;
+  }
 
-    public void setPositionId(Integer positionId) {
-        this.positionId = positionId;
-    }
+  public Date getBirthday() {
+    return birthday;
+  }
 
-    public Integer getUpMinute() {
-        return upMinute;
-    }
+  public void setBirthday(Date birthday) {
+    this.birthday = birthday;
+  }
 
-    public void setUpMinute(Integer upMinute) {
-        this.upMinute = upMinute;
-    }
+  public Integer getHeight() {
+    return height;
+  }
 
-    public Integer getOffMinute() {
-        return offMinute;
-    }
+  public void setHeight(Integer height) {
+    this.height = height;
+  }
 
-    public void setOffMinute(Integer offMinute) {
-        this.offMinute = offMinute;
-    }
+  public String getNational() {
+    return national;
+  }
 
-    public Integer getGameMinute() {
-        return gameMinute;
-    }
+  public void setNational(String national) {
+    this.national = national == null ? null : national.trim();
+  }
 
-    public void setGameMinute(Integer gameMinute) {
-        this.gameMinute = gameMinute;
-    }
+  public Date getRegiesrTime() {
+    return regiesrTime;
+  }
 
-    public Integer getShotCount() {
-        return shotCount;
-    }
+  public void setRegiesrTime(Date regiesrTime) {
+    this.regiesrTime = regiesrTime;
+  }
 
-    public void setShotCount(Integer shotCount) {
-        this.shotCount = shotCount;
-    }
+  public Integer getStartPlayer() {
+    return startPlayer;
+  }
 
-    public Integer getShotTargetCount() {
-        return shotTargetCount;
-    }
+  public void setStartPlayer(Integer startPlayer) {
+    this.startPlayer = startPlayer;
+  }
 
-    public void setShotTargetCount(Integer shotTargetCount) {
-        this.shotTargetCount = shotTargetCount;
-    }
+  public Integer getPositionId() {
+    return positionId;
+  }
 
-    public Integer getPassSuccessRate() {
-        return passSuccessRate;
-    }
+  public void setPositionId(Integer positionId) {
+    this.positionId = positionId;
+  }
 
-    public void setPassSuccessRate(Integer passSuccessRate) {
-        this.passSuccessRate = passSuccessRate;
-    }
+  public Integer getUpMinute() {
+    return upMinute;
+  }
+
+  public void setUpMinute(Integer upMinute) {
+    this.upMinute = upMinute;
+  }
+
+  public Integer getOffMinute() {
+    return offMinute;
+  }
+
+  public void setOffMinute(Integer offMinute) {
+    this.offMinute = offMinute;
+  }
+
+  public Integer getGameMinute() {
+    return gameMinute;
+  }
+
+  public void setGameMinute(Integer gameMinute) {
+    this.gameMinute = gameMinute;
+  }
+
+  public Integer getShotCount() {
+    return shotCount;
+  }
+
+  public void setShotCount(Integer shotCount) {
+    this.shotCount = shotCount;
+  }
+
+  public Integer getShotTargetCount() {
+    return shotTargetCount;
+  }
+
+  public void setShotTargetCount(Integer shotTargetCount) {
+    this.shotTargetCount = shotTargetCount;
+  }
+
+  public Integer getPassSuccessRate() {
+    return passSuccessRate;
+  }
+
+  public void setPassSuccessRate(Integer passSuccessRate) {
+    this.passSuccessRate = passSuccessRate;
+  }
 }

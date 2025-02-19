@@ -12,7 +12,8 @@ public interface GameSeasonPlayerMapper {
 
   GameSeasonPlayer selectByPrimaryKey(Integer id);
 
-  GameSeasonPlayer selectBySeasonAndNum(@Param("seasonId") Integer seasonId, @Param("seasonWearNum") Integer seasonWearNum);
+  GameSeasonPlayer selectBySeasonAndNum(@Param("seasonId") Integer seasonId,@Param("clubId") Integer clubId,
+                                        @Param("seasonWearNum") Integer seasonWearNum);
 
   int updateByPrimaryKeySelective(GameSeasonPlayer record);
 

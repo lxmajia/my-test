@@ -5,7 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="season_id" jdbcType="INTEGER" property="seasonId" />
     <result column="game_id" jdbcType="INTEGER" property="gameId" />
-    <result column="player_id" jdbcType="INTEGER" property="playerId" />
+    <result column="club_id" jdbcType="INTEGER" property="clubId" />
+    <result column="season_player_id" jdbcType="INTEGER" property="seasonPlayerId" />
     <result column="season_wear_num" jdbcType="INTEGER" property="seasonWearNum" />
     <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
     <result column="height" jdbcType="INTEGER" property="height" />
@@ -21,9 +22,9 @@
     <result column="pass_success_rate" jdbcType="INTEGER" property="passSuccessRate" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, season_id, game_id, player_id, season_wear_num, birthday, height, `national`, 
-    regiesr_time, start_player, position_id, up_minute, off_minute, game_minute, shot_count, 
-    shot_target_count, pass_success_rate
+    id, season_id, game_id, club_id, season_player_id, season_wear_num, birthday, height, 
+    `national`, regiesr_time, start_player, position_id, up_minute, off_minute, game_minute, 
+    shot_count, shot_target_count, pass_success_rate
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -31,25 +32,40 @@
     from game_info_player
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectBySeasonAndNum" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from game_info_player
+      where season_id = #{seasonId,jdbcType=INTEGER}
+      and club_id = #{clubId,jdbcType=INTEGER}
+      and season_wear_num = #{seasonWearNum,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from game_info_player
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.xwlin.rcgame.entity.GameInfoPlayer">
+  <delete id="deleteByGameId" parameterType="java.lang.Integer">
+    delete
+    from game_info_player
+    where game_id = #{gameId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.rcgame.entity.GameInfoPlayer"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     insert into game_info_player (id, season_id, game_id, 
-      player_id, season_wear_num, birthday, 
-      height, `national`, regiesr_time, 
-      start_player, position_id, up_minute, 
-      off_minute, game_minute, shot_count, 
-      shot_target_count, pass_success_rate)
+      club_id, season_player_id, season_wear_num, 
+      birthday, height, `national`, 
+      regiesr_time, start_player, position_id, 
+      up_minute, off_minute, game_minute, 
+      shot_count, shot_target_count, pass_success_rate
+      )
     values (#{id,jdbcType=INTEGER}, #{seasonId,jdbcType=INTEGER}, #{gameId,jdbcType=INTEGER}, 
-      #{playerId,jdbcType=INTEGER}, #{seasonWearNum,jdbcType=INTEGER}, #{birthday,jdbcType=TIMESTAMP}, 
-      #{height,jdbcType=INTEGER}, #{national,jdbcType=VARCHAR}, #{regiesrTime,jdbcType=TIMESTAMP}, 
-      #{startPlayer,jdbcType=INTEGER}, #{positionId,jdbcType=INTEGER}, #{upMinute,jdbcType=INTEGER}, 
-      #{offMinute,jdbcType=INTEGER}, #{gameMinute,jdbcType=INTEGER}, #{shotCount,jdbcType=INTEGER}, 
-      #{shotTargetCount,jdbcType=INTEGER}, #{passSuccessRate,jdbcType=INTEGER})
+      #{clubId,jdbcType=INTEGER}, #{seasonPlayerId,jdbcType=INTEGER}, #{seasonWearNum,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{height,jdbcType=INTEGER}, #{national,jdbcType=VARCHAR}, 
+      #{regiesrTime,jdbcType=TIMESTAMP}, #{startPlayer,jdbcType=INTEGER}, #{positionId,jdbcType=INTEGER}, 
+      #{upMinute,jdbcType=INTEGER}, #{offMinute,jdbcType=INTEGER}, #{gameMinute,jdbcType=INTEGER}, 
+      #{shotCount,jdbcType=INTEGER}, #{shotTargetCount,jdbcType=INTEGER}, #{passSuccessRate,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.GameInfoPlayer">
+  <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.GameInfoPlayer"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     insert into game_info_player
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -61,8 +77,11 @@
       <if test="gameId != null">
         game_id,
       </if>
-      <if test="playerId != null">
-        player_id,
+      <if test="clubId != null">
+        club_id,
+      </if>
+      <if test="seasonPlayerId != null">
+        season_player_id,
       </if>
       <if test="seasonWearNum != null">
         season_wear_num,
@@ -114,8 +133,11 @@
       <if test="gameId != null">
         #{gameId,jdbcType=INTEGER},
       </if>
-      <if test="playerId != null">
-        #{playerId,jdbcType=INTEGER},
+      <if test="clubId != null">
+        #{clubId,jdbcType=INTEGER},
+      </if>
+      <if test="seasonPlayerId != null">
+        #{seasonPlayerId,jdbcType=INTEGER},
       </if>
       <if test="seasonWearNum != null">
         #{seasonWearNum,jdbcType=INTEGER},
@@ -167,8 +189,11 @@
       <if test="gameId != null">
         game_id = #{gameId,jdbcType=INTEGER},
       </if>
-      <if test="playerId != null">
-        player_id = #{playerId,jdbcType=INTEGER},
+      <if test="clubId != null">
+        club_id = #{clubId,jdbcType=INTEGER},
+      </if>
+      <if test="seasonPlayerId != null">
+        season_player_id = #{seasonPlayerId,jdbcType=INTEGER},
       </if>
       <if test="seasonWearNum != null">
         season_wear_num = #{seasonWearNum,jdbcType=INTEGER},
@@ -216,7 +241,8 @@
     update game_info_player
     set season_id = #{seasonId,jdbcType=INTEGER},
       game_id = #{gameId,jdbcType=INTEGER},
-      player_id = #{playerId,jdbcType=INTEGER},
+      club_id = #{clubId,jdbcType=INTEGER},
+      season_player_id = #{seasonPlayerId,jdbcType=INTEGER},
       season_wear_num = #{seasonWearNum,jdbcType=INTEGER},
       birthday = #{birthday,jdbcType=TIMESTAMP},
       height = #{height,jdbcType=INTEGER},

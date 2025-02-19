@@ -36,7 +36,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="game_season_player" domainObjectName="GameSeasonPlayer"
+        <table tableName="game_info_event" domainObjectName="GameInfoEvent"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

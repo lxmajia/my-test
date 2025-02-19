@@ -3,103 +3,112 @@ package cn.xwlin.rcgame.entity;
 import java.util.Date;
 
 public class GameSeasonPlayer {
-    private Integer id;
+  private Integer id;
 
-    private Integer seasonId;
+  private Integer clubId;
+  private Integer seasonId;
 
-    private String cnName;
+  private String cnName;
 
-    private String enName;
+  private String enName;
 
-    private Integer seasonWearNum;
+  private Integer seasonWearNum;
 
-    private Date birthday;
+  private Date birthday;
 
-    private Integer height;
+  private Integer height;
 
-    private String national;
+  private String national;
 
-    private Date regiesrTime;
+  private Date regiesrTime;
 
-    private String titanDetailUrl;
+  private String titanDetailUrl;
 
-    public Integer getId() {
-        return id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public Integer getSeasonId() {
-        return seasonId;
-    }
+  public Integer getClubId() {
+    return clubId;
+  }
 
-    public void setSeasonId(Integer seasonId) {
-        this.seasonId = seasonId;
-    }
+  public void setClubId(Integer clubId) {
+    this.clubId = clubId;
+  }
 
-    public String getCnName() {
-        return cnName;
-    }
+  public Integer getSeasonId() {
+    return seasonId;
+  }
 
-    public void setCnName(String cnName) {
-        this.cnName = cnName == null ? null : cnName.trim();
-    }
+  public void setSeasonId(Integer seasonId) {
+    this.seasonId = seasonId;
+  }
 
-    public String getEnName() {
-        return enName;
-    }
+  public String getCnName() {
+    return cnName;
+  }
 
-    public void setEnName(String enName) {
-        this.enName = enName == null ? null : enName.trim();
-    }
+  public void setCnName(String cnName) {
+    this.cnName = cnName == null ? null : cnName.trim();
+  }
 
-    public Integer getSeasonWearNum() {
-        return seasonWearNum;
-    }
+  public String getEnName() {
+    return enName;
+  }
 
-    public void setSeasonWearNum(Integer seasonWearNum) {
-        this.seasonWearNum = seasonWearNum;
-    }
+  public void setEnName(String enName) {
+    this.enName = enName == null ? null : enName.trim();
+  }
 
-    public Date getBirthday() {
-        return birthday;
-    }
+  public Integer getSeasonWearNum() {
+    return seasonWearNum;
+  }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
+  public void setSeasonWearNum(Integer seasonWearNum) {
+    this.seasonWearNum = seasonWearNum;
+  }
 
-    public Integer getHeight() {
-        return height;
-    }
+  public Date getBirthday() {
+    return birthday;
+  }
 
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
+  public void setBirthday(Date birthday) {
+    this.birthday = birthday;
+  }
 
-    public String getNational() {
-        return national;
-    }
+  public Integer getHeight() {
+    return height;
+  }
 
-    public void setNational(String national) {
-        this.national = national == null ? null : national.trim();
-    }
+  public void setHeight(Integer height) {
+    this.height = height;
+  }
 
-    public Date getRegiesrTime() {
-        return regiesrTime;
-    }
+  public String getNational() {
+    return national;
+  }
 
-    public void setRegiesrTime(Date regiesrTime) {
-        this.regiesrTime = regiesrTime;
-    }
+  public void setNational(String national) {
+    this.national = national == null ? null : national.trim();
+  }
 
-    public String getTitanDetailUrl() {
-        return titanDetailUrl;
-    }
+  public Date getRegiesrTime() {
+    return regiesrTime;
+  }
 
-    public void setTitanDetailUrl(String titanDetailUrl) {
-        this.titanDetailUrl = titanDetailUrl == null ? null : titanDetailUrl.trim();
-    }
+  public void setRegiesrTime(Date regiesrTime) {
+    this.regiesrTime = regiesrTime;
+  }
+
+  public String getTitanDetailUrl() {
+    return titanDetailUrl;
+  }
+
+  public void setTitanDetailUrl(String titanDetailUrl) {
+    this.titanDetailUrl = titanDetailUrl == null ? null : titanDetailUrl.trim();
+  }
 }

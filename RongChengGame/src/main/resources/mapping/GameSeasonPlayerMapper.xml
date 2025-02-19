@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GameSeasonPlayer">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="season_id" jdbcType="INTEGER" property="seasonId"/>
+        <result column="club_id" jdbcType="INTEGER" property="clubId"/>
         <result column="cn_name" jdbcType="VARCHAR" property="cnName"/>
         <result column="en_name" jdbcType="VARCHAR" property="enName"/>
         <result column="season_wear_num" jdbcType="INTEGER" property="seasonWearNum"/>
@@ -14,7 +15,7 @@
         <result column="titan_detail_url" jdbcType="VARCHAR" property="titanDetailUrl"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, season_id, cn_name, en_name, season_wear_num, birthday, height, `national`, regiesr_time,
+        id, season_id,club_id, cn_name, en_name, season_wear_num, birthday, height, `national`, regiesr_time,
     titan_detail_url
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -28,6 +29,7 @@
         <include refid="Base_Column_List"/>
         from game_season_player
         where season_id = #{seasonId,jdbcType=INTEGER}
+        and club_id = #{clubId,jdbcType=INTEGER}
         and season_wear_num = #{seasonWearNum,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -53,6 +55,9 @@
             </if>
             <if test="seasonId != null">
                 season_id,
+            </if>
+            <if test="clubId != null">
+                club_id,
             </if>
             <if test="cnName != null">
                 cn_name,
@@ -85,6 +90,9 @@
             </if>
             <if test="seasonId != null">
                 #{seasonId,jdbcType=INTEGER},
+            </if>
+            <if test="clubId != null">
+                #{clubId,jdbcType=INTEGER},
             </if>
             <if test="cnName != null">
                 #{cnName,jdbcType=VARCHAR},
