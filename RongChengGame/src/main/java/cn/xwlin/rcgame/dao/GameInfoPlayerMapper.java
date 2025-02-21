@@ -6,19 +6,22 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface GameInfoPlayerMapper {
-    int deleteByPrimaryKey(Integer id);
-    int deleteByGameId(@Param("gameId") Integer gameId);
+  int deleteByPrimaryKey(Integer id);
 
+  int deleteByGameId(@Param("gameId") Integer gameId);
 
-    int insert(GameInfoPlayer record);
+  int deleteByGameIdAndStartPlayer(@Param("gameId") Integer gameId, @Param("startPlayer") Integer startPlayer);
 
-    int insertSelective(GameInfoPlayer record);
+  int insert(GameInfoPlayer record);
 
-    GameInfoPlayer selectByPrimaryKey(Integer id);
+  int insertSelective(GameInfoPlayer record);
 
-    int updateByPrimaryKeySelective(GameInfoPlayer record);
+  GameInfoPlayer selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKey(GameInfoPlayer record);
+  int updateByPrimaryKeySelective(GameInfoPlayer record);
 
-    GameInfoPlayer selectBySeasonAndNum(@Param("seasonId") Integer seasonId,@Param("clubId") Integer clubId, @Param("seasonWearNum") Integer seasonWearNum);
+  int updateByPrimaryKey(GameInfoPlayer record);
+  int updateGameMinute(@Param("gameId") Integer gameId);
+
+  GameInfoPlayer selectBySeasonAndNum(@Param("seasonId") Integer seasonId, @Param("clubId") Integer clubId, @Param("seasonWearNum") Integer seasonWearNum);
 }

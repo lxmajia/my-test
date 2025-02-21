@@ -13,6 +13,8 @@ public interface GameInfoMapper {
 
     GameInfo selectByPrimaryKey(Integer id);
 
+    GameInfo getToDayGame();
+
     int updateByPrimaryKeySelective(GameInfo record);
 
     int updateByPrimaryKey(GameInfo record);

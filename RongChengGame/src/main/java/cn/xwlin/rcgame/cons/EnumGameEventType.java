@@ -39,4 +39,14 @@ public enum EnumGameEventType {
     }
     return null;
   }
+
+
+  public static EnumGameEventType getEventType(Integer eventCode) {
+    for (EnumGameEventType eventType : EnumGameEventType.values()) {
+      if (eventType.getStatus() == eventCode) {
+        return eventType;
+      }
+    }
+    return null;
+  }
 }

@@ -32,6 +32,21 @@
         and club_id = #{clubId,jdbcType=INTEGER}
         and season_wear_num = #{seasonWearNum,jdbcType=INTEGER}
     </select>
+
+    <select id="selectBySeasonAndNumList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from game_season_player
+        where season_id = #{seasonId,jdbcType=INTEGER}
+        and club_id = #{clubId,jdbcType=INTEGER}
+        <if test="numList != null and numList.size() > 0">
+            and season_wear_num in
+            <foreach collection="numList" item="num" open="(" separator="," close=")">
+                #{num}
+            </foreach>
+        </if>
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from game_season_player

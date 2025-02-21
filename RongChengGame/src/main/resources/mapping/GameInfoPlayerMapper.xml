@@ -49,6 +49,12 @@
     from game_info_player
     where game_id = #{gameId,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByGameIdAndStartPlayer">
+    delete
+    from game_info_player
+    where game_id = #{gameId,jdbcType=INTEGER}
+    and start_player = #{startPlayer,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="cn.xwlin.rcgame.entity.GameInfoPlayer"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
     insert into game_info_player (id, season_id, game_id, 
       club_id, season_player_id, season_wear_num, 
@@ -257,5 +263,11 @@
       shot_target_count = #{shotTargetCount,jdbcType=INTEGER},
       pass_success_rate = #{passSuccessRate,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateGameMinute">
+    update game_info_player
+    set game_minute = off_minute - up_minute
+    where game_id = #{gameId,jdbcType=INTEGER}
   </update>
 </mapper>
