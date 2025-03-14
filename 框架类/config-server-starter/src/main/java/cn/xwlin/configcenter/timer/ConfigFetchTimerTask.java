@@ -22,6 +22,7 @@ public class ConfigFetchTimerTask implements Runnable {
   @Override
   public void run() {
     while (true) {
+      long start = System.currentTimeMillis();
       String uuid = UUID.randomUUID().toString();
       logger.info("REFRESH:" + uuid + ":S");
       try {
@@ -36,11 +37,13 @@ public class ConfigFetchTimerTask implements Runnable {
           ClientConfigCacheManager.refreshTime = getConfigDataHttpResp.getBody().getNextTimeMills();
           ClientConfigCacheManager.refreshCacheMap(getConfigDataHttpResp.getBody());
         }
-        logger.info("REFRESH:" + uuid + ":E");
-        //每次加载完休息2秒钟，避免机器时间差
+        //(刚获取到有更新的数据，那么休息两秒钟缓冲一下。)
         Thread.sleep(2000);
       } catch (Throwable t) {
         // 报警还是怎么处理都行
+      } finally {
+        long end = System.currentTimeMillis();
+        logger.info("REFRESH:" + uuid + ":E:" + (end - start) + "ms");
       }
     }
   }
