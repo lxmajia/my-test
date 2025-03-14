@@ -33,10 +33,12 @@ public class SeqIdUtil {
             Field field = DynamicDatasource.class.getSuperclass().getDeclaredField("resolvedDataSources");
             field.setAccessible(true);
             resolvedDataSources = (Map<Object, DataSource>) field.get(dataSource);
+            // 拿到当前名称的数据源
+            DataSource seqDataSource = resolvedDataSources.get(dsName);
+            sequenceMap.put(key, new MySqlIdGenerator(seqDataSource, tableName));
           } catch (Exception e) {
             throw new RuntimeException("通过AbstractRoutingDataSource.resolvedDataSources获取数据源发生异常");
           }
-          sequenceMap.put(key, new MySqlIdGenerator(resolvedDataSources.get(dsName), tableName));
         }
       }
     }

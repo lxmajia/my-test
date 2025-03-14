@@ -30,6 +30,7 @@
       border
       fit
       highlight-current-row
+      @cell-dblclick="dbClickCopyText"
     >
       <el-table-column align="center" label="序号" width="95">
         <template slot-scope="scope">
@@ -46,7 +47,7 @@
           {{ scope.row.configKey }}
         </template>
       </el-table-column>
-      <el-table-column label="ConfigValue" width="200" align="center">
+      <el-table-column label="ConfigValue" width="500" align="center" show-overflow-tooltip>
         <template slot-scope="scope">
           <span>{{ scope.row.configValue }}</span>
         </template>
@@ -283,6 +284,21 @@ export default {
     },
     querySearch() {
       this.fetchData(1);
+    },
+    // 双击复制
+    dbClickCopyText(row, column, cell, event){
+      // 双击复制
+      let saveText = function (e){
+        e.clipboardData.setData('text/plain',event.target.innerText);
+        e.preventDefault();  //阻止默认行为
+      }
+      // 防止使用之后 其他复制失效 once 执行完复制操作删除
+      const once = {
+        once: true
+      }
+      document.addEventListener('copy',saveText,once);//添加一个copy事件
+      document.execCommand("copy");//执行copy方法
+      this.$message({message: '复制成功', type:'success'})//提示
     }
   }
 }

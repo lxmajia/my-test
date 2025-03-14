@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.GameInfoPlayerMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GameInfoPlayer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="season_id" jdbcType="INTEGER" property="seasonId" />
+    <result column="game_id" jdbcType="INTEGER" property="gameId" />
+    <result column="club_id" jdbcType="INTEGER" property="clubId" />
+    <result column="season_player_id" jdbcType="INTEGER" property="seasonPlayerId" />
+    <result column="season_wear_num" jdbcType="INTEGER" property="seasonWearNum" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="height" jdbcType="INTEGER" property="height" />
+    <result column="national" jdbcType="VARCHAR" property="national" />
+    <result column="regiesr_time" jdbcType="TIMESTAMP" property="regiesrTime" />
+    <result column="start_player" jdbcType="INTEGER" property="startPlayer" />
+    <result column="position_id" jdbcType="INTEGER" property="positionId" />
+    <result column="up_minute" jdbcType="INTEGER" property="upMinute" />
+    <result column="off_minute" jdbcType="INTEGER" property="offMinute" />
+    <result column="game_minute" jdbcType="INTEGER" property="gameMinute" />
+    <result column="shot_count" jdbcType="INTEGER" property="shotCount" />
+    <result column="shot_target_count" jdbcType="INTEGER" property="shotTargetCount" />
+    <result column="pass_success_rate" jdbcType="INTEGER" property="passSuccessRate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, season_id, game_id, club_id, season_player_id, season_wear_num, birthday, height, 
+    `national`, regiesr_time, start_player, position_id, up_minute, off_minute, game_minute, 
+    shot_count, shot_target_count, pass_success_rate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from game_info_player
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySeasonAndNum" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from game_info_player
+      where season_id = #{seasonId,jdbcType=INTEGER}
+      and club_id = #{clubId,jdbcType=INTEGER}
+      and season_wear_num = #{seasonWearNum,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from game_info_player
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByGameId" parameterType="java.lang.Integer">
+    delete
+    from game_info_player
+    where game_id = #{gameId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByGameIdAndStartPlayer">
+    delete
+    from game_info_player
+    where game_id = #{gameId,jdbcType=INTEGER}
+    and start_player = #{startPlayer,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.rcgame.entity.GameInfoPlayer"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into game_info_player (id, season_id, game_id, 
+      club_id, season_player_id, season_wear_num, 
+      birthday, height, `national`, 
+      regiesr_time, start_player, position_id, 
+      up_minute, off_minute, game_minute, 
+      shot_count, shot_target_count, pass_success_rate
+      )
+    values (#{id,jdbcType=INTEGER}, #{seasonId,jdbcType=INTEGER}, #{gameId,jdbcType=INTEGER}, 
+      #{clubId,jdbcType=INTEGER}, #{seasonPlayerId,jdbcType=INTEGER}, #{seasonWearNum,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{height,jdbcType=INTEGER}, #{national,jdbcType=VARCHAR}, 
+      #{regiesrTime,jdbcType=TIMESTAMP}, #{startPlayer,jdbcType=INTEGER}, #{positionId,jdbcType=INTEGER}, 
+      #{upMinute,jdbcType=INTEGER}, #{offMinute,jdbcType=INTEGER}, #{gameMinute,jdbcType=INTEGER}, 
+      #{shotCount,jdbcType=INTEGER}, #{shotTargetCount,jdbcType=INTEGER}, #{passSuccessRate,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.GameInfoPlayer"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into game_info_player
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="seasonId != null">
+        season_id,
+      </if>
+      <if test="gameId != null">
+        game_id,
+      </if>
+      <if test="clubId != null">
+        club_id,
+      </if>
+      <if test="seasonPlayerId != null">
+        season_player_id,
+      </if>
+      <if test="seasonWearNum != null">
+        season_wear_num,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="national != null">
+        `national`,
+      </if>
+      <if test="regiesrTime != null">
+        regiesr_time,
+      </if>
+      <if test="startPlayer != null">
+        start_player,
+      </if>
+      <if test="positionId != null">
+        position_id,
+      </if>
+      <if test="upMinute != null">
+        up_minute,
+      </if>
+      <if test="offMinute != null">
+        off_minute,
+      </if>
+      <if test="gameMinute != null">
+        game_minute,
+      </if>
+      <if test="shotCount != null">
+        shot_count,
+      </if>
+      <if test="shotTargetCount != null">
+        shot_target_count,
+      </if>
+      <if test="passSuccessRate != null">
+        pass_success_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="seasonId != null">
+        #{seasonId,jdbcType=INTEGER},
+      </if>
+      <if test="gameId != null">
+        #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="clubId != null">
+        #{clubId,jdbcType=INTEGER},
+      </if>
+      <if test="seasonPlayerId != null">
+        #{seasonPlayerId,jdbcType=INTEGER},
+      </if>
+      <if test="seasonWearNum != null">
+        #{seasonWearNum,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="national != null">
+        #{national,jdbcType=VARCHAR},
+      </if>
+      <if test="regiesrTime != null">
+        #{regiesrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPlayer != null">
+        #{startPlayer,jdbcType=INTEGER},
+      </if>
+      <if test="positionId != null">
+        #{positionId,jdbcType=INTEGER},
+      </if>
+      <if test="upMinute != null">
+        #{upMinute,jdbcType=INTEGER},
+      </if>
+      <if test="offMinute != null">
+        #{offMinute,jdbcType=INTEGER},
+      </if>
+      <if test="gameMinute != null">
+        #{gameMinute,jdbcType=INTEGER},
+      </if>
+      <if test="shotCount != null">
+        #{shotCount,jdbcType=INTEGER},
+      </if>
+      <if test="shotTargetCount != null">
+        #{shotTargetCount,jdbcType=INTEGER},
+      </if>
+      <if test="passSuccessRate != null">
+        #{passSuccessRate,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.rcgame.entity.GameInfoPlayer">
+    update game_info_player
+    <set>
+      <if test="seasonId != null">
+        season_id = #{seasonId,jdbcType=INTEGER},
+      </if>
+      <if test="gameId != null">
+        game_id = #{gameId,jdbcType=INTEGER},
+      </if>
+      <if test="clubId != null">
+        club_id = #{clubId,jdbcType=INTEGER},
+      </if>
+      <if test="seasonPlayerId != null">
+        season_player_id = #{seasonPlayerId,jdbcType=INTEGER},
+      </if>
+      <if test="seasonWearNum != null">
+        season_wear_num = #{seasonWearNum,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="national != null">
+        `national` = #{national,jdbcType=VARCHAR},
+      </if>
+      <if test="regiesrTime != null">
+        regiesr_time = #{regiesrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPlayer != null">
+        start_player = #{startPlayer,jdbcType=INTEGER},
+      </if>
+      <if test="positionId != null">
+        position_id = #{positionId,jdbcType=INTEGER},
+      </if>
+      <if test="upMinute != null">
+        up_minute = #{upMinute,jdbcType=INTEGER},
+      </if>
+      <if test="offMinute != null">
+        off_minute = #{offMinute,jdbcType=INTEGER},
+      </if>
+      <if test="gameMinute != null">
+        game_minute = #{gameMinute,jdbcType=INTEGER},
+      </if>
+      <if test="shotCount != null">
+        shot_count = #{shotCount,jdbcType=INTEGER},
+      </if>
+      <if test="shotTargetCount != null">
+        shot_target_count = #{shotTargetCount,jdbcType=INTEGER},
+      </if>
+      <if test="passSuccessRate != null">
+        pass_success_rate = #{passSuccessRate,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.rcgame.entity.GameInfoPlayer">
+    update game_info_player
+    set season_id = #{seasonId,jdbcType=INTEGER},
+      game_id = #{gameId,jdbcType=INTEGER},
+      club_id = #{clubId,jdbcType=INTEGER},
+      season_player_id = #{seasonPlayerId,jdbcType=INTEGER},
+      season_wear_num = #{seasonWearNum,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      height = #{height,jdbcType=INTEGER},
+      `national` = #{national,jdbcType=VARCHAR},
+      regiesr_time = #{regiesrTime,jdbcType=TIMESTAMP},
+      start_player = #{startPlayer,jdbcType=INTEGER},
+      position_id = #{positionId,jdbcType=INTEGER},
+      up_minute = #{upMinute,jdbcType=INTEGER},
+      off_minute = #{offMinute,jdbcType=INTEGER},
+      game_minute = #{gameMinute,jdbcType=INTEGER},
+      shot_count = #{shotCount,jdbcType=INTEGER},
+      shot_target_count = #{shotTargetCount,jdbcType=INTEGER},
+      pass_success_rate = #{passSuccessRate,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateGameMinute">
+    update game_info_player
+    set game_minute = off_minute - up_minute
+    where game_id = #{gameId,jdbcType=INTEGER}
+  </update>
+</mapper>

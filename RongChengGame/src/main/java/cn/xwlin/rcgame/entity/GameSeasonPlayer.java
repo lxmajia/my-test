@@ -1,24 +1,114 @@
 package cn.xwlin.rcgame.entity;
 
-import com.mybatisflex.annotation.Table;
-import lombok.Data;
-
 import java.util.Date;
 
-@Data
-@Table("game_season_player")
 public class GameSeasonPlayer {
-  private Long id;
+  private Integer id;
 
-  private Long seasonId;
+  private Integer clubId;
+  private Integer seasonId;
 
-  private Long playerId;
+  private String cnName;
 
-  private Boolean fullSeason;
+  private String enName;
 
-  private Date joinTime;
+  private Integer seasonWearNum;
 
-  private Date leaveTime;
+  private Date birthday;
 
-  private Date createTime;
+  private Integer height;
+
+  private String national;
+
+  private Date regiesrTime;
+
+  private String titanDetailUrl;
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public Integer getClubId() {
+    return clubId;
+  }
+
+  public void setClubId(Integer clubId) {
+    this.clubId = clubId;
+  }
+
+  public Integer getSeasonId() {
+    return seasonId;
+  }
+
+  public void setSeasonId(Integer seasonId) {
+    this.seasonId = seasonId;
+  }
+
+  public String getCnName() {
+    return cnName;
+  }
+
+  public void setCnName(String cnName) {
+    this.cnName = cnName == null ? null : cnName.trim();
+  }
+
+  public String getEnName() {
+    return enName;
+  }
+
+  public void setEnName(String enName) {
+    this.enName = enName == null ? null : enName.trim();
+  }
+
+  public Integer getSeasonWearNum() {
+    return seasonWearNum;
+  }
+
+  public void setSeasonWearNum(Integer seasonWearNum) {
+    this.seasonWearNum = seasonWearNum;
+  }
+
+  public Date getBirthday() {
+    return birthday;
+  }
+
+  public void setBirthday(Date birthday) {
+    this.birthday = birthday;
+  }
+
+  public Integer getHeight() {
+    return height;
+  }
+
+  public void setHeight(Integer height) {
+    this.height = height;
+  }
+
+  public String getNational() {
+    return national;
+  }
+
+  public void setNational(String national) {
+    this.national = national == null ? null : national.trim();
+  }
+
+  public Date getRegiesrTime() {
+    return regiesrTime;
+  }
+
+  public void setRegiesrTime(Date regiesrTime) {
+    this.regiesrTime = regiesrTime;
+  }
+
+  public String getTitanDetailUrl() {
+    return titanDetailUrl;
+  }
+
+  public void setTitanDetailUrl(String titanDetailUrl) {
+    this.titanDetailUrl = titanDetailUrl == null ? null : titanDetailUrl.trim();
+  }
 }

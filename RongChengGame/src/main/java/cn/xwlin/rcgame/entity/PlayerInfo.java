@@ -1,49 +1,95 @@
 package cn.xwlin.rcgame.entity;
 
-import com.mybatisflex.annotation.Table;
-import lombok.Data;
-
 import java.util.Date;
 
-@Data
-@Table("player_info")
 public class PlayerInfo {
-    private Long id;
+    private Integer id;
 
     private String cnName;
 
     private String enName;
 
-    private Integer tNum;
-
-    private String tPosition;
-
-    private String photoUrl;
-
-    private String betterFoot;
+    private String showName;
 
     private Date birthday;
 
-    private Date joinTime;
+    private Integer height;
 
-    private Date endTime;
+    private Integer weight;
 
-    private String nation;
+    private Date contractDeadTime;
 
-    private Integer status;
+    private String photoUrl;
 
-    private Date contactTime;
+    public Integer getId() {
+        return id;
+    }
 
-    private Date createTime;
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    private Date operateTime;
+    public String getCnName() {
+        return cnName;
+    }
 
-    private String height;
-    private String weight;
+    public void setCnName(String cnName) {
+        this.cnName = cnName == null ? null : cnName.trim();
+    }
 
+    public String getEnName() {
+        return enName;
+    }
 
-    // 直播吧头像地址
-    private String zbbPhotoUrl;
-    // 直播吧playerID
-    private Long zbbPlayerId;
+    public void setEnName(String enName) {
+        this.enName = enName == null ? null : enName.trim();
+    }
+
+    public String getShowName() {
+        return showName;
+    }
+
+    public void setShowName(String showName) {
+        this.showName = showName == null ? null : showName.trim();
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public Date getContractDeadTime() {
+        return contractDeadTime;
+    }
+
+    public void setContractDeadTime(Date contractDeadTime) {
+        this.contractDeadTime = contractDeadTime;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl == null ? null : photoUrl.trim();
+    }
 }

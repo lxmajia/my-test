@@ -63,7 +63,7 @@ export const constantRoutes = [
         path: 'index',
         name: '应用管理',
         component: () => import('@/views/appmodule/index'),
-        meta: { title: '应用管理', icon: 'form' }
+        meta: { title: '应用管理', icon: 'appmodule' }
       }
     ]
   },
@@ -76,7 +76,7 @@ export const constantRoutes = [
         path: 'index',
         name: '系统配置',
         component: () => import('@/views/sysconfig/index'),
-        meta: { title: '系统配置', icon: 'form' }
+        meta: { title: '系统配置', icon: 'sysconfig' }
       }
     ]
   },
@@ -89,7 +89,7 @@ export const constantRoutes = [
         path: 'index',
         name: '应用配置',
         component: () => import('@/views/configinfo/index'),
-        meta: { title: '应用配置', icon: 'form' }
+        meta: { title: '应用配置', icon: 'appconfig' }
       }
     ]
   },
@@ -101,12 +101,6 @@ export const constantRoutes = [
     name: 'Example',
     meta: { title: 'Example', icon: 'el-icon-s-help' },
     children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
       {
         path: 'tree',
         name: 'Tree',

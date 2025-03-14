@@ -1,30 +1,53 @@
 package cn.xwlin.rcgame.entity;
 
-import com.mybatisflex.annotation.Table;
-import lombok.Data;
-
-import java.util.Date;
-
-@Data
-@Table("game_season")
 public class GameSeason {
-    private Long id;
+    private Integer id;
 
-    private Long gameKindId;
-
-    private Date startTime;
-
-    private Date endTime;
+    private Integer gameTypeId;
 
     private String seasonName;
 
     private String seasonShortName;
 
-    private String startYear;
+    private String seasonLogo;
 
-    private String endYear;
+    public Integer getId() {
+        return id;
+    }
 
-    private Date createTime;
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    private Date operateTime;
+    public Integer getGameTypeId() {
+        return gameTypeId;
+    }
+
+    public void setGameTypeId(Integer gameTypeId) {
+        this.gameTypeId = gameTypeId;
+    }
+
+    public String getSeasonName() {
+        return seasonName;
+    }
+
+    public void setSeasonName(String seasonName) {
+        this.seasonName = seasonName == null ? null : seasonName.trim();
+    }
+
+    public String getSeasonShortName() {
+        return seasonShortName;
+    }
+
+    public void setSeasonShortName(String seasonShortName) {
+        this.seasonShortName = seasonShortName == null ? null : seasonShortName.trim();
+    }
+
+    public String getSeasonLogo() {
+        return seasonLogo;
+    }
+
+    public void setSeasonLogo(String seasonLogo) {
+        this.seasonLogo = seasonLogo == null ? null : seasonLogo.trim();
+    }
 }

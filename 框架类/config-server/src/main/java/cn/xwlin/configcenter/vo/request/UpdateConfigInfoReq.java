@@ -7,8 +7,17 @@ package cn.xwlin.configcenter.vo.request;
 public class UpdateConfigInfoReq {
   private Long id;
   private Long appModuleId;
+  private String configType;
   private String configKey;
   private String configValue;
+
+  public String getConfigType() {
+    return configType;
+  }
+
+  public void setConfigType(String configType) {
+    this.configType = configType;
+  }
 
   public Long getAppModuleId() {
     return appModuleId;

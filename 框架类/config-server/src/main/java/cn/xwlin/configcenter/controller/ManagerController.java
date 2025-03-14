@@ -34,6 +34,14 @@ public class ManagerController {
     return managerService.login(loginReq.getUsername(), loginReq.getPassword());
   }
 
+  @RequestMapping("/logout")
+  @SaIgnore
+  public HttpResp logout() {
+    StpUtil.logout();
+    return HttpResp.success();
+  }
+
+
   @RequestMapping("/info")
   public HttpResp<LoginInfoResp> info() {
     return managerService.loginInfo();
@@ -61,13 +69,20 @@ public class ManagerController {
   public HttpResp<PageInfo<SysConfig>> getSysConfigList(@RequestBody GetSysConfigReq req) {
     return HttpResp.success(managerService.getSysConfigList(req));
   }
+
   @RequestMapping("/updateSysConfig")
   public HttpResp updateSysConfig(@RequestBody UpdateSysConfigReq req) {
     return managerService.updateSysConfig(req);
   }
+
   @RequestMapping("/getConfigInfoList")
   public HttpResp<PageInfo<ConfigInfo>> getConfigInfoList(@RequestBody GetSysConfigReq req) {
     return HttpResp.success(managerService.getConfigInfoList(req));
+  }
+
+  @RequestMapping("/getConfigInfoTypeList")
+  public HttpResp<List<String>> getConfigInfoTypeList() {
+    return HttpResp.success(managerService.getConfigInfoTypeList());
   }
 
   @RequestMapping("/updateConfigInfo")

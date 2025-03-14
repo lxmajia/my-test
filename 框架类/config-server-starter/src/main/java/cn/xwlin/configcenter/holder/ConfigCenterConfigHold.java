@@ -4,8 +4,8 @@ package cn.xwlin.configcenter.holder;
 import cn.xwlin.configcenter.util.OSUtils;
 
 public class ConfigCenterConfigHold {
-  public static String url = "server.xwlin.cn";
-  public static int port = 8899;
+  public static String url = "server-config.xwlin.cn";
+  public static int port = 80;
   public static String appCode;
   public static String moduleCode;
   public static int timeout = 60 * 1000;

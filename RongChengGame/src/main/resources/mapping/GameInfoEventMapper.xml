@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.rcgame.dao.GameInfoEventMapper">
+    <resultMap id="BaseResultMap" type="cn.xwlin.rcgame.entity.GameInfoEvent">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="season_id" jdbcType="INTEGER" property="seasonId"/>
+        <result column="club_id" jdbcType="INTEGER" property="clubId"/>
+        <result column="game_id" jdbcType="INTEGER" property="gameId"/>
+        <result column="game_info_player_id" jdbcType="INTEGER" property="gameInfoPlayerId"/>
+        <result column="event_type" jdbcType="INTEGER" property="eventType"/>
+        <result column="event_desc" jdbcType="VARCHAR" property="eventDesc"/>
+        <result column="game_minute" jdbcType="INTEGER" property="gameMinute"/>
+        <result column="game_minute_add" jdbcType="INTEGER" property="gameMinuteAdd"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, season_id,club_id,game_id, game_info_player_id, event_type, event_desc, game_minute, game_minute_add
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from game_info_event
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByGamePlayerEvent" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from game_info_event
+        where game_id = #{gameId,jdbcType=INTEGER}
+        and game_info_player_id = #{gameInfoPlayerId,jdbcType=INTEGER}
+        and event_type = #{eventType,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from game_info_event
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByGameId" parameterType="java.lang.Integer">
+        delete
+        from game_info_event
+        where game_id = #{gameId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="cn.xwlin.rcgame.entity.GameInfoEvent" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into game_info_event
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="seasonId != null">
+                season_id,
+            </if>
+            <if test="clubId != null">
+                club_id,
+            </if>
+            <if test="gameId != null">
+                game_id,
+            </if>
+            <if test="gameInfoPlayerId != null">
+                game_info_player_id,
+            </if>
+            <if test="eventType != null">
+                event_type,
+            </if>
+            <if test="eventDesc != null">
+                event_desc,
+            </if>
+            <if test="gameMinute != null">
+                game_minute,
+            </if>
+            <if test="gameMinuteAdd != null">
+                game_minute_add,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="seasonId != null">
+                #{seasonId,jdbcType=INTEGER},
+            </if>
+            <if test="clubId != null">
+                #{clubId,jdbcType=INTEGER},
+            </if>
+            <if test="gameId != null">
+                #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="gameInfoPlayerId != null">
+                #{gameInfoPlayerId,jdbcType=INTEGER},
+            </if>
+            <if test="eventType != null">
+                #{eventType,jdbcType=INTEGER},
+            </if>
+            <if test="eventDesc != null">
+                #{eventDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="gameMinute != null">
+                #{gameMinute,jdbcType=INTEGER},
+            </if>
+            <if test="gameMinuteAdd != null">
+                #{gameMinuteAdd,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.rcgame.entity.GameInfoEvent">
+        update game_info_event
+        <set>
+            <if test="gameId != null">
+                game_id = #{gameId,jdbcType=INTEGER},
+            </if>
+            <if test="gameInfoPlayerId != null">
+                game_info_player_id = #{gameInfoPlayerId,jdbcType=INTEGER},
+            </if>
+            <if test="eventType != null">
+                event_type = #{eventType,jdbcType=INTEGER},
+            </if>
+            <if test="eventDesc != null">
+                event_desc = #{eventDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="gameMinute != null">
+                game_minute = #{gameMinute,jdbcType=INTEGER},
+            </if>
+            <if test="gameMinuteAdd != null">
+                game_minute_add = #{gameMinuteAdd,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.xwlin.rcgame.entity.GameInfoEvent">
+        update game_info_event
+        set game_id             = #{gameId,jdbcType=INTEGER},
+            game_info_player_id = #{gameInfoPlayerId,jdbcType=INTEGER},
+            event_type          = #{eventType,jdbcType=INTEGER},
+            event_desc          = #{eventDesc,jdbcType=VARCHAR},
+            game_minute         = #{gameMinute,jdbcType=INTEGER},
+            game_minute_add     = #{gameMinuteAdd,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

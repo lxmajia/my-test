@@ -26,6 +26,16 @@ public class ClientConfigCacheManager {
     return GetConfigValueFromCacheMap(key, clazz, null);
   }
 
+  public String GetConfigValueString(String key) {
+    if (null == key || key.trim().isEmpty()){
+      return null;
+    }
+    if (configCacheMap.containsKey(key.trim())) {
+      return configCacheMap.get(key.trim()).getConfigValue();
+    }
+    return null;
+  }
+
   private <T> T GetConfigValueFromCacheMap(String key, Class<T> clazz, T defaultValue) {
     if (null == key || key.trim().isEmpty()) return defaultValue;
     if (configCacheMap.containsKey(key.trim())) {

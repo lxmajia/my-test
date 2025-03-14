@@ -1,40 +1,63 @@
 package cn.xwlin.rcgame.entity;
 
-import com.mybatisflex.annotation.Table;
-import lombok.Data;
-
-import java.util.Date;
-
-@Data
-@Table("club_info")
 public class ClubInfo {
-    private Long id;
+    private Integer id;
 
-    private String cnName;
+    private String name;
 
-    private String enName;
+    private String showName;
 
-    private String shortName;
+    private String logo;
 
-    private String logoUrl;
+    private String locCity;
 
-    private String cityName;
+    private String stadiumNameName;
 
-    private String siteName;
+    public Integer getId() {
+        return id;
+    }
 
-    private Date bornTime;
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    private Boolean isMain;
+    public String getName() {
+        return name;
+    }
 
-    private String jingDu;
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
-    private String weiDu;
+    public String getShowName() {
+        return showName;
+    }
 
-    private Date createTime;
+    public void setShowName(String showName) {
+        this.showName = showName == null ? null : showName.trim();
+    }
 
-    private Date operateTime;
+    public String getLogo() {
+        return logo;
+    }
 
-    private String zbbTeamId;
-    private String zbbLogoUrl;
+    public void setLogo(String logo) {
+        this.logo = logo == null ? null : logo.trim();
+    }
 
+    public String getLocCity() {
+        return locCity;
+    }
+
+    public void setLocCity(String locCity) {
+        this.locCity = locCity == null ? null : locCity.trim();
+    }
+
+    public String getStadiumNameName() {
+        return stadiumNameName;
+    }
+
+    public void setStadiumNameName(String stadiumNameName) {
+        this.stadiumNameName = stadiumNameName == null ? null : stadiumNameName.trim();
+    }
 }
