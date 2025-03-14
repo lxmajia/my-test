@@ -65,7 +65,7 @@
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <span>
-            <el-button type="primary" @click="showFormatConfigValueDialog(scope.row.configValue)">格式化展示</el-button>
+            <el-button type="primary" @click="showFormatConfigValueDialog(scope.row.configType,scope.row.configValue)">格式化展示</el-button>
             <el-button type="primary"
                        @click="editConfigInfo(scope.row)">编辑</el-button>
             <el-button type="primary" @click="deleteConfigInfo()">删除</el-button>
@@ -350,9 +350,17 @@ export default {
         duration: 5 * 1000
       })
     },
-    showFormatConfigValueDialog(value) {
-      this.formatConfigValueDialogValue = JSON.parse(value);
-      this.formatConfigValueDialogShow = true;
+    showFormatConfigValueDialog(configType,value) {
+      if(configType === "JSON"){
+        this.formatConfigValueDialogValue = JSON.parse(value);
+        this.formatConfigValueDialogShow = true;
+      }else{
+        Message({
+          message: '仅JSON数据支持格式化展示',
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }
     },
 
     initAppModuleStructData() {
