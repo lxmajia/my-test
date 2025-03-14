@@ -320,7 +320,8 @@ export default {
         "id": configInfoEditOrAddDialogForm.id,
         "appModuleId": configInfoEditOrAddDialogForm.appModuleId,
         "configKey": configInfoEditOrAddDialogForm.configKey,
-        "configValue": newConfigValue
+        "configValue": newConfigValue,
+        "configType": configInfoEditOrAddDialogForm.configType
       };
 
       updateConfigInfo(submitForm).then(response => {
