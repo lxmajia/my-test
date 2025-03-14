@@ -15,3 +15,10 @@ export function getAppModuleStructList() {
     method: 'get'
   })
 }
+
+export function getConfigInfoTypeList() {
+  return request({
+    url: '/manager/getConfigInfoTypeList',
+    method: 'get'
+  })
+}

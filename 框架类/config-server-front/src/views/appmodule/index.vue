@@ -33,12 +33,12 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="AppCode" width="95">
+      <el-table-column label="AppCode" width="160">
         <template slot-scope="scope">
           {{ scope.row.appCode }}
         </template>
       </el-table-column>
-      <el-table-column label="ModuleCode" width="110" align="center">
+      <el-table-column label="ModuleCode" width="240" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.appModule }}</span>
         </template>

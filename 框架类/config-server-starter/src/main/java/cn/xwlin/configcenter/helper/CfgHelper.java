@@ -30,4 +30,29 @@ public class CfgHelper {
     value = configManager.GetConfigValue(clazz.getSimpleName(), clazz);
     return value;
   }
+
+  public <T> T getConfig(String configName, Class<T> clazz) {
+    T value = null;
+    // if start error, lazy-loading
+    if (this.configManager == null) {
+      synchronized (CfgHelper.class) {
+        if (this.configManager == null) {
+          this.configManager = new ClientConfigCacheManager();
+        }
+      }
+    }
+    value = configManager.GetConfigValue(configName, clazz);
+    return value;
+  }
+
+  public String getConfig(String configName) {
+    if (this.configManager == null) {
+      synchronized (CfgHelper.class) {
+        if (this.configManager == null) {
+          this.configManager = new ClientConfigCacheManager();
+        }
+      }
+    }
+    return configManager.GetConfigValueString(configName);
+  }
 }

@@ -34,6 +34,12 @@ public class HelloController {
   @Value("${sys.name}")
   private String sysName;
 
+  @RequestMapping("getAppConfig")
+  public String myMapping(String configName) {
+    return cfgHelper.getConfig(configName);
+  }
+
+
   @RequestMapping("myMapping")
   public String myMapping() {
     return JSON.toJSONString(myMappingProperties.getMyMapping());

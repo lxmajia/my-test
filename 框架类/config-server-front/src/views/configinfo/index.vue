@@ -30,6 +30,7 @@
       border
       fit
       highlight-current-row
+      @cell-dblclick="dbClickCopyText"
     >
       <el-table-column align="center" label="序号" width="95">
         <template slot-scope="scope">
@@ -44,6 +45,11 @@
       <el-table-column label="ConfigKey" width="250">
         <template slot-scope="scope">
           {{ scope.row.configKey }}
+        </template>
+      </el-table-column>
+      <el-table-column label="ConfigType" width="100" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.configType }}
         </template>
       </el-table-column>
       <el-table-column label="ConfigValue" width="450" align="center" show-overflow-tooltip>
@@ -61,7 +67,7 @@
           <span>
             <el-button type="primary" @click="showFormatConfigValueDialog(scope.row.configValue)">格式化展示</el-button>
             <el-button type="primary"
-                       @click="editConfigInfo(scope.row.id,scope.row.appModuleId,scope.row.configKey,scope.row.configValue)">编辑</el-button>
+                       @click="editConfigInfo(scope.row)">编辑</el-button>
             <el-button type="primary" @click="deleteConfigInfo()">删除</el-button>
           </span>
         </template>
@@ -104,10 +110,16 @@
         <el-form-item label="ConfigKey" label-width="200">
           <el-input v-model="configInfoEditOrAddDialogForm.configKey" :disabled="configInfoEditOrAddDialogForm.id > 0" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item label="ConfigType" label-width="200">
+          <el-select v-model="configInfoEditOrAddDialogForm.configType" :disabled="configInfoEditOrAddDialogForm.id > 0"
+                     @change="changeAddDialogConfigType">
+            <el-option v-for="item in configTypeList" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="ConfigValue" label-width="200">
           <el-tag key="OK" :type="configInfoEditOrAddCheckTag.tagType" effect="dark" size="small">{{configInfoEditOrAddCheckTag.tagLabel}}</el-tag>
           <el-input
-            @input="checkConfigValueIsJson"
+            @input="checkConfigValueIsValid"
             type="textarea"
             autosize
             placeholder="请输入内容(标准JSON格式)"
@@ -129,7 +141,7 @@
 
 <script>
 import {getConfigInfo, updateConfigInfo} from '@/api/configinfo'
-import {getAppModuleStructList} from '@/api/appmodule'
+import {getAppModuleStructList, getConfigInfoTypeList} from '@/api/appmodule'
 import {Message} from "element-ui";
 import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
@@ -153,6 +165,10 @@ export default {
       list: null,
       appList: [],
       moduleList: [],
+      configTypeList: [
+        "JSON",
+        "TEXT"
+      ],
       listLoading: false,
       appModuleMapping: {},
       pageInfo: {
@@ -176,7 +192,8 @@ export default {
         appModuleId: null,
         belong: "",
         configKey: "",
-        configValue: ""
+        configValue: "",
+        configType: ""
       }
     }
   },
@@ -190,6 +207,7 @@ export default {
       this.fetchData(1);
     }
     this.initAppModuleStructData();
+    this.getConfigTypeList();
   },
   methods: {
     formatEditConfigValue() {
@@ -214,34 +232,44 @@ export default {
         return configValue;
       }
     },
-    checkConfigValueIsJson() {
+    checkConfigValueIsValid() {
       let configValue = this.configInfoEditOrAddDialogForm.configValue;
-      try {
-        JSON.stringify(JSON.parse(configValue));
-        this.configInfoEditOrAddCheckTag = {
-          tagType: "success",
-          tagLabel: "校验通过"
+      let configType = this.configInfoEditOrAddDialogForm.configType;
+      if(configType === "JSON"){
+        try {
+          JSON.stringify(JSON.parse(configValue));
+          this.configInfoEditOrAddCheckTag = {
+            tagType: "success",
+            tagLabel: "校验通过"
+          }
+          return true;
+        } catch (e) {
+          this.configInfoEditOrAddCheckTag = {
+            tagType: "danger",
+            tagLabel: "校验失败"
+          }
+          return false;
         }
-        return true;
-      } catch (e) {
-        this.configInfoEditOrAddCheckTag = {
-          tagType: "danger",
-          tagLabel: "校验失败"
-        }
-        return false;
       }
+
+      this.configInfoEditOrAddCheckTag = {
+        tagType: "success",
+        tagLabel: "校验通过"
+      }
+      return true;
     },
-    editConfigInfo(id, appModuleId, configKey, configValue) {
-      let belong = "修改_" + id;
+    editConfigInfo(rowData) {
+      let belong = "修改_" + rowData.id;
       this.configInfoEditOrAddDialogForm = {
         showConfigInfoEditOrAddDialog: true,
         belong: belong,
-        id: id,
-        appModuleId: appModuleId,
-        configKey: configKey,
-        configValue: configValue
+        id: rowData.id,
+        appModuleId: rowData.appModuleId,
+        configKey: rowData.configKey,
+        configType: rowData.configType,
+        configValue: rowData.configValue
       };
-      this.checkConfigValueIsJson();
+      this.checkConfigValueIsValid();
     },
     addConfigInfo() {
       if (!this.filterAppModuleForm.appModuleCodeId) {
@@ -259,13 +287,17 @@ export default {
         id: null,
         appModuleId: this.filterAppModuleForm.appModuleCodeId,
         configKey: "",
-        configValue: "{}"
+        configValue: "",
+        configType: "JSON"
       };
-      this.checkConfigValueIsJson();
+      this.checkConfigValueIsValid();
+    },
+    changeAddDialogConfigType() {
+      this.checkConfigValueIsValid();
     },
     submitEditOrAddConfigInfo() {
-      let checkConfigValueIsJson1 = this.checkConfigValueIsJson();
-      if(!checkConfigValueIsJson1){
+      let checkConfigDataValid = this.checkConfigValueIsValid();
+      if(!checkConfigDataValid){
         Message({
           message: "ConfigValue非JSON对象格式，请修改",
           type: 'error',
@@ -340,6 +372,15 @@ export default {
         }
       });
     },
+    getConfigTypeList() {
+      getConfigInfoTypeList().then(response => {
+        const {data} = response;
+        if (data.code === 0) {
+          let configTypeEnumList = data.body;
+          this.configTypeList = configTypeEnumList;
+        }
+      });
+    },
     changeAppCode(appCode) {
       this.moduleList = this.appModuleMapping[appCode];
     },
@@ -387,6 +428,21 @@ export default {
     },
     querySearch() {
       this.fetchData(1);
+    },
+    // 双击复制
+    dbClickCopyText(row, column, cell, event){
+      // 双击复制
+      let saveText = function (e){
+        e.clipboardData.setData('text/plain',event.target.innerText);
+        e.preventDefault();  //阻止默认行为
+      }
+      // 防止使用之后 其他复制失效 once 执行完复制操作删除
+      const once = {
+        once: true
+      }
+      document.addEventListener('copy',saveText,once);//添加一个copy事件
+      document.execCommand("copy");//执行copy方法
+      this.$message({message: '复制成功', type:'success'})//提示
     }
   }
 }

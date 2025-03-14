@@ -2,6 +2,7 @@ package cn.xwlin.configcenter.service;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.xwlin.configcenter.consts.EnumAppConfigType;
 import cn.xwlin.configcenter.entity.AppInfo;
 import cn.xwlin.configcenter.entity.ConfigInfo;
 import cn.xwlin.configcenter.entity.SysConfig;
@@ -117,7 +118,6 @@ public class ManagerService {
 
   public HttpResp updateConfigInfo(UpdateConfigInfoReq req) {
     ConfigInfo configInfo = null;
-
     if (req.getId() != null) {
       configInfo = configInfoMapper.selectByPrimaryKey(req.getId());
       if (configInfo == null) {
@@ -138,7 +138,7 @@ public class ManagerService {
       configInfo.setConfigKey(req.getConfigKey());
       configInfo.setConfigValue(req.getConfigValue());
       configInfo.setModified(new Date());
-      configInfo.setConfigType("1");
+      configInfo.setConfigType(req.getConfigType());
       configInfo.setAppCode(appInfo.getAppCode());
       configInfo.setModuleCode(appInfo.getModuleCode());
       configInfo.setUniqueKey(appInfo.getAppCode() + "$" + appInfo.getModuleCode() + "$" + configInfo.getConfigKey());
@@ -155,6 +155,14 @@ public class ManagerService {
     PageHelper.startPage(req.getPageNum(), req.getPageSize());
     List<ConfigInfo> configInfos = configInfoMapper.listAppModuleConfig(req.getAppModuleId(), req.getConfigKey());
     return new PageInfo<>(configInfos);
+  }
+
+  public List<String> getConfigInfoTypeList() {
+    List<String> result = Lists.newArrayList();
+    for (EnumAppConfigType configTypeEnum : EnumAppConfigType.values()) {
+      result.add(configTypeEnum.getType());
+    }
+    return result;
   }
 
 
