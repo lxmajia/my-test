@@ -50,7 +50,7 @@ public class ConfigCacheManager {
     return initSuccess;
   }
 
-  @Scheduled(cron = "0/15 * * * * ?")
+  @Scheduled(cron = "0/5 * * * * ?")
   public void schedule() {
     if (!this.initSuccess) {
       return;
@@ -80,7 +80,7 @@ public class ConfigCacheManager {
   public void refreshByApi(Long id) {
     // 从数据库拉取配置
     ConfigInfo myConfig = myConfigDao.selectByPrimaryKey(id);
-    if(myConfig != null){
+    if (myConfig != null) {
       String appModule = myConfig.getAppCode() + "$" + myConfig.getModuleCode();
       String configKey = myConfig.getConfigKey();
       long time = myConfig.getModified().getTime();
@@ -109,7 +109,7 @@ public class ConfigCacheManager {
         String configUniqueId = appModule + "$" + configKey;
         changeUniqueId.add(configUniqueId);
       }
-      if(configKeyModifiedTime > nextFetchTime){
+      if (configKeyModifiedTime > nextFetchTime) {
         nextFetchTime = configKeyModifiedTime;
       }
     }

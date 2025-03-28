@@ -1,6 +1,8 @@
 package cn.xwlin.configcenter.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
+import cn.xwlin.configcenter.dto.MyConfigCheckDTO;
+import cn.xwlin.configcenter.holder.ConfigCacheManager;
 import cn.xwlin.configcenter.holder.ConfigChangeRequestHolder;
 import cn.xwlin.configcenter.service.ConfigService;
 import cn.xwlin.configcenter.service.SysConfigService;
@@ -28,6 +30,8 @@ public class ConfigCenterApiController {
   private ConfigService configService;
   @Autowired
   private SysConfigService sysConfigService;
+  @Autowired
+  private ConfigCacheManager configCacheManager;
 
   @RequestMapping("/checkAppModule")
   @SaIgnore
@@ -49,14 +53,16 @@ public class ConfigCenterApiController {
 
   @RequestMapping("/refreshConfig")
   @SaIgnore
-  public DeferredResult<HttpResp<GetConfigData>> sayHello(String appCode, String moduleCode, String ip, long lastFetchTime, Long requestTimeout) {
-    DeferredResult<HttpResp<GetConfigData>> result = new DeferredResult<>(requestTimeout - 5000);
-    configChangeRequestHolder.addHolder(appCode, moduleCode, ip, lastFetchTime, result);
-    result.onTimeout(() -> {
-      GetConfigData getConfigData = new GetConfigData();
-      getConfigData.setNextTimeMills(new Date().getTime()-1000);
-      result.setResult(HttpResp.success(getConfigData));
-    });
-    return result;
+  public HttpResp<GetConfigData> sayHello(String appCode, String moduleCode, String ip, long lastFetchTime, Long requestTimeout) {
+    MyConfigCheckDTO checkVO = configCacheManager.checkConfigChange(appCode, moduleCode, lastFetchTime);
+    if (checkVO.getNewConfigChangeCount() == 0) {
+      // 配置不存在或者没更新，等待下次执行
+      return HttpResp.success();
+    }
+    GetConfigData getConfigData = new GetConfigData();
+    getConfigData.setNextTimeMills(checkVO.getNextFetchTime());
+    getConfigData.setChangeCount(checkVO.getNewConfigChangeCount());
+    getConfigData.setChangeConfigMap(checkVO.getNewConfigValueMap());
+    return HttpResp.success(getConfigData);
   }
 }

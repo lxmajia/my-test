@@ -47,6 +47,8 @@ public class ConfigService {
     List<ConfigInfo> configInfos = configInfoMapper.selectByAppModuleCode(appCode, moduleCode);
     GetConfigData getConfigData = new GetConfigData();
     getConfigData.setAppCode(appCode);
+    // 缓冲一秒的时间
+    getConfigData.setNextTimeMills(System.currentTimeMillis() - 1000);
     getConfigData.setModuleCode(moduleCode);
     if (!CollectionUtils.isEmpty(configInfos)) {
       getConfigData.setChangeConfigMap(Maps.newHashMap());
