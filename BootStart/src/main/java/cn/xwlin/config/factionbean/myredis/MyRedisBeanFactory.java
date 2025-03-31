@@ -2,20 +2,20 @@ package cn.xwlin.config.factionbean.myredis;
 
 import cn.xwlin.configcenter.helper.CfgHelper;
 import cn.xwlin.configcenter.refresh.WlinConfigAbstractFactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.commands.JedisCommands;
 
 /**
  * @author xiang.liao
  * @create 2025/3/28
  */
 @Component
-public class MyRedisBeanFactory extends WlinConfigAbstractFactoryBean<MyRedisProxy, MyRedisConfig> {
+public class MyRedisBeanFactory extends WlinConfigAbstractFactoryBean<Jedis, MyRedisConfig> {
 
   public MyRedisBeanFactory(CfgHelper cfgHelper) {
-    setCfgHelper(cfgHelper);
-    setRefreshBeanFactory(new MyRedisRefreshBean());
-    setKey("MyRedisConfig");
+    super.setCfgHelper(cfgHelper);
+    super.setRefreshBeanFactory(new MyRedisRefreshBean());
   }
 
   @Override

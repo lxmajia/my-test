@@ -6,14 +6,13 @@ import cn.xwlin.configcenter.vo.GetConfigData;
 import cn.xwlin.configcenter.vo.HttpResp;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class ConfigFetchTimerTask implements Runnable {
-  private static Logger logger = LoggerFactory.getLogger(ConfigFetchTimerTask.class);
+  private static Logger logger = Logger.getLogger("WlinConfig");
 
   @Override
   public void run() {

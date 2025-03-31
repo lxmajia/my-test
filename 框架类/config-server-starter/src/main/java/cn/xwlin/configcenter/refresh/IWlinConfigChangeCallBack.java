@@ -1,8 +1,5 @@
 package cn.xwlin.configcenter.refresh;
 
-import java.util.HashSet;
-
-
 public interface IWlinConfigChangeCallBack {
   public void configModifyCallBack(String keySet);
 

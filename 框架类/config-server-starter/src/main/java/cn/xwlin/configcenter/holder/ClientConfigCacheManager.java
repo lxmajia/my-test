@@ -7,8 +7,6 @@ import cn.xwlin.configcenter.vo.GetConfigData;
 import cn.xwlin.configcenter.vo.HttpResp;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.TypeReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -16,14 +14,13 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * @author xiang.liao
  * @create 2024/5/22
  */
 public class ClientConfigCacheManager {
-  private static Logger logger = LoggerFactory.getLogger(ClientConfigCacheManager.class);
-
   public static Long refreshTime;
   private static Map<String, ConfigCacheVO> configCacheMap = new HashMap<>();
   private static Map<String, List<IWlinConfigChangeCallBack>> configItemChangeCallBackMap = new HashMap<>();

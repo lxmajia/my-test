@@ -3,7 +3,6 @@ package cn.xwlin.controller;
 import cn.xwlin.config.AnnPropertyProperties;
 import cn.xwlin.config.PropMapUtilLoadProperties;
 import cn.xwlin.config.biz.MyBizConfig;
-import cn.xwlin.config.factionbean.myredis.MyRedisProxy;
 import cn.xwlin.configcenter.helper.CfgHelper;
 import cn.xwlin.dto.GetUserInfoRequest;
 import cn.xwlin.logger.LoggerUtils;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import redis.clients.jedis.Jedis;
 
 import javax.validation.Valid;
 
@@ -34,18 +34,12 @@ public class HelloController {
   private CfgHelper cfgHelper;
   @Value("${sys.name}")
   private String sysName;
-  @Autowired
-  private MyRedisProxy myRedisProxy;
 
   @RequestMapping("getAppConfig")
   public String myMapping(String configName) {
     return cfgHelper.getConfig(configName);
   }
 
-  @RequestMapping("getRedisRefreshInfo")
-  public String getRedisRefreshInfo() {
-    return myRedisProxy.getLinkUrl();
-  }
 
   @RequestMapping("myMapping")
   public String myMapping() {
