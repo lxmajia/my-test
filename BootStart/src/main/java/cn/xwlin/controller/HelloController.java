@@ -3,6 +3,7 @@ package cn.xwlin.controller;
 import cn.xwlin.config.AnnPropertyProperties;
 import cn.xwlin.config.PropMapUtilLoadProperties;
 import cn.xwlin.config.biz.MyBizConfig;
+import cn.xwlin.config.factionbean.myredis.MyRedisProxy;
 import cn.xwlin.configcenter.helper.CfgHelper;
 import cn.xwlin.dto.GetUserInfoRequest;
 import cn.xwlin.logger.LoggerUtils;
@@ -33,12 +34,18 @@ public class HelloController {
   private CfgHelper cfgHelper;
   @Value("${sys.name}")
   private String sysName;
+  @Autowired
+  private MyRedisProxy myRedisProxy;
 
   @RequestMapping("getAppConfig")
   public String myMapping(String configName) {
     return cfgHelper.getConfig(configName);
   }
 
+  @RequestMapping("getRedisRefreshInfo")
+  public String getRedisRefreshInfo() {
+    return myRedisProxy.getLinkUrl();
+  }
 
   @RequestMapping("myMapping")
   public String myMapping() {

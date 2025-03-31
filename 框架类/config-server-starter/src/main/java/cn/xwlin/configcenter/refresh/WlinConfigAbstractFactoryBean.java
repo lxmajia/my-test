@@ -37,6 +37,7 @@ public abstract class WlinConfigAbstractFactoryBean<U, V> implements Initializin
     this.failedNotStart = failedNotStart;
   }
 
+  @Override
   public final U getObject() throws WlinConfigException {
     long beginTime = System.currentTimeMillis();
     try {
@@ -57,6 +58,15 @@ public abstract class WlinConfigAbstractFactoryBean<U, V> implements Initializin
     }
   }
 
+  @Override
+  public Class<U> getObjectType() {
+
+    return (Class<U>) GenricUtil.getSuperClassGenricType(getClass(), 0);
+  }
+
+  @Override
+  public abstract boolean isSingleton();
+
   public final void afterPropertiesSet() throws WlinConfigException {
     long beginTime = System.currentTimeMillis();
     try {
@@ -75,13 +85,4 @@ public abstract class WlinConfigAbstractFactoryBean<U, V> implements Initializin
     notNull(cfgHelper, "WlinConfHelper is null");
     notNull(refreshBeanFactory, "refreshBeanFactory is null");
   }
-
-
-  public Class<U> getObjectType() {
-
-    return (Class<U>) GenricUtil.getSuperClassGenricType(getClass(), 0);
-  }
-
-  public abstract boolean isSingleton();
-
 }
