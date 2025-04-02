@@ -29,7 +29,7 @@ public class ConfigFetchTimerTask implements Runnable {
       HttpResp<GetConfigData> getConfigDataHttpResp = JSONObject.parseObject(refreshConfig, typeReference);
       if (getConfigDataHttpResp != null && getConfigDataHttpResp.getBody() != null) {
         ClientConfigCacheManager.refreshTime = getConfigDataHttpResp.getBody().getNextTimeMills();
-        ClientConfigCacheManager.refreshCacheMap(getConfigDataHttpResp.getBody());
+        ClientConfigCacheManager.refreshCacheMap(getConfigDataHttpResp.getBody(), true);
       }
     } catch (Throwable t) {
       // 报警还是怎么处理都行

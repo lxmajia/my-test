@@ -8,8 +8,9 @@ logging:
 
 wl:
   app:
-    app-code: order
-    module-code: order-web
+    url: server-config.xwlin.cn
+    port: 80
+    uuid: 0a58d045-ee6f-4abf-b7c4-fc312568698c
 
 #  datasource:
 #    config:

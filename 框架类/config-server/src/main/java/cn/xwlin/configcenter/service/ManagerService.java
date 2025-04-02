@@ -122,7 +122,7 @@ public class ManagerService {
     hisRecord.setNewConfigValue(sysConfig.getConfigValue());
     hisRecord.setOldConfigValue(oldConfigValue);
     hisRecord.setCreateTime(new Date());
-    hisRecord.setOperateId((long) StpUtil.getLoginId());
+    hisRecord.setOperateId(Long.parseLong(StpUtil.getLoginId().toString()));
     sysConfigHisMapper.insertSelective(hisRecord);
     return HttpResp.success();
   }
@@ -170,7 +170,7 @@ public class ManagerService {
     hisRecord.setOldConfigValue(oldConfigValue);
     hisRecord.setNewConfigValue(configInfo.getConfigValue());
     hisRecord.setCreateTime(new Date());
-    hisRecord.setOperateId((long) StpUtil.getLoginId());
+    hisRecord.setOperateId(Long.parseLong(StpUtil.getLoginId().toString()));
     configInfoHisMapper.insertSelective(hisRecord);
     return HttpResp.success();
   }

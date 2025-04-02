@@ -76,13 +76,13 @@ public class ClientConfigCacheManager {
       HttpResp<GetConfigData> getConfigDataHttpResp = JSONObject.parseObject(allConfig, typeReference);
       if (getConfigDataHttpResp != null && getConfigDataHttpResp.getBody() != null) {
         ClientConfigCacheManager.refreshTime = getConfigDataHttpResp.getBody().getNextTimeMills();
-        refreshCacheMap(getConfigDataHttpResp.getBody());
+        refreshCacheMap(getConfigDataHttpResp.getBody(), false);
       }
     }
   }
 
 
-  public static void refreshCacheMap(GetConfigData getConfigData) {
+  public static void refreshCacheMap(GetConfigData getConfigData, boolean isNeedRefresh) {
     if (getConfigData == null) {
       return;
     }
@@ -93,17 +93,16 @@ public class ClientConfigCacheManager {
         configCacheVO.setConfigValue(stringStringEntry.getValue());
         configCacheMap.put(stringStringEntry.getKey().trim(), configCacheVO);
       }
-      // 执行完了之后，调一下回调，动态刷新Bean
-      for (Map.Entry<String, String> stringStringEntry : getConfigData.getChangeConfigMap().entrySet()) {
-        customConfigItemChangeCallBack(stringStringEntry.getKey().trim());
+      if (isNeedRefresh) {
+        // 执行完了之后，调一下回调，动态刷新Bean
+        for (Map.Entry<String, String> stringStringEntry : getConfigData.getChangeConfigMap().entrySet()) {
+          customConfigItemChangeCallBack(stringStringEntry.getKey().trim());
+        }
       }
     }
   }
 
   private static void customConfigItemChangeCallBack(String key) {
-    HashSet<String> addSet = new HashSet<>();
-    HashSet<String> modSet = new HashSet<>();
-    HashSet<String> delSet = new HashSet<>();
     if (!StringUtils.hasLength(key) || CollectionUtils.isEmpty(configItemChangeCallBackMap)) {
       return;
     }
@@ -112,15 +111,7 @@ public class ClientConfigCacheManager {
       return;
     }
     for (IWlinConfigChangeCallBack iConfigItemChangeCallBack : iWlinConfigChangeCallBacks) {
-      if (addSet.size() > 0) {
-        iConfigItemChangeCallBack.configItemAddCallBack(key);
-      }
-      if (modSet.size() > 0) {
-        iConfigItemChangeCallBack.configModifyCallBack(key);
-      }
-      if (delSet.size() > 0) {
-        iConfigItemChangeCallBack.configItemDelCallBack(key);
-      }
+      iConfigItemChangeCallBack.configModifyCallBack(key);
     }
   }
 
