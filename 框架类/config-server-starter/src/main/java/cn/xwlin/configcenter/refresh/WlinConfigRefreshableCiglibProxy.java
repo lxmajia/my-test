@@ -67,6 +67,6 @@ public class WlinConfigRefreshableCiglibProxy<U, V> implements MethodInterceptor
 
   @Override
   public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-    return methodProxy.invokeSuper(o, objects);
+    return method.invoke(target, objects);
   }
 }

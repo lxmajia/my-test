@@ -4,7 +4,6 @@ import cn.xwlin.configcenter.helper.CfgHelper;
 import cn.xwlin.configcenter.refresh.WlinConfigAbstractFactoryBean;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.commands.JedisCommands;
 
 /**
  * @author xiang.liao
