@@ -7,18 +7,16 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "wl.app")
 public class ConfigCenterConfig {
-  private String url = "server.xwlin.cn";
-  private int port = 8899;
-  private String appCode;
-  private String moduleCode;
-  private int refreshConfigTimeout = 60 * 1000;
+  private String url;
+  private int port;
+  private String uuid;
 
-  public int getRefreshConfigTimeout() {
-    return refreshConfigTimeout;
+  public String getUuid() {
+    return uuid;
   }
 
-  public void setRefreshConfigTimeout(int refreshConfigTimeout) {
-    this.refreshConfigTimeout = refreshConfigTimeout;
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
   }
 
   public String getUrl() {
@@ -35,21 +33,5 @@ public class ConfigCenterConfig {
 
   public void setPort(int port) {
     this.port = port;
-  }
-
-  public String getAppCode() {
-    return appCode;
-  }
-
-  public void setAppCode(String appCode) {
-    this.appCode = appCode;
-  }
-
-  public String getModuleCode() {
-    return moduleCode;
-  }
-
-  public void setModuleCode(String moduleCode) {
-    this.moduleCode = moduleCode;
   }
 }

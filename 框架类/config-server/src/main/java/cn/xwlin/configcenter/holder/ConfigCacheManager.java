@@ -1,10 +1,14 @@
 package cn.xwlin.configcenter.holder;
 
+import cn.xwlin.configcenter.entity.AppInfo;
 import cn.xwlin.configcenter.entity.ConfigInfo;
+import cn.xwlin.configcenter.mapper.AppInfoMapper;
 import cn.xwlin.configcenter.mapper.ConfigInfoMapper;
 import cn.xwlin.configcenter.dto.MyConfigCheckDTO;
+import cn.xwlin.configcenter.vo.resp.HttpResp;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,6 +33,8 @@ public class ConfigCacheManager {
   private static Map<String, Map<String, Long>> appModuleConfigKeyTimestampMap = new ConcurrentHashMap<>();
   @Autowired
   private ConfigInfoMapper myConfigDao;
+  @Autowired
+  private AppInfoMapper appInfoMapper;
 
   @PostConstruct
   public void init() {
@@ -91,8 +97,15 @@ public class ConfigCacheManager {
     }
   }
 
-  public MyConfigCheckDTO checkConfigChange(String appCode, String moduleCode, Long fetchTime) {
-    String appModule = appCode + "$" + moduleCode;
+  public MyConfigCheckDTO checkConfigChange(String uuid, Long fetchTime) {
+    if (StringUtils.isNullOrEmpty(uuid)) {
+      return new MyConfigCheckDTO();
+    }
+    AppInfo appInfo = appInfoMapper.selectByUuid(uuid);
+    if (appInfo == null) {
+      return new MyConfigCheckDTO();
+    }
+    String appModule = appInfo.getAppCode() + "$" + appInfo.getModuleCode();
     MyConfigCheckDTO checkVO = new MyConfigCheckDTO();
     if (!appModuleConfigKeyTimestampMap.containsKey(appModule)) {
       checkVO.setNewConfigChangeCount(0);

@@ -25,31 +25,31 @@ public class ConfigService {
   @Autowired
   private ConfigInfoMapper configInfoMapper;
 
-  public HttpResp<GetConfigData> checkAppModule(String appCode, String moduleCode) {
-    if (StringUtils.isNullOrEmpty(appCode) || StringUtils.isNullOrEmpty(moduleCode)) {
+  public HttpResp<GetConfigData> checkAppModule(String uuid) {
+    if (StringUtils.isNullOrEmpty(uuid)) {
       return HttpResp.fail(-1, "ConfigCenter:appCode or moduleCode can not be empty!");
     }
-    AppInfo appInfo = appInfoMapper.selectByAppModule(appCode, moduleCode);
+    AppInfo appInfo = appInfoMapper.selectByUuid(uuid);
     if (appInfo == null) {
       return HttpResp.fail(-1, "ConfigCenter:appCode and moduleCode is not exist!");
     }
     return HttpResp.success();
   }
 
-  public HttpResp<GetConfigData> getAllConfig(String appCode, String moduleCode) {
-    if (StringUtils.isNullOrEmpty(appCode) || StringUtils.isNullOrEmpty(moduleCode)) {
+  public HttpResp<GetConfigData> getAllConfig(String uuid) {
+    if (StringUtils.isNullOrEmpty(uuid)) {
       return HttpResp.fail(-1, "ConfigCenter:appCode or moduleCode can not be empty!");
     }
-    AppInfo appInfo = appInfoMapper.selectByAppModule(appCode, moduleCode);
+    AppInfo appInfo = appInfoMapper.selectByUuid(uuid);
     if (appInfo == null) {
       return HttpResp.fail(-1, "ConfigCenter:appCode and moduleCode is not exist!");
     }
-    List<ConfigInfo> configInfos = configInfoMapper.selectByAppModuleCode(appCode, moduleCode);
+    List<ConfigInfo> configInfos = configInfoMapper.selectByAppModuleCode(appInfo.getAppCode(), appInfo.getModuleCode());
     GetConfigData getConfigData = new GetConfigData();
-    getConfigData.setAppCode(appCode);
+    getConfigData.setAppCode(appInfo.getAppCode());
     // 缓冲一秒的时间
     getConfigData.setNextTimeMills(System.currentTimeMillis() - 1000);
-    getConfigData.setModuleCode(moduleCode);
+    getConfigData.setModuleCode(appInfo.getModuleCode());
     if (!CollectionUtils.isEmpty(configInfos)) {
       getConfigData.setChangeConfigMap(Maps.newHashMap());
       for (ConfigInfo info : configInfos) {

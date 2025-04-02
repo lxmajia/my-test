@@ -25,11 +25,11 @@ public class SysConfigService {
   @Autowired
   private SysConfigMapper sysConfigMapper;
 
-  public HttpResp<GetConfigData> getSysConfig(String appCode, String moduleCode) {
-    if (StringUtils.isNullOrEmpty(appCode) || StringUtils.isNullOrEmpty(moduleCode)) {
+  public HttpResp<GetConfigData> getSysConfig(String uuid) {
+    if (StringUtils.isNullOrEmpty(uuid)) {
       return HttpResp.fail(-1, "ConfigCenter:appCode or moduleCode can not be empty!");
     }
-    AppInfo appInfo = appInfoMapper.selectByAppModule(appCode, moduleCode);
+    AppInfo appInfo = appInfoMapper.selectByUuid(uuid);
     if (appInfo == null) {
       return HttpResp.fail(-1, "ConfigCenter:appCode and moduleCode is not exist!");
     }
