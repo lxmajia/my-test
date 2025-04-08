@@ -43,6 +43,11 @@
           <span>{{ scope.row.appModule }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="UUID(配置这个)" width="360" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.uuid }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <span>
