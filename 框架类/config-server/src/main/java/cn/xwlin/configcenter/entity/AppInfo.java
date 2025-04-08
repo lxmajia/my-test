@@ -8,8 +8,17 @@ public class AppInfo {
     private String appCode;
 
     private String moduleCode;
+    private String uuid;
 
     private Date createTime;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public Long getId() {
         return id;

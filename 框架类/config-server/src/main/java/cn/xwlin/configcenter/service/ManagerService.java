@@ -3,15 +3,9 @@ package cn.xwlin.configcenter.service;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.xwlin.configcenter.consts.EnumAppConfigType;
-import cn.xwlin.configcenter.entity.AppInfo;
-import cn.xwlin.configcenter.entity.ConfigInfo;
-import cn.xwlin.configcenter.entity.SysConfig;
-import cn.xwlin.configcenter.entity.SysUser;
+import cn.xwlin.configcenter.entity.*;
 import cn.xwlin.configcenter.holder.ConfigCacheManager;
-import cn.xwlin.configcenter.mapper.AppInfoMapper;
-import cn.xwlin.configcenter.mapper.ConfigInfoMapper;
-import cn.xwlin.configcenter.mapper.SysConfigMapper;
-import cn.xwlin.configcenter.mapper.SysUserMapper;
+import cn.xwlin.configcenter.mapper.*;
 import cn.xwlin.configcenter.vo.request.AppModuleListRequest;
 import cn.xwlin.configcenter.vo.request.GetSysConfigReq;
 import cn.xwlin.configcenter.vo.request.UpdateConfigInfoReq;
@@ -23,6 +17,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -37,18 +32,18 @@ public class ManagerService {
 
   @Autowired
   private SysUserMapper sysUserMapper;
-
   @Autowired
   private AppInfoMapper appInfoMapper;
-
   @Autowired
   private SysConfigMapper sysConfigMapper;
-
   @Autowired
   private ConfigInfoMapper configInfoMapper;
-
   @Autowired
   private ConfigCacheManager configCacheManager;
+  @Autowired
+  private SysConfigHisMapper sysConfigHisMapper;
+  @Autowired
+  private ConfigInfoHisMapper configInfoHisMapper;
 
   public HttpResp<LoginResp> login(String username, String password) {
     SysUser sysUser = sysUserMapper.selectByLogin(username, password);
@@ -95,17 +90,25 @@ public class ManagerService {
     return new PageInfo<>(sysConfigs);
   }
 
+  @Transactional
   public HttpResp updateSysConfig(UpdateSysConfigReq req) {
     SysConfig sysConfig = null;
+    String oldConfigValue = null;
     if (req.getId() != null) {
       sysConfig = sysConfigMapper.selectByPrimaryKey(req.getId());
       if (sysConfig == null) {
         return HttpResp.fail(403, "数据不存在");
       }
+      oldConfigValue = sysConfig.getConfigValue();
       sysConfig.setConfigKey(req.getConfigKey());
       sysConfig.setConfigValue(req.getConfigValue());
       sysConfigMapper.updateByPrimaryKey(sysConfig);
     } else {
+      AppInfo appInfo = appInfoMapper.selectByPrimaryKey(req.getAppModuleId());
+      if (appInfo == null) {
+        return HttpResp.fail(-1, "应用不存在!");
+      }
+      oldConfigValue = "-";
       sysConfig = new SysConfig();
       sysConfig.setAppModuleId(req.getAppModuleId());
       sysConfig.setConfigKey(req.getConfigKey());
@@ -113,17 +116,27 @@ public class ManagerService {
       sysConfig.setCreateTime(new Date());
       sysConfigMapper.insertSelective(sysConfig);
     }
+    SysConfigHis hisRecord = new SysConfigHis();
+    hisRecord.setAppModuleId(sysConfig.getAppModuleId());
+    hisRecord.setConfigKey(sysConfig.getConfigKey());
+    hisRecord.setNewConfigValue(sysConfig.getConfigValue());
+    hisRecord.setOldConfigValue(oldConfigValue);
+    hisRecord.setCreateTime(new Date());
+    hisRecord.setOperateId(Long.parseLong(StpUtil.getLoginId().toString()));
+    sysConfigHisMapper.insertSelective(hisRecord);
     return HttpResp.success();
   }
 
+  @Transactional
   public HttpResp updateConfigInfo(UpdateConfigInfoReq req) {
     ConfigInfo configInfo = null;
+    String oldConfigValue = null;
     if (req.getId() != null) {
       configInfo = configInfoMapper.selectByPrimaryKey(req.getId());
       if (configInfo == null) {
         return HttpResp.fail(403, "数据不存在");
       }
-      configInfo.setConfigKey(req.getConfigKey());
+      oldConfigValue = configInfo.getConfigValue();
       configInfo.setConfigValue(req.getConfigValue());
       configInfo.setModified(new Date());
       configInfo.setVersion(configInfo.getVersion() + 1);
@@ -133,6 +146,7 @@ public class ManagerService {
       if (appInfo == null) {
         return HttpResp.fail(-1, "应用不存在!");
       }
+      oldConfigValue = "";
       configInfo = new ConfigInfo();
       configInfo.setAppModuleId(req.getAppModuleId());
       configInfo.setConfigKey(req.getConfigKey());
@@ -147,6 +161,17 @@ public class ManagerService {
     }
     // 异步刷新当前配置
     configCacheManager.refreshByApi(configInfo.getId());
+
+    ConfigInfoHis hisRecord = new ConfigInfoHis();
+    hisRecord.setAppModuleId(configInfo.getAppModuleId());
+    hisRecord.setConfigType(configInfo.getConfigType());
+    hisRecord.setConfigKey(configInfo.getConfigKey());
+    hisRecord.setUniqueKey(configInfo.getUniqueKey());
+    hisRecord.setOldConfigValue(oldConfigValue);
+    hisRecord.setNewConfigValue(configInfo.getConfigValue());
+    hisRecord.setCreateTime(new Date());
+    hisRecord.setOperateId(Long.parseLong(StpUtil.getLoginId().toString()));
+    configInfoHisMapper.insertSelective(hisRecord);
     return HttpResp.success();
   }
 

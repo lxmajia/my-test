@@ -12,14 +12,12 @@ public class GenricUtil {
       return Object.class;
     }
     Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-
     if (index >= params.length || index < 0) {
       return Object.class;
     }
     if (!(params[index] instanceof Class)) {
       return Object.class;
     }
-
     return (Class) params[index];
   }
 }

@@ -9,7 +9,6 @@ import java.util.Map;
 public class GetConfigData {
   private String appCode;
   private String moduleCode;
-
   private long nextTimeMills;
   private int changeCount;
   private Map<String, String> changeConfigMap;

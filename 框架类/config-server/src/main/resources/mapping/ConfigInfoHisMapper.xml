@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xwlin.configcenter.mapper.ConfigInfoHisMapper">
+  <resultMap id="BaseResultMap" type="cn.xwlin.configcenter.entity.ConfigInfoHis">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_module_id" jdbcType="BIGINT" property="appModuleId" />
+    <result column="config_key" jdbcType="VARCHAR" property="configKey" />
+    <result column="unique_key" jdbcType="VARCHAR" property="uniqueKey" />
+    <result column="config_type" jdbcType="VARCHAR" property="configType" />
+    <result column="operate_id" jdbcType="BIGINT" property="operateId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="old_config_value" jdbcType="LONGVARCHAR" property="oldConfigValue" />
+    <result column="new_config_value" jdbcType="LONGVARCHAR" property="newConfigValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, app_module_id, config_key, unique_key, config_type, operate_id, create_time,old_config_value, new_config_value
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from config_info_his
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from config_info_his
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.xwlin.configcenter.entity.ConfigInfoHis">
+    insert into config_info_his (id, app_module_id, config_key, 
+      unique_key, config_type, operate_id, 
+      create_time, old_config_value, new_config_value
+      )
+    values (#{id,jdbcType=BIGINT}, #{appModuleId,jdbcType=BIGINT}, #{configKey,jdbcType=VARCHAR}, 
+      #{uniqueKey,jdbcType=VARCHAR}, #{configType,jdbcType=VARCHAR}, #{operateId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{oldConfigValue,jdbcType=LONGVARCHAR}, #{newConfigValue,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.xwlin.configcenter.entity.ConfigInfoHis">
+    insert into config_info_his
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appModuleId != null">
+        app_module_id,
+      </if>
+      <if test="configKey != null">
+        config_key,
+      </if>
+      <if test="uniqueKey != null">
+        unique_key,
+      </if>
+      <if test="configType != null">
+        config_type,
+      </if>
+      <if test="operateId != null">
+        operate_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="oldConfigValue != null">
+        old_config_value,
+      </if>
+      <if test="newConfigValue != null">
+        new_config_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appModuleId != null">
+        #{appModuleId,jdbcType=BIGINT},
+      </if>
+      <if test="configKey != null">
+        #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="uniqueKey != null">
+        #{uniqueKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configType != null">
+        #{configType,jdbcType=VARCHAR},
+      </if>
+      <if test="operateId != null">
+        #{operateId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oldConfigValue != null">
+        #{oldConfigValue,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newConfigValue != null">
+        #{newConfigValue,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.xwlin.configcenter.entity.ConfigInfoHis">
+    update config_info_his
+    <set>
+      <if test="appModuleId != null">
+        app_module_id = #{appModuleId,jdbcType=BIGINT},
+      </if>
+      <if test="configKey != null">
+        config_key = #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="uniqueKey != null">
+        unique_key = #{uniqueKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configType != null">
+        config_type = #{configType,jdbcType=VARCHAR},
+      </if>
+      <if test="operateId != null">
+        operate_id = #{operateId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oldConfigValue != null">
+        old_config_value = #{oldConfigValue,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="newConfigValue != null">
+        new_config_value = #{newConfigValue,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.xwlin.configcenter.entity.ConfigInfoHis">
+    update config_info_his
+    set app_module_id = #{appModuleId,jdbcType=BIGINT},
+      config_key = #{configKey,jdbcType=VARCHAR},
+      unique_key = #{uniqueKey,jdbcType=VARCHAR},
+      config_type = #{configType,jdbcType=VARCHAR},
+      operate_id = #{operateId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      old_config_value = #{oldConfigValue,jdbcType=LONGVARCHAR},
+      new_config_value = #{newConfigValue,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,8 +1,9 @@
 package cn.xwlin.configcenter.helper;
 
-import cn.xwlin.configcenter.config.ConfigCenterConfig;
 import cn.xwlin.configcenter.holder.ClientConfigCacheManager;
-import cn.xwlin.configcenter.holder.ConfigCenterConfigHold;
+import cn.xwlin.configcenter.refresh.IWlinConfigChangeCallBack;
+
+import java.util.List;
 
 
 /**
@@ -19,7 +20,6 @@ public class CfgHelper {
 
   public <T> T getConfig(Class<T> clazz) {
     T value = null;
-    // if start error, lazy-loading
     if (this.configManager == null) {
       synchronized (CfgHelper.class) {
         if (this.configManager == null) {
@@ -33,7 +33,6 @@ public class CfgHelper {
 
   public <T> T getConfig(String configName, Class<T> clazz) {
     T value = null;
-    // if start error, lazy-loading
     if (this.configManager == null) {
       synchronized (CfgHelper.class) {
         if (this.configManager == null) {
@@ -54,5 +53,11 @@ public class CfgHelper {
       }
     }
     return configManager.GetConfigValueString(configName);
+  }
+
+  public void registerCustomCallback(String key, IWlinConfigChangeCallBack changeCallBackList) {
+    if (null != configManager) {
+      configManager.setCustomConfigChangeCallBack(key, changeCallBackList);
+    }
   }
 }

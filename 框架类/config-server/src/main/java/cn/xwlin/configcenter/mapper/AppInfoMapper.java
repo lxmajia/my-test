@@ -18,11 +18,9 @@ public interface AppInfoMapper {
 
     AppInfo selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(AppInfo record);
-
-    int updateByPrimaryKey(AppInfo record);
-
     AppInfo selectByAppModule(@Param("appCode") String appCode,@Param("moduleCode") String moduleCode);
+
+    AppInfo selectByUuid(@Param("uuid") String uuid);
 
     List<AppModuleResp> listAll(@Param("appCode") String appCode,@Param("moduleCode") String moduleCode);
 }

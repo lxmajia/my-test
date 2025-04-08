@@ -26,17 +26,14 @@ public class SysConfigProcessEnvironmentPrepay implements EnvironmentPostProcess
   public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
     String url = StringUtils.hasLength(environment.getProperty("wl.app.url")) ? environment.getProperty("wl.app.url") : ConfigCenterConfigHold.url;
     Integer port = StringUtils.hasLength(environment.getProperty("wl.app.port")) ? Integer.parseInt(environment.getProperty("wl.app.port")) : ConfigCenterConfigHold.port;
-    Integer timeout = StringUtils.hasLength(environment.getProperty("wl.app.refresh-config-timeout")) ? Integer.parseInt(environment.getProperty("wl.app.refresh-config-timeout")) : ConfigCenterConfigHold.timeout;
 
     // 这里执行优先于Autoconfiguration创建Bean，所以在这里做校验和赋值了
-    String appCode = environment.getProperty("wl.app.app-code");
-    String moduleCode = environment.getProperty("wl.app.module-code");
+    String uuid = environment.getProperty("wl.app.uuid");
     ConfigCenterConfigHold.url = url;
     ConfigCenterConfigHold.port = Integer.valueOf(port);
-    ConfigCenterConfigHold.appCode = appCode;
-    ConfigCenterConfigHold.moduleCode = moduleCode;
-    ConfigCenterConfigHold.timeout = timeout;
-    checkConfig(url, appCode, moduleCode);
+    ConfigCenterConfigHold.uuid = uuid;
+    ConfigCenterConfigHold.timeout = 60 * 1000;
+    checkConfig(url, uuid);
 
     String sysConfig = ConfigFetchNetwork.getSysConfig();
     if (!StringUtils.hasLength(sysConfig)) {
@@ -55,15 +52,12 @@ public class SysConfigProcessEnvironmentPrepay implements EnvironmentPostProcess
     }
   }
 
-  private void checkConfig(String url, String appCode, String moduleCode) {
+  private void checkConfig(String url, String uuid) {
     if (!StringUtils.hasLength(url)) {
       throw new RuntimeException("config center url is null");
     }
-    if (!StringUtils.hasLength(appCode)) {
-      throw new RuntimeException("config center appCode is null");
-    }
-    if (!StringUtils.hasLength(moduleCode)) {
-      throw new RuntimeException("config center moduleCode is null");
+    if (!StringUtils.hasLength(uuid)) {
+      throw new RuntimeException("config center uuid is null");
     }
     String checkAppModule = ConfigFetchNetwork.checkAppModule();
     if (!StringUtils.hasLength(checkAppModule)) {
