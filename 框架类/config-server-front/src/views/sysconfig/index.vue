@@ -2,16 +2,6 @@
   <div class="app-container">
     <div>
       <el-form :inline="true" :model="filterAppModuleForm" class="demo-form-inline">
-        <el-form-item label="AppCode">
-          <el-select v-model="filterAppModuleForm.appCode" placeholder="AppCode" @change="changeAppCode">
-            <el-option v-for="item in appList" :key="item" :label="item" :value="item"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="ModuleCode">
-          <el-select v-model="filterAppModuleForm.appModuleCodeId" placeholder="ModuleCode">
-            <el-option v-for="item in moduleList" :key="item.moduleId" :label="item.moduleCode" :value="item.moduleId"></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="ConfigKey">
           <el-input v-model="filterAppModuleForm.configKey" placeholder="ConfigKey"></el-input>
         </el-form-item>
@@ -129,8 +119,6 @@ export default {
         pageCount: 0
       },
       filterAppModuleForm: {
-        appCode: "",
-        appModuleCodeId: undefined,
         configKey: ""
       },
       sysConfigEditOrAddDialogForm: {
@@ -145,14 +133,14 @@ export default {
   },
   created() {
     // 使用 $route 获取传递的参数
-    if (this.$route.query.appCode) {
-      this.filterAppModuleForm.appCode = this.$route.query.appCode;
-    }
     if (this.$route.query.moduleId) {
-      this.filterAppModuleForm.appModuleCodeId = this.$route.query.moduleId;
-      this.fetchData(1);
+      localStorage.setItem('bizConfigModuleId', this.$route.query.moduleId)
     }
-    this.initAppModuleStructData();
+  },
+  mounted() {
+    if (localStorage.getItem('bizConfigModuleId')) {
+      this.fetchData(1)
+    }
   },
   methods: {
     editSysConfig(id, appModuleId, configKey, configValue) {
@@ -241,20 +229,21 @@ export default {
       this.moduleList = this.appModuleMapping[appCode];
     },
     fetchData(pageNum) {
-      if (!this.filterAppModuleForm.appModuleCodeId) {
+      const bizConfigModuleId = localStorage.getItem('bizConfigModuleId')
+      if (!bizConfigModuleId) {
         Message({
           message: '选择moduleCode',
           type: 'error',
           duration: 5 * 1000
         })
-        return;
+        return
       }
       this.listLoading = true
 
       let queryParam = {
         pageNum: pageNum,
         pageSize: 10,
-        appModuleId: this.filterAppModuleForm.appModuleCodeId,
+        appModuleId: bizConfigModuleId,
         configKey: this.filterAppModuleForm.configKey
       }
 
