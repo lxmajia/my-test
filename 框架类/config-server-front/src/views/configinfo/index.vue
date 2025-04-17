@@ -297,7 +297,7 @@ export default {
       const configInfoEditOrAddDialogForm = this.configInfoEditOrAddDialogForm;
 
       // 将JSON压缩存储，压缩失败就用原来的
-      const newConfigValue = configInfoEditOrAddDialogForm.configValue;
+      let newConfigValue = configInfoEditOrAddDialogForm.configValue;
       try {
         const data = JSON.parse(configInfoEditOrAddDialogForm.configValue);
         newConfigValue = JSON.stringify(data);
