@@ -260,7 +260,7 @@ export default {
       this.checkConfigValueIsValid();
     },
     addConfigInfo() {
-      if (!this.filterAppModuleForm.appModuleCodeId) {
+      if (!localStorage.getItem('bizConfigModuleId')) {
         Message({
           message: '过滤窗口先选择应用',
           type: 'error',
@@ -273,7 +273,7 @@ export default {
         showConfigInfoEditOrAddDialog: true,
         belong: belong,
         id: null,
-        appModuleId: this.filterAppModuleForm.appModuleCodeId,
+        appModuleId: localStorage.getItem('bizConfigModuleId'),
         configKey: '',
         configValue: '',
         configType: 'JSON'

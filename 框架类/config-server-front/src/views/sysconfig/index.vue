@@ -155,9 +155,9 @@ export default {
       };
     },
     addSysConfig() {
-      if(!this.filterAppModuleForm.appModuleCodeId){
+      if(!localStorage.getItem('bizConfigModuleId')){
         Message({
-          message: "过滤窗口先选择应用",
+          message: "左上角过滤窗口先选择应用",
           type: 'error',
           duration: 5 * 1000
         })
@@ -168,7 +168,7 @@ export default {
         showSysConfigEditOrAddDialog: true,
         belong: belong,
         id: null,
-        appModuleId: this.filterAppModuleForm.appModuleCodeId,
+        appModuleId: localStorage.getItem('bizConfigModuleId'),
         configKey: "",
         configValue: ""
       };
