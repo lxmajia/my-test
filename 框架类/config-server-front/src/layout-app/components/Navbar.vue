@@ -79,7 +79,12 @@ export default {
     handleChange(value) {
       const changeModuleId = value[1]
       if (changeModuleId) {
+        const localModuleId = localStorage.getItem('bizConfigModuleId')
+        if (changeModuleId === localModuleId) {
+          return
+        }
         localStorage.setItem('bizConfigModuleId', changeModuleId)
+        window.location.reload()
       }
     },
     initAppModuleStructData() {
